@@ -1,0 +1,5 @@
+player ones are in png
+
+size is 15 x 20 px
+
+both wall and floor have 15 x 17 px
