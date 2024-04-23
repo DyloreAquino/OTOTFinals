@@ -97,40 +97,54 @@ public class GameFrame {
     public void setUpTimeListen() {
         class TimeListener implements ActionListener {
 
+            
+
             @Override
             public void actionPerformed(ActionEvent ae){
                 
                 switch (direction) {
                     case "L":
                         if (player.getSpeed() == 0){
-                            player.setX(player.getX() + 4);
+                            player.setX(player.getX() + 1);
                         }
                         player.moveLeft();
                         checkCollisions();
+                        if (player.getSpeed() == 0){
+                            player.setX(player.getX() + 1);
+                        }
                         break;
 
                     case "R":
                         if (player.getSpeed() == 0){
-                            player.setX(player.getX() - 4);
+                            player.setX(player.getX() - 1);
                         }
                         player.moveRight();
                         checkCollisions();
+                        if (player.getSpeed() == 0){
+                            player.setX(player.getX() - 1);
+                        }
                         break;
 
                     case "D":
                         if (player.getSpeed() == 0){
-                            player.setY(player.getY() - 4);
+                            player.setY(player.getY() + 1);
                         }
                         player.moveDown();
                         checkCollisions();
+                        if (player.getSpeed() == 0){
+                            player.setY(player.getY() + 1);
+                        }
                         break;
 
                     case "U":
                         if (player.getSpeed() == 0){
-                            player.setY(player.getY() + 4);
+                            player.setY(player.getY() - 1);
                         }
                         player.moveUp(); 
                         checkCollisions();
+                        if (player.getSpeed() == 0){
+                            player.setY(player.getY() - 1);
+                        }
                         break;
                     case " ":
                         System.out.println("im in case nothing now");
@@ -144,7 +158,7 @@ public class GameFrame {
         }
 
         ActionListener timeListener = new TimeListener();
-        Timer timer = new Timer(5, timeListener);
+        Timer timer = new Timer(3, timeListener);
         timer.start();
     }
 }
