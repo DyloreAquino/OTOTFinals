@@ -8,24 +8,19 @@ public class Player implements Drawable{
 
     private int x, y;
     private int size;
-    private int xSpeed, ySpeed;
     private int speed;
+
+    private String direction;
 
     private Color playerColor;
 
     private Rectangle2D.Double playerSprite;
-
-    private boolean movingRight, movingUp;
     
-    public Player(int x, int y, int xSpeed, int ySpeed, int size) {
+    public Player(int x, int y, int speed, int size) {
         this.x = x;
         this.y = y;
-        this.xSpeed = xSpeed;
-        this.ySpeed = ySpeed;
+        this.speed = speed;
         this.size = size;
-
-        this.speed = xSpeed;
-
         playerColor = Color.RED;
     }
 
@@ -36,35 +31,58 @@ public class Player implements Drawable{
     }
 
     public void moveLeft(){
-        x -= xSpeed;
+        setSpeed(5);
+        x -= speed;
     }
 
     public void moveRight(){
-        x += xSpeed;
+        setSpeed(5);
+        x += speed;
     }
 
     public void moveDown(){
-        y += ySpeed;  
+        setSpeed(5);
+        y += speed;
     }
 
     public void moveUp(){
-        y -= xSpeed;
+        setSpeed(5);
+        y -= speed;
     }
 
-    public void moveIdle(){
-        x += 0;
-        y += 0;
+    public void moveNowhere(){
+        setSpeed(0);
+        x += speed;
+        y += speed;
     }
 
-    public void checkWallCollision(){
-        if(x + size >= 800 || x <= 200){ 
-            xSpeed *= -1;
+    public void setSpeed( int speed ) {
+        this.speed = speed;
+    } 
+
+
+    public boolean checkBorderCollision(){
+        if ((x + size > 1000 || x < 200) || (y + size > 580 || y < 20) ){ 
+            return true;
         }
-        if(y + size >= 520 || y <= 20){ 
-            ySpeed *= -1;
-        }
+        return false;
     }
 
+    public boolean checkWallCollision(Wall wall){
+        if ((wall.getX() <= x + size && wall.getX() + wall.getSize() >= x)
+        && (wall.getY() <= y + size && wall.getY() + wall.getSize() >= y)){
+            return true;
+        }
+        return false;
+    }
+
+    public int getSpeed(){
+        return speed;
+    }
     
+    public void setX(int x) { this.x = x; }
+    public int getX() { return x; }
+    public void setY(int y) { this.y = y; }
+    public int getY() { return y; }
 
 }

@@ -2,6 +2,8 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 public class GameFrame {
@@ -10,6 +12,7 @@ public class GameFrame {
     private GameCanvas gc;
 
     private Player player;
+    private ArrayList<Wall> walls;
 
     private String direction;
 
@@ -19,9 +22,10 @@ public class GameFrame {
         cp = (JPanel) f.getContentPane();
         cp.setFocusable(true);
 
-        direction = " ";
+        direction = "T";
 
         player = gc.getPlayer();
+        walls = gc.getWalls();
     }
 
     public void setUpGUI() {
@@ -63,6 +67,8 @@ public class GameFrame {
             }
         };
 
+        
+
         am.put("mLeft", moveLeft);
         am.put("mRight", moveRight);
         am.put("mDown", moveDown);
@@ -74,41 +80,71 @@ public class GameFrame {
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, false), "mUp");
     }
 
+    private void checkCollisions(){
+        if (player.checkBorderCollision()) {
+            direction = " ";
+            System.out.println("colliding!");
+        }
+        
+        for (Wall obj: walls){
+            if (player.checkWallCollision(obj)){
+                direction = " ";
+                System.out.println("colliding! to walls");
+            }
+        }
+    }
+
     public void setUpTimeListen() {
         class TimeListener implements ActionListener {
 
             @Override
             public void actionPerformed(ActionEvent ae){
-                gc.repaint();
-
-                player.checkWallCollision();
-
+                
                 switch (direction) {
                     case "L":
+                        if (player.getSpeed() == 0){
+                            player.setX(player.getX() + 4);
+                        }
                         player.moveLeft();
+                        checkCollisions();
                         break;
-                    
+
                     case "R":
+                        if (player.getSpeed() == 0){
+                            player.setX(player.getX() - 4);
+                        }
                         player.moveRight();
+                        checkCollisions();
                         break;
 
                     case "D":
+                        if (player.getSpeed() == 0){
+                            player.setY(player.getY() - 4);
+                        }
                         player.moveDown();
+                        checkCollisions();
                         break;
 
                     case "U":
-                        player.moveUp();
+                        if (player.getSpeed() == 0){
+                            player.setY(player.getY() + 4);
+                        }
+                        player.moveUp(); 
+                        checkCollisions();
                         break;
-
+                    case " ":
+                        System.out.println("im in case nothing now");
+                        player.moveNowhere();
+                        break;
                     default:
-                        player.moveIdle();
                         break;
                 }
+                gc.repaint();
             }
         }
 
         ActionListener timeListener = new TimeListener();
-        Timer timer = new Timer(10, timeListener);
+        Timer timer = new Timer(5, timeListener);
         timer.start();
     }
 }
