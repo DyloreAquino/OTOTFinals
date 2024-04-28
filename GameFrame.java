@@ -81,15 +81,25 @@ public class GameFrame {
     }
 
     private void checkCollisions(){
+
+        /*
+         * maybe like add some local bool vars here
+         */
         if (player.checkBorderCollision()) {
             direction = " ";
             System.out.println("colliding!");
+            /*
+             * then make that var ture here
+             */
         }
         
         for (Wall obj: walls){
             if (player.checkWallCollision(obj)){
                 direction = " ";
                 System.out.println("colliding! to walls");
+                /*
+                * make that var ture here also
+                */
             }
         }
     }
@@ -109,6 +119,9 @@ public class GameFrame {
                         }
                         player.moveLeft();
                         checkCollisions();
+                        /*
+                         * yo what if we add a boolean var so that if its true, it sets conditions that can't move towards the original direction
+                         */
                         if (player.getSpeed() == 0){
                             player.setX(player.getX() + 1);
                         }
@@ -120,6 +133,9 @@ public class GameFrame {
                         }
                         player.moveRight();
                         checkCollisions();
+                        /*
+                         * yo what if we add a boolean var so that if its true, it sets conditions that can't move towards the original direction
+                         */
                         if (player.getSpeed() == 0){
                             player.setX(player.getX() - 1);
                         }
@@ -131,6 +147,9 @@ public class GameFrame {
                         }
                         player.moveDown();
                         checkCollisions();
+                        /*
+                         * yo what if we add a boolean var so that if its true, it sets conditions that can't move towards the original direction
+                         */
                         if (player.getSpeed() == 0){
                             player.setY(player.getY() + 1);
                         }
@@ -142,6 +161,9 @@ public class GameFrame {
                         }
                         player.moveUp(); 
                         checkCollisions();
+                        /*
+                         * yo what if we add a boolean var so that if its true, it sets conditions that can't move towards the original direction
+                         */
                         if (player.getSpeed() == 0){
                             player.setY(player.getY() - 1);
                         }
