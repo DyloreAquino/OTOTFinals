@@ -22,7 +22,7 @@ public class GameFrame {
         cp = (JPanel) f.getContentPane();
         cp.setFocusable(true);
 
-        direction = "T";
+        direction = " ";
 
         player = gc.getPlayer();
         walls = gc.getWalls();
@@ -67,8 +67,6 @@ public class GameFrame {
             }
         };
 
-        
-
         am.put("mLeft", moveLeft);
         am.put("mRight", moveRight);
         am.put("mDown", moveDown);
@@ -82,24 +80,15 @@ public class GameFrame {
 
     private void checkCollisions(){
 
-        /*
-         * maybe like add some local bool vars here
-         */
         if (player.checkBorderCollision()) {
             direction = " ";
             System.out.println("colliding!");
-            /*
-             * then make that var ture here
-             */
         }
         
         for (Wall obj: walls){
             if (player.checkWallCollision(obj)){
                 direction = " ";
                 System.out.println("colliding! to walls");
-                /*
-                * make that var ture here also
-                */
             }
         }
     }
@@ -107,74 +96,36 @@ public class GameFrame {
     public void setUpTimeListen() {
         class TimeListener implements ActionListener {
 
-            
-
             @Override
             public void actionPerformed(ActionEvent ae){
-                
+
                 switch (direction) {
                     case "L":
-                        if (player.getSpeed() == 0){
-                            player.setX(player.getX() + 1);
-                        }
                         player.moveLeft();
-                        checkCollisions();
-                        /*
-                         * yo what if we add a boolean var so that if its true, it sets conditions that can't move towards the original direction
-                         */
-                        if (player.getSpeed() == 0){
-                            player.setX(player.getX() + 1);
-                        }
                         break;
 
                     case "R":
-                        if (player.getSpeed() == 0){
-                            player.setX(player.getX() - 1);
-                        }
                         player.moveRight();
-                        checkCollisions();
-                        /*
-                         * yo what if we add a boolean var so that if its true, it sets conditions that can't move towards the original direction
-                         */
-                        if (player.getSpeed() == 0){
-                            player.setX(player.getX() - 1);
-                        }
                         break;
 
                     case "D":
-                        if (player.getSpeed() == 0){
-                            player.setY(player.getY() + 1);
-                        }
                         player.moveDown();
-                        checkCollisions();
-                        /*
-                         * yo what if we add a boolean var so that if its true, it sets conditions that can't move towards the original direction
-                         */
-                        if (player.getSpeed() == 0){
-                            player.setY(player.getY() + 1);
-                        }
                         break;
 
                     case "U":
-                        if (player.getSpeed() == 0){
-                            player.setY(player.getY() - 1);
-                        }
                         player.moveUp(); 
-                        checkCollisions();
-                        /*
-                         * yo what if we add a boolean var so that if its true, it sets conditions that can't move towards the original direction
-                         */
-                        if (player.getSpeed() == 0){
-                            player.setY(player.getY() - 1);
-                        }
                         break;
+
                     case " ":
-                        System.out.println("im in case nothing now");
-                        player.moveNowhere();
+                        System.out.println("unmoving");
                         break;
+
                     default:
                         break;
                 }
+
+                checkCollisions();
+
                 gc.repaint();
             }
         }

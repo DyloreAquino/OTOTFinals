@@ -19,7 +19,7 @@ public class GameCanvas extends JComponent {
 
         walls = new ArrayList<Wall>();
 
-        player = new Player(450, 100, 5, 40);
+        player = new Player(450, 100, 3, 40);
         setUpWalls();
 
         drawables = new ArrayList<Drawable>();
