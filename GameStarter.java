@@ -9,6 +9,5 @@ public class GameStarter {
         gf.addKeyBindings();
         gf.setUpTimeListen();
 
-        // Wazzup broski
     }
 }
