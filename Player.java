@@ -7,8 +7,11 @@ import javax.swing.*;
 public class Player implements Drawable{
 
     private int x, y;
+    private int column, row;
     private int size;
     private int speed;
+    
+    private int playerNumber;
 
     private String direction;
 
@@ -16,13 +19,25 @@ public class Player implements Drawable{
 
     private Rectangle2D.Double playerSprite;
     
-    public Player(int x, int y, int speed, int size) {
-        this.x = x;
-        this.y = y;
+    public Player(int column, int row, int speed, int size, int playerNumber) {
+        this.column = column;
+        this.row = row;
+
+        x = 150 + ((column * 50) + 10);
+        y = ((row * 50) + 10);
+
         this.speed = speed;
         this.size = size;
-        playerColor = Color.RED;
+    
         direction = " ";
+
+        this.playerNumber = playerNumber;
+
+        if (playerNumber == 1){
+            playerColor = Color.RED;
+        } else {
+            playerColor = Color.GREEN;
+        }
     }
 
     public void draw(Graphics2D g2d) {
@@ -80,7 +95,7 @@ public class Player implements Drawable{
     }
 
     public boolean checkBorderCollision(){
-        if ((x + size > 1000 || x < 200) || (y + size > 580 || y < 20) ){ 
+        if ((x + size > 1000 || x < 200) || (y + size > 550 || y < 50) ){ 
             switchDirection();
             return true;
         }

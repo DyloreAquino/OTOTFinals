@@ -13,13 +13,16 @@ public class GameCanvas extends JComponent {
     private ArrayList<Drawable> drawables;
     private ArrayList<Wall> walls;
     
-    public GameCanvas(int width, int height){
+    public GameCanvas(int width, int height, int playerID){
+        // When initializing the coordinates for a player, take note:
+        // There are 16 columns, 10 rows
         this.width = width;
         this.height = height;
 
         walls = new ArrayList<Wall>();
 
-        player = new Player(450, 100, 3, 40);
+        setUpPlayer(playerID);
+
         setUpWalls();
 
         drawables = new ArrayList<Drawable>();
@@ -30,11 +33,19 @@ public class GameCanvas extends JComponent {
         drawables.add(wall4);
     }
 
-    public void setUpWalls(){
-        wall1 = new Wall(700, 100);
-        wall2 = new Wall(400, 500);
-        wall3 = new Wall(350, 300);
-        wall4 = new Wall(500, 40);
+    public void setUpPlayer(int playerID) {
+        if (playerID == 1){
+            player = new Player(1, 1, 3, 40, 1);
+        } else {
+            player = new Player(1, 1, 3, 40, 2);
+        }
+    }
+
+    private void setUpWalls(){
+        wall1 = new Wall(2, 1);
+        wall2 = new Wall(3, 1);
+        wall3 = new Wall(3, 2);
+        wall4 = new Wall(4, 3);
         walls.add(wall1);
         walls.add(wall2);
         walls.add(wall3);

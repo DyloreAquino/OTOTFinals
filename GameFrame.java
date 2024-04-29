@@ -1,10 +1,10 @@
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-
 import javax.swing.*;
+import java.net.*;
+import java.io.*;
 
 public class GameFrame {
     private JFrame f;
@@ -16,27 +16,57 @@ public class GameFrame {
 
     private String direction;
 
+    private ClientSideConnection csc;
+
+    private int playerID;
+    private int otherPlayer;
+
     public GameFrame() {
         f = new JFrame();
-        gc = new GameCanvas(1200, 600);
         cp = (JPanel) f.getContentPane();
         cp.setFocusable(true);
 
         direction = " ";
-
-        player = gc.getPlayer();
-        walls = gc.getWalls();
     }
 
     public void setUpGUI() {
+        gc = new GameCanvas(1200, 600, playerID);
 
         gc.setPreferredSize(new Dimension(1200, 600));
         cp.add(gc, BorderLayout.CENTER);
 
-        f.setTitle("Rock Paper Scissors");
+        player = gc.getPlayer();
+        walls = gc.getWalls();
+
+        f.setTitle("Rock Paper Scissors. You are Player #" + playerID);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.pack();
         f.setVisible(true);
+    }
+
+    public void connectToServer() {
+        csc = new ClientSideConnection();
+    }
+
+    //Client Connection
+    private class ClientSideConnection {
+        private Socket socket;
+        private DataInputStream dataIn;
+        private DataOutputStream dataOut;
+
+        public ClientSideConnection() {
+            System.out.println("Client");
+            try {
+                socket = new Socket("localhost", 12345);
+                dataIn = new DataInputStream(socket.getInputStream());
+                dataOut = new DataOutputStream(socket.getOutputStream());
+
+                playerID = dataIn.readInt();
+                System.out.println("Connected to Server as Player #" + playerID);
+            } catch (IOException ex) {
+                System.out.println("IOException from CSC constructor");
+            }
+        }
     }
 
     public void addKeyBindings() {
@@ -82,13 +112,11 @@ public class GameFrame {
 
         if (player.checkBorderCollision()) {
             direction = " ";
-            System.out.println("colliding!");
         }
         
         for (Wall obj: walls){
             if (player.checkWallCollision(obj)){
                 direction = " ";
-                System.out.println("colliding! to walls");
             }
         }
     }
@@ -117,7 +145,6 @@ public class GameFrame {
                         break;
 
                     case " ":
-                        System.out.println("unmoving");
                         break;
 
                     default:
@@ -133,6 +160,10 @@ public class GameFrame {
         ActionListener timeListener = new TimeListener();
         Timer timer = new Timer(3, timeListener);
         timer.start();
+    }
+
+    public int getPlayerID(){
+        return playerID;
     }
 }
 
