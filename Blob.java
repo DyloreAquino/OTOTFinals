@@ -68,11 +68,11 @@ public class Blob implements Drawable{
     }
 
     public void setColumn(int column){
-        x = 150 + (column * 50) + 20;
+        x = 150 + (column * 50) + 10;
     }
 
     public void setRow(int row){
-        y = (row * 50) + 20;
+        y = (row * 50) + 10;
     }
 
     public int getY(){

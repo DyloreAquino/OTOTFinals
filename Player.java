@@ -146,7 +146,7 @@ public class Player implements Drawable{
     public int getColumnofPlayer(){
         int columnofPlayer = 0;
         for (int i = 200; i < 1000; i += 50){
-            if (x > i && x < i + 50){
+            if (x >= i && x < i + 50){
                 columnofPlayer = ((i - 200)/50) + 1;
             }
         }
@@ -156,7 +156,7 @@ public class Player implements Drawable{
     public int getRowofPlayer(){
         int rowofPlayer = 0;
         for (int i = 50; i < 550; i += 50){
-            if (y > i && y < i + 50){
+            if (y >= i && y < i + 50){
                 rowofPlayer = ((i - 50)/50) + 1;
             }
         }
