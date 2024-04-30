@@ -13,8 +13,12 @@ public class GameFrame {
 
     private Player player;
     private ArrayList<Wall> walls;
+    private ArrayList<Blob> blobs;
 
     private String direction;
+
+    private boolean isEatingBlob;
+    private boolean isCollidingBlob;
 
     private ClientSideConnection csc;
 
@@ -37,6 +41,7 @@ public class GameFrame {
 
         player = gc.getPlayer();
         walls = gc.getWalls();
+        blobs = gc.getBlobs();
 
         f.setTitle("Rock Paper Scissors. You are Player #" + playerID);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -57,7 +62,7 @@ public class GameFrame {
         public ClientSideConnection() {
             System.out.println("Client");
             try {
-                socket = new Socket("localhost", 12345);
+                socket = new Socket("localhost", 44444);
                 dataIn = new DataInputStream(socket.getInputStream());
                 dataOut = new DataOutputStream(socket.getOutputStream());
 
@@ -97,15 +102,35 @@ public class GameFrame {
             }
         };
 
+        AbstractAction eatBlob = new AbstractAction() {
+            public void actionPerformed(ActionEvent ae){
+                if (player.checkHasBlob()){
+                    player.vomitBlob();
+                } else {
+                    isEatingBlob = true;
+                }
+            }
+        };
+
+        AbstractAction notEatBlob = new AbstractAction() {
+            public void actionPerformed(ActionEvent ae){
+                isEatingBlob = false;
+            }
+        };
+
         am.put("mLeft", moveLeft);
         am.put("mRight", moveRight);
         am.put("mDown", moveDown);
         am.put("mUp", moveUp);
+        am.put("eatBlob", eatBlob);
+        am.put("notEatBlob", notEatBlob);
 
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, false), "mLeft");
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, false), "mRight");
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, false), "mDown");
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, false), "mUp");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, false), "eatBlob");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, true), "notEatBlob");
     }
 
     private void checkCollisions(){
@@ -117,6 +142,20 @@ public class GameFrame {
         for (Wall obj: walls){
             if (player.checkWallCollision(obj)){
                 direction = " ";
+            }
+        }
+    }
+
+    private void checkBlobCollisionWithPlayer(){
+        for (Blob obj: blobs){
+            if (player.checkBlobCollision(obj)){
+                isCollidingBlob = true;
+            } else {
+                isCollidingBlob = false;
+            }
+
+            if (isCollidingBlob && isEatingBlob){
+                player.eatBlob(obj);
             }
         }
     }
@@ -150,6 +189,8 @@ public class GameFrame {
                     default:
                         break;
                 }
+
+                checkBlobCollisionWithPlayer();
 
                 checkCollisions();
 

@@ -11,7 +11,7 @@ public class GameServer {
     public GameServer() {
         numPlayers = 0;
         try {
-            ss = new ServerSocket(12345);
+            ss = new ServerSocket(44444);
         } catch (IOException ex) {
             System.out.println("IOException from GameServer constructor");
         }

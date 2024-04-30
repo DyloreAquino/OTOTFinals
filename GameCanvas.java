@@ -9,9 +9,11 @@ public class GameCanvas extends JComponent {
     private Player player;
 
     private Wall wall1, wall2, wall3, wall4;
+    private Blob blob1;
 
     private ArrayList<Drawable> drawables;
     private ArrayList<Wall> walls;
+    private ArrayList<Blob> blobs;
     
     public GameCanvas(int width, int height, int playerID){
         // When initializing the coordinates for a player, take note:
@@ -20,10 +22,12 @@ public class GameCanvas extends JComponent {
         this.height = height;
 
         walls = new ArrayList<Wall>();
+        blobs = new ArrayList<Blob>();
 
         setUpPlayer(playerID);
 
         setUpWalls();
+        setUpBlobs();
 
         drawables = new ArrayList<Drawable>();
         drawables.add(player);
@@ -31,6 +35,7 @@ public class GameCanvas extends JComponent {
         drawables.add(wall2);
         drawables.add(wall3);
         drawables.add(wall4);
+        drawables.add(blob1);
     }
 
     public void setUpPlayer(int playerID) {
@@ -50,6 +55,11 @@ public class GameCanvas extends JComponent {
         walls.add(wall2);
         walls.add(wall3);
         walls.add(wall4);
+    }
+
+    private void setUpBlobs(){
+        blob1 = new Blob(7, 5, "rock");
+        blobs.add(blob1);
     }
 
     @Override
@@ -73,5 +83,9 @@ public class GameCanvas extends JComponent {
 
     public ArrayList<Wall> getWalls(){
         return walls;
+    }
+
+    public ArrayList<Blob> getBlobs(){
+        return blobs;
     }
 }
