@@ -20,10 +20,21 @@ public class GameFrame {
     private boolean isEatingBlob;
     private boolean isCollidingBlob;
 
-    private ClientSideConnection csc;
-
     private int playerID;
     private int otherPlayer;
+
+    private int turnsMade;
+    private int maxTurns;
+
+    private int myPoints;
+    private int enemyPoints;
+
+    private int clientTime;
+
+    private Socket socket;
+    private ReadFromServer rfsRunnable;
+    private WriteToServer wtsRunnable;
+
 
     public GameFrame() {
         f = new JFrame();
@@ -31,6 +42,8 @@ public class GameFrame {
         cp.setFocusable(true);
 
         direction = " ";
+
+        clientTime = 0;
     }
 
     public void setUpGUI() {
@@ -50,30 +63,62 @@ public class GameFrame {
     }
 
     public void connectToServer() {
-        csc = new ClientSideConnection();
-    }
+        try {
+            socket = new Socket("localhost", 44444);
+            DataInputStream in = new DataInputStream(socket.getInputStream());
+            DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 
-    //Client Connection
-    private class ClientSideConnection {
-        private Socket socket;
-        private DataInputStream dataIn;
-        private DataOutputStream dataOut;
+            playerID = in.readInt();
 
-        public ClientSideConnection() {
-            System.out.println("Client");
-            try {
-                socket = new Socket("localhost", 44444);
-                dataIn = new DataInputStream(socket.getInputStream());
-                dataOut = new DataOutputStream(socket.getOutputStream());
+            rfsRunnable = new ReadFromServer(in);
+            wtsRunnable = new WriteToServer(out);
 
-                playerID = dataIn.readInt();
-                System.out.println("Connected to Server as Player #" + playerID);
-            } catch (IOException ex) {
-                System.out.println("IOException from CSC constructor");
-            }
+            Thread readThread = new Thread(rfsRunnable);
+            Thread writeThread = new Thread(wtsRunnable);
+
+            readThread.start();
+            writeThread.start();
+        } catch (IOException ex) {
+            System.out.println("IOException from connectToServer()");
         }
     }
 
+    private class ReadFromServer implements Runnable {
+
+        private DataInputStream dataIn;
+
+        public ReadFromServer(DataInputStream in) {
+            dataIn = in;
+            System.out.println("Read From Server " + playerID + " created.");
+        }
+
+        public void run(){
+            try {
+                while (true) {
+                    clientTime = dataIn.readInt();
+                }
+            } catch (IOException ex) {
+                System.out.println("IOException from RFC run()");
+            }
+        }
+
+    }
+
+    private class WriteToServer implements Runnable {
+
+        private DataOutputStream dataOut;
+
+        public WriteToServer(DataOutputStream out) {
+            dataOut = out;
+            System.out.println("Write To Server " + playerID + " created.");
+        }
+
+        public void run(){
+            
+        }
+
+    }
+    
     public void addKeyBindings() {
         ActionMap am = cp.getActionMap();
         InputMap im = cp.getInputMap();
@@ -195,11 +240,13 @@ public class GameFrame {
                 checkCollisions();
 
                 gc.repaint();
+
+                System.out.println(clientTime);
             }
         }
 
         ActionListener timeListener = new TimeListener();
-        Timer timer = new Timer(3, timeListener);
+        Timer timer = new Timer(1, timeListener);
         timer.start();
     }
 

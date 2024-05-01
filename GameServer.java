@@ -1,15 +1,28 @@
+import java.awt.event.*;
+import javax.swing.*;
 import java.net.*;
 import java.io.*;
 public class GameServer {
     
     private ServerSocket ss;
     private int numPlayers;
+    private int turnsMade;
+    private int maxTurns;
 
-    private ServerSideConnection player1;
-    private ServerSideConnection player2;
+    private int serverTime;
+
+    private Socket p1Socket;
+    private Socket p2Socket;
+
+    private ReadFromClient p1ReadRunnable;
+    private ReadFromClient p2ReadRunnable;
+    private WriteToClient p1WriteRunnable;
+    private WriteToClient p2WriteRunnable;
 
     public GameServer() {
         numPlayers = 0;
+        turnsMade = 0;
+        maxTurns = 9;
         try {
             ss = new ServerSocket(44444);
         } catch (IOException ex) {
@@ -22,18 +35,36 @@ public class GameServer {
             System.out.println("Waiting for connections");
             while (numPlayers < 2) {
                 Socket s = ss.accept();
-                numPlayers++;
-                System.out.println("Player #" + numPlayers + " has connected.");
-                ServerSideConnection ssc = new ServerSideConnection(s, numPlayers);
+                DataInputStream in = new DataInputStream(s.getInputStream());
+                DataOutputStream out = new DataOutputStream(s.getOutputStream());
 
-                if (numPlayers == 1) {
-                    player1 = ssc;
+                numPlayers++;
+                out.writeInt(numPlayers);
+                System.out.println("Player #" + numPlayers + " has connected.");
+
+                ReadFromClient rfc = new ReadFromClient(numPlayers, in);
+                WriteToClient wtc = new WriteToClient(numPlayers, out);
+
+                if (numPlayers == 1){
+                    p1Socket = s;
+                    p1ReadRunnable = rfc;
+                    p1WriteRunnable = wtc;
                 } else {
-                    player2 = ssc;
+                    p2Socket = s;
+                    p2ReadRunnable = rfc;
+                    p2WriteRunnable = wtc;
+
+                    Thread readThread1 = new Thread(p1ReadRunnable);
+                    Thread readThread2 = new Thread(p2ReadRunnable);
+                    readThread1.start();
+                    readThread2.start();
+
+                    Thread writeThread1 = new Thread(p1WriteRunnable);
+                    Thread writeThread2 = new Thread(p2WriteRunnable);
+                    writeThread1.start();
+                    writeThread2.start();
                 }
 
-                Thread t = new Thread(ssc);
-                t.start();
             }
             System.out.println("Two players. No connections allowed now.");
         } catch (IOException ex) {
@@ -41,37 +72,48 @@ public class GameServer {
         }
     }
 
-    private class ServerSideConnection implements Runnable {
-
-        private Socket socket;
-        private DataInputStream dataIn;
-        private DataOutputStream dataOut;
+    private class ReadFromClient implements Runnable {
         private int playerID;
+        private DataInputStream dataIn;
 
-        public ServerSideConnection(Socket s, int id) {
-            socket = s;
-            playerID = id;
-            try {
-                dataIn = new DataInputStream(socket.getInputStream());
-                dataOut = new DataOutputStream(socket.getOutputStream());
-            } catch (IOException ex) {
-                System.out.println("IOException from SSC Constructor");
-            }
+        public ReadFromClient(int pid, DataInputStream in){
+            playerID = pid;
+            dataIn = in;
+            System.out.println("Read from Client " + playerID + " created.");
+        }
+
+        public void run() {
+
+        }
+    }
+
+    private class WriteToClient implements Runnable {
+        private int playerID;
+        private DataOutputStream dataOut;
+
+        public WriteToClient(int pid, DataOutputStream out){
+            playerID = pid;
+            dataOut = out;
+            System.out.println("Write to Client " + playerID + " created.");
         }
 
         public void run() {
             try {
-                dataOut.writeInt(playerID);
-                dataOut.flush();
-
                 while (true) {
-
+                    dataOut.writeInt(serverTime);
+                    serverTime++;
+                    dataOut.flush();
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        System.out.println("Interrupted Exception from WTS run() at player" + playerID);
+                    }
                 }
+                
             } catch (IOException ex) {
-                System.out.println("IOException from run() SSC");
+                System.out.println("IOException from WTS run() with player" + playerID);
             }
         }
-
     }
 
     public static void main(String[] args) {
