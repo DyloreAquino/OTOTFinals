@@ -133,6 +133,11 @@ public class GameServer {
                 while (true) {
                     dataOut.writeInt(serverTime);
                     dataOut.flush();
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException ex) {
+                        System.out.println("InterruptedException in run() while loop in ServerTimerThread");
+                    }
                 }
                 
             } catch (IOException ex) {
