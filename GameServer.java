@@ -19,10 +19,13 @@ public class GameServer {
     private WriteToClient p1WriteRunnable;
     private WriteToClient p2WriteRunnable;
 
+    private ServerTimerThread stimeThread;
+
     public GameServer() {
         numPlayers = 0;
         turnsMade = 0;
         maxTurns = 9;
+        serverTime = 0;
         try {
             ss = new ServerSocket(44444);
         } catch (IOException ex) {
@@ -45,6 +48,8 @@ public class GameServer {
                 ReadFromClient rfc = new ReadFromClient(numPlayers, in);
                 WriteToClient wtc = new WriteToClient(numPlayers, out);
 
+                stimeThread = new ServerTimerThread();
+
                 if (numPlayers == 1){
                     p1Socket = s;
                     p1ReadRunnable = rfc;
@@ -63,12 +68,30 @@ public class GameServer {
                     Thread writeThread2 = new Thread(p2WriteRunnable);
                     writeThread1.start();
                     writeThread2.start();
+
+                    Thread serverTimeThread = new Thread(stimeThread);
+                    serverTimeThread.start();
                 }
 
             }
             System.out.println("Two players. No connections allowed now.");
         } catch (IOException ex) {
             System.out.println("IOException from acceptConnections()");
+        }
+    }
+
+    private class ServerTimerThread implements Runnable {
+
+        public void run() {
+            class ServerTimer implements ActionListener {
+                @Override
+                public void actionPerformed(ActionEvent ae){
+                    serverTime++;
+                }
+            }
+            ActionListener serverTimeListener = new ServerTimer();
+            Timer timer = new Timer(1000, serverTimeListener);
+            timer.start();
         }
     }
 
@@ -101,13 +124,7 @@ public class GameServer {
             try {
                 while (true) {
                     dataOut.writeInt(serverTime);
-                    serverTime++;
                     dataOut.flush();
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException ex) {
-                        System.out.println("Interrupted Exception from WTS run() at player" + playerID);
-                    }
                 }
                 
             } catch (IOException ex) {
