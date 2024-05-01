@@ -83,15 +83,23 @@ public class GameServer {
     private class ServerTimerThread implements Runnable {
 
         public void run() {
-            class ServerTimer implements ActionListener {
-                @Override
-                public void actionPerformed(ActionEvent ae){
-                    serverTime++;
+            try {
+                while (true) {
+                    if (serverTime <= 25) {
+                        serverTime++;
+                    } else {
+                        serverTime = 0;
+                    }
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        System.out.println("InterruptedException in run() while loop in ServerTimerThread");
+                    }
                 }
+            } catch (Exception e) {
+                System.out.println("Exception in run() ServerTimerThread");
             }
-            ActionListener serverTimeListener = new ServerTimer();
-            Timer timer = new Timer(1000, serverTimeListener);
-            timer.start();
+            
         }
     }
 
