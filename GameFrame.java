@@ -285,7 +285,7 @@ public class GameFrame {
                     canIncrement = false;
                 }
             } else {
-                System.out.println("You lose bruh lmafaoooo");
+                System.out.println("Nope. Try Again.");
             }
         } else {
             System.out.println("You don't even have a blob!!!");
