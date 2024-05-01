@@ -21,11 +21,17 @@ public class GameServer {
 
     private ServerTimerThread stimeThread;
 
+    private String p1BlobType;
+    private String p2BlobType;
+
     public GameServer() {
         numPlayers = 0;
         turnsMade = 0;
         maxTurns = 9;
         serverTime = 0;
+
+        p1BlobType = " ";
+        p2BlobType = " ";
         try {
             ss = new ServerSocket(44444);
         } catch (IOException ex) {
@@ -114,7 +120,17 @@ public class GameServer {
         }
 
         public void run() {
-
+            try {
+                while (true) {
+                    if (playerID == 1){
+                        p1BlobType = dataIn.readUTF();
+                    } else {
+                        p2BlobType = dataIn.readUTF();
+                    }
+                }
+            } catch (IOException ex) {
+                System.out.println("IOException at WTS run()");
+            }
         }
     }
 
@@ -132,9 +148,15 @@ public class GameServer {
             try {
                 while (true) {
                     dataOut.writeInt(serverTime);
+                    if (playerID == 1){
+                        dataOut.writeUTF(p2BlobType);
+                    } else {
+                        dataOut.writeUTF(p1BlobType);
+                    }
+                    
                     dataOut.flush();
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(20);
                     } catch (InterruptedException ex) {
                         System.out.println("InterruptedException in run() while loop in ServerTimerThread");
                     }

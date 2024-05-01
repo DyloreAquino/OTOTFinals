@@ -29,9 +29,9 @@ public class Blob implements Drawable{
         g2d.fill(blobSprite);
     }
 
-    public boolean doesItWinAgainst(Blob blob){
+    public boolean doesItWinAgainst(String blobType){
         boolean doesWinAgainst = false;
-        switch (blob.getType()) {
+        switch (blobType) {
             case "rock":
                 if (this.type == "paper"){
                     doesWinAgainst = true;
@@ -46,6 +46,9 @@ public class Blob implements Drawable{
                 if (this.type == "rock"){
                     doesWinAgainst = true;
                 }
+                break;
+            case " ":
+                doesWinAgainst = true;
                 break;
             default:
                 doesWinAgainst = false;

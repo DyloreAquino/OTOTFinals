@@ -14,8 +14,10 @@ public class GameFrame {
     private Player player;
     private ArrayList<Wall> walls;
     private ArrayList<Blob> blobs;
+    private WaitingScreen waitingScreen;
 
     private String direction;
+    private int playerSpeed;
 
     private boolean isEatingBlob;
     private boolean isCollidingBlob;
@@ -35,6 +37,11 @@ public class GameFrame {
     private ReadFromServer rfsRunnable;
     private WriteToServer wtsRunnable;
 
+    private String turn;
+    private String playerBlobType;
+    private String opponentBlobType;
+
+    private boolean canIncrement;
 
     public GameFrame() {
         f = new JFrame();
@@ -42,6 +49,11 @@ public class GameFrame {
         cp.setFocusable(true);
 
         direction = " ";
+        turn = " ";
+        playerSpeed = 5;
+        playerBlobType = " ";
+        opponentBlobType = " ";
+        canIncrement = false;
 
         clientTime = 0;
     }
@@ -55,6 +67,7 @@ public class GameFrame {
         player = gc.getPlayer();
         walls = gc.getWalls();
         blobs = gc.getBlobs();
+        waitingScreen = gc.getWaitingScreen();
 
         f.setTitle("Rock Paper Scissors. You are Player #" + playerID);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -96,6 +109,7 @@ public class GameFrame {
             try {
                 while (true) {
                     clientTime = dataIn.readInt();
+                    opponentBlobType = dataIn.readUTF();
                 }
             } catch (IOException ex) {
                 System.out.println("IOException from RFC run()");
@@ -114,7 +128,19 @@ public class GameFrame {
         }
 
         public void run(){
-            
+            try {
+                while (true) {
+                    dataOut.writeUTF(playerBlobType);
+                    dataOut.flush();
+                    try {
+                        Thread.sleep(20);
+                    } catch (InterruptedException ex) {
+                        System.out.println("InterruptedException at WTS run()");
+                    }
+                }
+            } catch (IOException ex) {
+                System.out.println("IOException at WTS run()");
+            }
         }
 
     }
@@ -201,18 +227,70 @@ public class GameFrame {
 
             if (isCollidingBlob && isEatingBlob){
                 player.eatBlob(obj);
+                playerBlobType = player.getBlob().getType();
             }
         }
     }
 
-    private void setUpScreenwithTimer() {
+    private void turnManager() {
         if (clientTime < 10) {
-            player.setSpeed(10);
+            turn = "player1Turn";
         } else if (clientTime < 20) {
-            player.setSpeed(5);
+            turn = "player2Turn";
         } else if (clientTime < 25) {
-            player.setSpeed(1);
+            turn = "decidingTurn";
         }
+    }
+
+    private void setUpTurnChanges() {
+        switch (turn) {
+            case "player1Turn":
+                if (playerID == 1) {
+                    waitingScreen.setInvisible();
+                    player.setSpeed(playerSpeed);
+                } else {
+                    waitingScreen.setVisible();
+                    player.setSpeed(0);
+                }
+                canIncrement = true;
+                break;
+            case "player2Turn":
+                if (playerID == 1) {
+                    waitingScreen.setVisible();
+                    player.setSpeed(0);
+                } else {
+                    waitingScreen.setInvisible();
+                    player.setSpeed(playerSpeed);
+                }
+                break;
+            case "decidingTurn":
+                waitingScreen.setVisible();
+                player.setSpeed(0);
+                whoWonRound();
+                System.out.println(player.getPoints());
+                break;
+            default:
+                break;
+        }
+    }
+
+    //Problem: I am still yet to find a solution where the points only increment once when they win a round
+    // since this is called in the timer too, then the points increment every millisecond grrrrr
+    private void whoWonRound() {
+        if (player.checkHasBlob()){
+            if (player.getBlob().doesItWinAgainst(opponentBlobType)){
+                System.out.println("You win!!!");
+                if (canIncrement) {
+                    player.incrementPoints();
+                    canIncrement = false;
+                }
+            } else {
+                System.out.println("You lose bruh lmafaoooo");
+            }
+        } else {
+            System.out.println("You don't even have a blob!!!");
+        }
+        
     }
 
     public void setUpTimeListen() {
@@ -251,8 +329,12 @@ public class GameFrame {
 
                 gc.repaint();
 
+                turnManager();
+
                 System.out.println(clientTime);
-                setUpScreenwithTimer();
+
+                //System.out.println(clientTime);
+                setUpTurnChanges();
             }
         }
 

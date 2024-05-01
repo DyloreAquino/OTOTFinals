@@ -11,6 +11,8 @@ public class GameCanvas extends JComponent {
     private Wall wall1, wall2, wall3, wall4;
     private Blob blob1;
 
+    private WaitingScreen waitingScreen;
+
     private ArrayList<Drawable> drawables;
     private ArrayList<Wall> walls;
     private ArrayList<Blob> blobs;
@@ -24,18 +26,13 @@ public class GameCanvas extends JComponent {
         walls = new ArrayList<Wall>();
         blobs = new ArrayList<Blob>();
 
+        drawables = new ArrayList<Drawable>();
+
         setUpPlayer(playerID);
 
         setUpWalls();
         setUpBlobs();
-
-        drawables = new ArrayList<Drawable>();
-        drawables.add(player);
-        drawables.add(wall1);
-        drawables.add(wall2);
-        drawables.add(wall3);
-        drawables.add(wall4);
-        drawables.add(blob1);
+        setUpWaitingScreen(); 
     }
 
     public void setUpPlayer(int playerID) {
@@ -44,6 +41,7 @@ public class GameCanvas extends JComponent {
         } else {
             player = new Player(1, 1, 3, 40, 2);
         }
+        drawables.add(player);
     }
 
     private void setUpWalls(){
@@ -55,11 +53,21 @@ public class GameCanvas extends JComponent {
         walls.add(wall2);
         walls.add(wall3);
         walls.add(wall4);
+        drawables.add(wall1);
+        drawables.add(wall2);
+        drawables.add(wall3);
+        drawables.add(wall4);
     }
 
     private void setUpBlobs(){
         blob1 = new Blob(7, 5, "rock");
         blobs.add(blob1);
+        drawables.add(blob1);
+    }
+
+    private void setUpWaitingScreen() {
+        waitingScreen = new WaitingScreen(-9999, -9999);
+        drawables.add(waitingScreen);
     }
 
     @Override
@@ -87,5 +95,9 @@ public class GameCanvas extends JComponent {
 
     public ArrayList<Blob> getBlobs(){
         return blobs;
+    }
+
+    public WaitingScreen getWaitingScreen() {
+        return waitingScreen;
     }
 }

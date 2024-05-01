@@ -19,10 +19,19 @@ public class Player implements Drawable{
 
     private Color playerColor;
     private Rectangle2D.Double playerSprite;
+
+    private int points;
+    private boolean hasPlayerWon;
+
+    //Needs a function specifically for resetting all needed attributes of the player.
+    //This can require parameters for column and row for easy spawning
+    //Every time we reset a round, the player gets reset to that coordinate.
     
     public Player(int column, int row, int speed, int size, int playerNumber) {
         this.column = column;
         this.row = row;
+
+        points = 0;
 
         x = 150 + ((column * 50) + 10);
         y = ((row * 50) + 10);
@@ -43,6 +52,8 @@ public class Player implements Drawable{
         }
 
         hasBlob = false;
+
+        hasPlayerWon = false;
     }
 
     public void draw(Graphics2D g2d) {
@@ -163,6 +174,22 @@ public class Player implements Drawable{
 
     public boolean checkHasBlob(){
         return hasBlob;
+    }
+
+    public Blob getBlob() {
+        return eatenBlob;
+    }
+
+    public void hasWon(){
+        hasPlayerWon = true;
+    }
+
+    public void incrementPoints() {
+        points++;
+    }
+
+    public int getPoints() {
+        return points;
     }
     
     public void setX(int x) { this.x = x; }
