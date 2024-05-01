@@ -29,6 +29,8 @@ public class Player implements Drawable{
 
         this.speed = speed;
         this.size = size;
+
+        setSpeed(speed);
     
         direction = " ";
 
@@ -50,25 +52,21 @@ public class Player implements Drawable{
     }
 
     public void moveLeft(){
-        setSpeed(5);
         direction = "L";
         x -= speed;
     }
 
     public void moveRight(){
-        setSpeed(5);
         direction = "R";
         x += speed;
     }
 
     public void moveDown(){
-        setSpeed(5);
         direction = "D";
         y += speed;
     }
 
     public void moveUp(){
-        setSpeed(5);
         direction = "U";
         y -= speed;
     }

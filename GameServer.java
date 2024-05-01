@@ -85,7 +85,7 @@ public class GameServer {
         public void run() {
             try {
                 while (true) {
-                    if (serverTime <= 25) {
+                    if (serverTime < 25) {
                         serverTime++;
                     } else {
                         serverTime = 0;

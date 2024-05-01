@@ -205,6 +205,16 @@ public class GameFrame {
         }
     }
 
+    private void setUpScreenwithTimer() {
+        if (clientTime < 10) {
+            player.setSpeed(10);
+        } else if (clientTime < 20) {
+            player.setSpeed(5);
+        } else if (clientTime < 25) {
+            player.setSpeed(1);
+        }
+    }
+
     public void setUpTimeListen() {
         class TimeListener implements ActionListener {
 
@@ -242,6 +252,7 @@ public class GameFrame {
                 gc.repaint();
 
                 System.out.println(clientTime);
+                setUpScreenwithTimer();
             }
         }
 
