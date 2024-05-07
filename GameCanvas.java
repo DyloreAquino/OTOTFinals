@@ -28,11 +28,13 @@ public class GameCanvas extends JComponent {
 
         drawables = new ArrayList<Drawable>();
 
-        setUpPlayer(playerID);
+        
 
         setUpWalls();
+        setUpPlayer(playerID);
         setUpBlobs();
         setUpWaitingScreen(); 
+
     }
 
     public void setUpPlayer(int playerID) {

@@ -19,6 +19,13 @@ public class Player implements Drawable{
     private Rectangle2D.Double playerSprite;
 
     private ImageIcon player1Down;
+    private ImageIcon player1Up;
+    private ImageIcon player1Left;
+    private ImageIcon player1Right;
+    private ImageIcon player1DownBlobbed;
+    private ImageIcon player1UpBlobbed;
+    private ImageIcon player1LeftBlobbed;
+    private ImageIcon player1RightBlobbed;
     private Image playerImgSprite;
 
     private int points;
@@ -57,35 +64,66 @@ public class Player implements Drawable{
         hasPlayerWon = false;
 
         player1Down = new ImageIcon("p1 down.png");
+        player1Up = new ImageIcon("p1 up.png");
+        player1Left = new ImageIcon("p1 left.png");
+        player1Right = new ImageIcon("p1 right.png");
+
+        player1DownBlobbed = new ImageIcon("player 1 blobed-down.png");
+        player1UpBlobbed = new ImageIcon("player 1 blobed-up.png");
+        player1LeftBlobbed = new ImageIcon("player 1 blobed-left.png");
+        player1RightBlobbed = new ImageIcon("player 1 blobed-right.png");
+
+        updateImage(player1Down);
     }
 
     public void updateImage(ImageIcon img){
+        // Helped by Alba the GOAT
         playerImgSprite = img.getImage();
     }
 
     public void draw(Graphics2D g2d) {
-        updateImage(player1Down);
-        g2d.drawImage(playerImgSprite, x, y, 30, size, null);
+        
+        g2d.drawImage(playerImgSprite, x, y-20, size, size + 20, null);
     }
 
     public void moveLeft(){
         direction = "L";
         x -= speed;
+        if (checkHasBlob()){
+            updateImage(player1LeftBlobbed);
+        } else{
+            updateImage(player1Left);
+        }
     }
 
     public void moveRight(){
         direction = "R";
         x += speed;
+        if (checkHasBlob()){
+            updateImage(player1RightBlobbed);
+        } else{
+            updateImage(player1Right);
+        }
     }
 
     public void moveDown(){
         direction = "D";
         y += speed;
+        if (checkHasBlob()){
+            updateImage(player1DownBlobbed);
+        } else{
+            updateImage(player1Down);
+        }
     }
 
     public void moveUp(){
         direction = "U";
         y -= speed;
+        if (checkHasBlob()){
+            updateImage(player1UpBlobbed);
+        } else{
+            updateImage(player1Up);
+        }
     }
     
     public void setSpeed( int speed ) {
@@ -114,6 +152,11 @@ public class Player implements Drawable{
     public boolean checkBorderCollision(){
         if ((x + size > 1000 || x < 200) || (y + size > 550 || y < 50) ){ 
             switchDirection();
+            if (checkHasBlob()){
+                updateImage(player1DownBlobbed);
+            } else{
+                updateImage(player1Down);
+            }
             return true;
         }
         return false;
@@ -123,6 +166,11 @@ public class Player implements Drawable{
         if ((wall.getX() < x + size && wall.getX() + wall.getSize() > x)
         && (wall.getY() < y + size && wall.getY() + wall.getSize() > y)){
             switchDirection();
+            if (checkHasBlob()){
+                updateImage(player1DownBlobbed);
+            } else{
+                updateImage(player1Down);
+            }
             return true;
         }
         return false;
