@@ -42,6 +42,8 @@ public class GameCanvas extends JComponent {
             player = new Player(1, 1, 3, 40, 2);
         }
         drawables.add(player);
+
+        
     }
 
     private void setUpWalls(){

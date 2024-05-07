@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "GameStarter",
+            "request": "launch",
+            "mainClass": "GameStarter",
+            "projectName": "rockpaperscissors_a69513e7"
+        },
+        {
+            "type": "java",
+            "name": "GameServer",
+            "request": "launch",
+            "mainClass": "GameServer",
+            "projectName": "rockpaperscissors_a69513e7"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"

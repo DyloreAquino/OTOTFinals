@@ -177,6 +177,7 @@ public class GameFrame {
             public void actionPerformed(ActionEvent ae){
                 if (player.checkHasBlob()){
                     player.vomitBlob();
+                    playerBlobType = " ";
                 } else {
                     isEatingBlob = true;
                 }

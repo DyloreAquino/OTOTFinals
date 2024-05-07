@@ -124,7 +124,7 @@ public class GameServer {
                 while (true) {
                     if (playerID == 1){
                         p1BlobType = dataIn.readUTF();
-                    } else {
+                    } else if (playerID == 2){
                         p2BlobType = dataIn.readUTF();
                     }
                 }
@@ -150,13 +150,13 @@ public class GameServer {
                     dataOut.writeInt(serverTime);
                     if (playerID == 1){
                         dataOut.writeUTF(p2BlobType);
-                    } else {
+                    } else if (playerID == 2) {
                         dataOut.writeUTF(p1BlobType);
                     }
                     
                     dataOut.flush();
                     try {
-                        Thread.sleep(20);
+                        Thread.sleep(10);
                     } catch (InterruptedException ex) {
                         System.out.println("InterruptedException in run() while loop in ServerTimerThread");
                     }

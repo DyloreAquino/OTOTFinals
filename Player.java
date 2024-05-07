@@ -1,8 +1,6 @@
 import java.awt.*;
 import java.awt.geom.*;
-import java.awt.event.*;
 import javax.swing.*;
-
 
 public class Player implements Drawable{
 
@@ -19,6 +17,9 @@ public class Player implements Drawable{
 
     private Color playerColor;
     private Rectangle2D.Double playerSprite;
+
+    private ImageIcon player1Down;
+    private Image playerImgSprite;
 
     private int points;
     private boolean hasPlayerWon;
@@ -54,12 +55,17 @@ public class Player implements Drawable{
         hasBlob = false;
 
         hasPlayerWon = false;
+
+        player1Down = new ImageIcon("p1 down.png");
+    }
+
+    public void updateImage(ImageIcon img){
+        playerImgSprite = img.getImage();
     }
 
     public void draw(Graphics2D g2d) {
-        playerSprite = new Rectangle2D.Double(x, y, size, size);
-        g2d.setColor(playerColor);
-        g2d.fill(playerSprite);
+        updateImage(player1Down);
+        g2d.drawImage(playerImgSprite, x, y, 30, size, null);
     }
 
     public void moveLeft(){
@@ -82,7 +88,6 @@ public class Player implements Drawable{
         y -= speed;
     }
     
-
     public void setSpeed( int speed ) {
         this.speed = speed;
     }
