@@ -31,6 +31,9 @@ public class Player implements Drawable{
     private int points;
     private boolean hasPlayerWon;
 
+    private Audio eatingSFX;
+    private Audio vomitSFX;
+
     //Needs a function specifically for resetting all needed attributes of the player.
     //This can require parameters for column and row for easy spawning
     //Every time we reset a round, the player gets reset to that coordinate.
@@ -74,6 +77,12 @@ public class Player implements Drawable{
         player1RightBlobbed = new ImageIcon("player 1 blobed-right.png");
 
         updateImage(player1Down);
+
+        eatingSFX = new Audio();
+        vomitSFX = new Audio();
+
+        eatingSFX.setFile("eating sfx.wav");
+        vomitSFX.setFile("vomit sfx.wav");
     }
 
     public void updateImage(ImageIcon img){
@@ -188,6 +197,7 @@ public class Player implements Drawable{
         eatenBlob = blob;
         hasBlob = true;
         blob.setOutOFBounds();
+        eatingSFX.play();
     }
 
     public void vomitBlob(){
@@ -198,6 +208,8 @@ public class Player implements Drawable{
 
             eatenBlob = null;
             hasBlob = false;
+
+            vomitSFX.play();
         }
     }
     

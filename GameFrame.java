@@ -43,6 +43,8 @@ public class GameFrame {
 
     private boolean canIncrement;
 
+
+
     public GameFrame() {
         f = new JFrame();
         cp = (JPanel) f.getContentPane();
@@ -56,6 +58,8 @@ public class GameFrame {
         canIncrement = false;
 
         clientTime = 0;
+
+
     }
 
     public void setUpGUI() {
