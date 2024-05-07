@@ -91,7 +91,7 @@ public class GameServer {
         public void run() {
             try {
                 while (true) {
-                    if (serverTime < 25) {
+                    if (serverTime < 25) { // what if we turn this into 24? since the threads are kind of having a hard time checking if 26 is alrdy out of the limit
                         serverTime++;
                     } else {
                         serverTime = 0;

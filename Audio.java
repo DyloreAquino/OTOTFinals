@@ -3,7 +3,7 @@
 	
 	@author Jerold Luther P. Aquino (230413)
     @author Hanzo Ricardo M. Castillo (231365)
-	@version March 6, 2024
+	@version May 5, 2024
 	
 	I have not discussed the Java language code in my program 
 	with anyone other than my instructor or the teaching assistants 
@@ -41,7 +41,7 @@ public class Audio {
 
         // soundFileName should be the EXACT FORMATING of the FILE NAME and should be in audio format WAV
         try {
-            File file = new File(soundFileName);
+            File file = new File(soundFileName); // should be in wav
             sound = AudioSystem.getAudioInputStream(file);
             clip = AudioSystem.getClip();
             clip.open(sound);
