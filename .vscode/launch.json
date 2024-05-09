@@ -9,6 +9,20 @@
             "name": "GameStarter",
             "request": "launch",
             "mainClass": "GameStarter",
+            "projectName": "rockpaperscissors_5652cb4e"
+        },
+        {
+            "type": "java",
+            "name": "GameServer",
+            "request": "launch",
+            "mainClass": "GameServer",
+            "projectName": "rockpaperscissors_5652cb4e"
+        },
+        {
+            "type": "java",
+            "name": "GameStarter",
+            "request": "launch",
+            "mainClass": "GameStarter",
             "projectName": "rockpaperscissors_a69513e7"
         },
         {

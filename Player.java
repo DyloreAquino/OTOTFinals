@@ -81,8 +81,8 @@ public class Player implements Drawable{
         eatingSFX = new Audio();
         vomitSFX = new Audio();
 
-        eatingSFX.setFile("eating sfx.wav");
-        vomitSFX.setFile("vomit sfx.wav");
+        
+        
     }
 
     public void updateImage(ImageIcon img){
@@ -197,6 +197,7 @@ public class Player implements Drawable{
         eatenBlob = blob;
         hasBlob = true;
         blob.setOutOFBounds();
+        eatingSFX.setFile("eating sfx.wav");
         eatingSFX.play();
     }
 
@@ -209,6 +210,7 @@ public class Player implements Drawable{
             eatenBlob = null;
             hasBlob = false;
 
+            vomitSFX.setFile("vomit sfx.wav");
             vomitSFX.play();
         }
     }
