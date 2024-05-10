@@ -7,6 +7,7 @@ public class GameCanvas extends JComponent {
     private int width, height;
 
     private Player player;
+    private Player opponent;
 
     private Wall wall1, wall2, wall3, wall4;
     private Blob blob1;
@@ -28,8 +29,6 @@ public class GameCanvas extends JComponent {
 
         drawables = new ArrayList<Drawable>();
 
-        
-
         setUpWalls();
         setUpPlayer(playerID);
         setUpBlobs();
@@ -40,12 +39,14 @@ public class GameCanvas extends JComponent {
     public void setUpPlayer(int playerID) {
         if (playerID == 1){
             player = new Player(1, 1, 3, 40, 1);
+            opponent = new Player(16, 1, 3, 40, 2);
         } else {
-            player = new Player(1, 1, 3, 40, 2);
+            player = new Player(16, 1, 3, 40, 2);
+            opponent = new Player(1, 1, 3, 40, 1);
         }
         drawables.add(player);
+        drawables.add(opponent);
 
-        
     }
 
     private void setUpWalls(){
@@ -91,6 +92,10 @@ public class GameCanvas extends JComponent {
 
     public Player getPlayer(){
         return player;
+    }
+    
+    public Player getOpponent(){
+        return opponent;
     }
 
     public ArrayList<Wall> getWalls(){

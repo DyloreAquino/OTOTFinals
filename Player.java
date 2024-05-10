@@ -44,8 +44,8 @@ public class Player implements Drawable{
 
         points = 0;
 
-        x = 150 + ((column * 50) + 10);
-        y = ((row * 50) + 10);
+        setColumnofPlayer(column);
+        setRowofPlayer(row);
 
         this.speed = speed;
         this.size = size;
@@ -214,6 +214,10 @@ public class Player implements Drawable{
             vomitSFX.play();
         }
     }
+
+    public String getDirection(){
+        return direction;
+    }
     
     public int getSpeed(){
         return speed;
@@ -237,6 +241,14 @@ public class Player implements Drawable{
             }
         }
         return rowofPlayer;
+    }
+
+    public void setColumnofPlayer(int column){
+        x = 150 + ((column * 50) + 10);
+    }
+
+    public void setRowofPlayer(int row){
+        y = ((row * 50) + 10);
     }
 
     public boolean checkHasBlob(){
