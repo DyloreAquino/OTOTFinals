@@ -140,19 +140,11 @@ public class GameServer {
                 while (true) {
                     if (playerID == 1){
                         p1BlobType = dataIn.readUTF();
-                        p1X = dataIn.readInt();
-                        p1Y = dataIn.readInt();
-                        System.out.println(p1X);
-                        System.out.println(p1Y);
                         p1Direction = dataIn.readUTF();
                         p1EatBlob = dataIn.readBoolean();
                         p1VomitBlob = dataIn.readBoolean();
                     } else if (playerID == 2){
                         p2BlobType = dataIn.readUTF();
-                        p2X = dataIn.readInt();
-                        p2Y = dataIn.readInt();
-                        System.out.println(p2X);
-                        System.out.println(p2Y);
                         p2Direction = dataIn.readUTF();
                         p2EatBlob = dataIn.readBoolean();
                         p2VomitBlob = dataIn.readBoolean();
@@ -180,15 +172,11 @@ public class GameServer {
                     dataOut.writeInt(serverTime);
                     if (playerID == 1){
                         dataOut.writeUTF(p2BlobType);
-                        dataOut.writeInt(p2X);
-                        dataOut.writeInt(p2Y);
                         dataOut.writeUTF(p2Direction);
                         dataOut.writeBoolean(p2EatBlob);
                         dataOut.writeBoolean(p2VomitBlob);
                     } else if (playerID == 2) {
                         dataOut.writeUTF(p1BlobType);
-                        dataOut.writeInt(p1X);
-                        dataOut.writeInt(p1Y);
                         dataOut.writeUTF(p1Direction);
                         dataOut.writeBoolean(p1EatBlob);
                         dataOut.writeBoolean(p1VomitBlob);

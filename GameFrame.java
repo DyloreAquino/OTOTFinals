@@ -144,8 +144,6 @@ public class GameFrame {
                 while (true) {
                     clientTime = dataIn.readInt();
                     opponentBlobType = dataIn.readUTF();
-                    opponentX = dataIn.readInt();
-                    opponentY = dataIn.readInt();
                     opponentDirection = dataIn.readUTF();
                     opponentEatsBlob = dataIn.readBoolean();
                     opponentVomitBlob = dataIn.readBoolean();
@@ -170,24 +168,19 @@ public class GameFrame {
             try {
                 while (true) {
                     dataOut.writeUTF(playerBlobType);
-                    dataOut.writeInt(playerX);
-                    dataOut.writeInt(playerY);
-                    
                     dataOut.writeUTF(direction);
                     dataOut.writeBoolean(hasEatenBlob);
                     dataOut.writeBoolean(hasVomitBlob);
                     
 
                     dataOut.flush();
-                    
                     try {
                         Thread.sleep(10);
                     } catch (InterruptedException ex) {
                         System.out.println("InterruptedException at WTS run()");
                     }
 
-                    hasEatenBlob = false;
-                    hasVomitBlob = false;
+                    
                 }
             } catch (IOException ex) {
                 System.out.println("IOException at WTS run()");
@@ -227,7 +220,7 @@ public class GameFrame {
         AbstractAction eatBlob = new AbstractAction() {
             public void actionPerformed(ActionEvent ae){
                 if (player.checkHasBlob()){
-                    player.vomitBlob();
+                    blobs.add(player.vomitBlob());
                     playerBlobType = " ";
                     hasVomitBlob = true;
                 } else {
@@ -262,12 +255,21 @@ public class GameFrame {
         if (player.checkBorderCollision()) {
             direction = " ";
         }
+
+        if (opponent.checkBorderCollision()){
+            opponentDirection = " ";
+        }
         
         for (Wall obj: walls){
             if (player.checkWallCollision(obj)){
                 direction = " ";
             }
+            if (opponent.checkWallCollision(obj)){
+                opponentDirection = " ";
+            }
         }
+
+        
     }
 
     private void checkBlobBehavior(){
@@ -292,7 +294,9 @@ public class GameFrame {
         }
         
         if (opponentVomitBlob){
-            opponent.vomitBlob();
+            if (opponent.checkHasBlob()){
+                blobs.add(opponent.vomitBlob());
+            }
         }
     }
 
@@ -381,13 +385,31 @@ public class GameFrame {
     }
 
     private void checkOpponentDirection(){
+        switch (opponentDirection) {
+            case "L":
+                opponent.moveLeft();
+                break;
+
+            case "R":
+                opponent.moveRight();
+                break;
+
+            case "D":
+                opponent.moveDown();
+                break;
+
+            case "U":
+                opponent.moveUp(); 
+                break;
+
+            case " ":
+                break;
+
+            default:
+                break;
+        }
 
         opponent.changeSpriteState(opponentDirection);
-
-        if(clientTime > 1){
-            opponent.setX(opponentX);
-            opponent.setY(opponentY);
-        }
     }
 
     public void setUpTimeListen() {
@@ -418,7 +440,28 @@ public class GameFrame {
 
     private class BlobChecker implements Runnable {
         public void run(){
-           
+            try {
+                while (true) {
+                    if (hasEatenBlob) {
+                        try {
+                            Thread.sleep(200);
+                        } catch (InterruptedException ex) {
+                            System.out.println("InterruptedException in run() while loop in ServerTimerThread");
+                        }
+                        hasEatenBlob = false;
+                    }
+                    if (hasVomitBlob) {
+                        try {
+                            Thread.sleep(200);
+                        } catch (InterruptedException ex) {
+                            System.out.println("InterruptedException in run() while loop in ServerTimerThread");
+                        }
+                        hasVomitBlob = false;
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("Exception in BlobChecker");
+            }
         }
     }
 

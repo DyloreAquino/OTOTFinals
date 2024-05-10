@@ -8,5 +8,6 @@ public class GameStarter {
         gf.setUpGUI();
         gf.addKeyBindings();
         gf.setUpTimeListen();
+
     }
 }

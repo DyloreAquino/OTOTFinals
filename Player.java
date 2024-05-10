@@ -222,18 +222,24 @@ public class Player implements Drawable{
         eatingSFX.play();
     }
 
-    public void vomitBlob(){
+    public Blob vomitBlob(){
         if (eatenBlob != null){
 
             eatenBlob.setRow(getRowofPlayer());
             eatenBlob.setColumn(getColumnofPlayer());
+
+            Blob toReturnBlob = eatenBlob;
 
             eatenBlob = null;
             hasBlob = false;
 
             vomitSFX.setFile("vomit sfx.wav");
             vomitSFX.play();
+
+            return toReturnBlob;
         }
+
+        return null;
     }
 
     public String getDirection(){
