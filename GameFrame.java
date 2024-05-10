@@ -82,6 +82,8 @@ public class GameFrame {
 
         player = gc.getPlayer();
         opponent = gc.getOpponent();
+        opponentX = opponent.getX();
+        opponentY = opponent.getY();
         walls = gc.getWalls();
         blobs = gc.getBlobs();
         waitingScreen = gc.getWaitingScreen();
@@ -132,8 +134,8 @@ public class GameFrame {
                 while (true) {
                     clientTime = dataIn.readInt();
                     opponentBlobType = dataIn.readUTF();
-                    //opponentX = dataIn.readInt();
-                    //opponentY = dataIn.readInt();
+                    opponentX = dataIn.readInt();
+                    opponentY = dataIn.readInt();
                     opponentDirection = dataIn.readUTF();
                     System.out.println(opponentDirection);
                     opponentEatsBlob = dataIn.readBoolean();
@@ -159,8 +161,8 @@ public class GameFrame {
             try {
                 while (true) {
                     dataOut.writeUTF(playerBlobType);
-                    //dataOut.writeInt(player.getX());
-                    //dataOut.writeInt(player.getY());
+                    dataOut.writeInt(player.getX());
+                    dataOut.writeInt(player.getY());
                     dataOut.writeUTF(direction);
                     dataOut.writeBoolean(hasEatenBlob);
                     dataOut.writeBoolean(hasVomitBlob);
@@ -355,40 +357,17 @@ public class GameFrame {
             default:
                 break;
         }
+        player.changeSpriteState(direction);
     }
 
     private void checkOpponentDirection(){
 
-        switch (opponentDirection) {
-            case "L":
-                opponent.moveLeft();
-                break;
+        opponent.changeSpriteState(opponentDirection);
 
-            case "R":
-                opponent.moveRight();
-                break;
-
-            case "D":
-                opponent.moveDown();
-                break;
-
-            case "U":
-                opponent.moveUp(); 
-                break;
-
-            case " ":
-                break;
-
-            default:
-                break;
-        }
-
-        /**
         if(clientTime > 1){
             opponent.setX(opponentX);
             opponent.setY(opponentY);
         }
-        **/
     }
 
     public void setUpTimeListen() {
@@ -397,21 +376,21 @@ public class GameFrame {
             @Override
             public void actionPerformed(ActionEvent ae){
 
+                gc.repaint();
+
                 checkPlayerDirection();
                 checkOpponentDirection();
                 turnManager();
                 setUpTurnChanges();
                 checkBlobBehavior();
                 checkCollisions();
-
-                gc.repaint();
             
                 System.out.println(clientTime);
             }
         }
 
         ActionListener timeListener = new TimeListener();
-        Timer timer = new Timer(10, timeListener);
+        Timer timer = new Timer(5, timeListener);
         timer.start();
     }
 

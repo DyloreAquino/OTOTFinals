@@ -90,6 +90,46 @@ public class Player implements Drawable{
         playerImgSprite = img.getImage();
     }
 
+    public void changeSpriteState( String dir ){
+        switch (dir) {
+            case "L":
+                if (checkHasBlob()){
+                    updateImage(player1LeftBlobbed);
+                } else{
+                    updateImage(player1Left);
+                }
+                break;
+            
+            case "R":
+                if (checkHasBlob()){
+                    updateImage(player1RightBlobbed);
+                } else{
+                    updateImage(player1Right);
+                }
+                break;
+
+            case "D":
+                if (checkHasBlob()){
+                    updateImage(player1DownBlobbed);
+                } else{
+                    updateImage(player1Down);
+                }
+                break;
+            
+            case "U":
+                if (checkHasBlob()){
+                    updateImage(player1UpBlobbed);
+                } else{
+                    updateImage(player1Up);
+                }
+                break;
+
+
+            default:
+                break;
+        }
+    }
+
     public void draw(Graphics2D g2d) {
         
         g2d.drawImage(playerImgSprite, x, y-20, size, size + 20, null);
@@ -98,41 +138,22 @@ public class Player implements Drawable{
     public void moveLeft(){
         direction = "L";
         x -= speed;
-        if (checkHasBlob()){
-            updateImage(player1LeftBlobbed);
-        } else{
-            updateImage(player1Left);
-        }
     }
 
     public void moveRight(){
         direction = "R";
         x += speed;
-        if (checkHasBlob()){
-            updateImage(player1RightBlobbed);
-        } else{
-            updateImage(player1Right);
-        }
+        
     }
 
     public void moveDown(){
         direction = "D";
-        y += speed;
-        if (checkHasBlob()){
-            updateImage(player1DownBlobbed);
-        } else{
-            updateImage(player1Down);
-        }
+        y += speed; 
     }
 
     public void moveUp(){
         direction = "U";
         y -= speed;
-        if (checkHasBlob()){
-            updateImage(player1UpBlobbed);
-        } else{
-            updateImage(player1Up);
-        }
     }
     
     public void setSpeed( int speed ) {
@@ -272,8 +293,8 @@ public class Player implements Drawable{
     }
     
     public void setX(int x) { this.x = x; }
-    public int getX() { return x; }
+    public int getX() { return this.x; }
     public void setY(int y) { this.y = y; }
-    public int getY() { return y; }
+    public int getY() { return this.y; }
 
 }
