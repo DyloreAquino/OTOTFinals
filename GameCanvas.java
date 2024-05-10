@@ -38,11 +38,11 @@ public class GameCanvas extends JComponent {
 
     public void setUpPlayer(int playerID) {
         if (playerID == 1){
-            player = new Player(1, 1, 3, 40, 1);
+            player = new Player(1, 1, 2, 40, 1);
             opponent = new Player(16, 1, 3, 40, 2);
         } else {
             player = new Player(16, 1, 3, 40, 2);
-            opponent = new Player(1, 1, 3, 40, 1);
+            opponent = new Player(1, 1, 2, 40, 1);
         }
         drawables.add(player);
         drawables.add(opponent);

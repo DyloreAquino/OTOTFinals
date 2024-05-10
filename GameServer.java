@@ -142,6 +142,8 @@ public class GameServer {
                         p1BlobType = dataIn.readUTF();
                         p1X = dataIn.readInt();
                         p1Y = dataIn.readInt();
+                        System.out.println(p1X);
+                        System.out.println(p1Y);
                         p1Direction = dataIn.readUTF();
                         p1EatBlob = dataIn.readBoolean();
                         p1VomitBlob = dataIn.readBoolean();
@@ -149,6 +151,8 @@ public class GameServer {
                         p2BlobType = dataIn.readUTF();
                         p2X = dataIn.readInt();
                         p2Y = dataIn.readInt();
+                        System.out.println(p2X);
+                        System.out.println(p2Y);
                         p2Direction = dataIn.readUTF();
                         p2EatBlob = dataIn.readBoolean();
                         p2VomitBlob = dataIn.readBoolean();

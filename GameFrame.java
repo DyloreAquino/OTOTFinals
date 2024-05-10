@@ -30,9 +30,12 @@ public class GameFrame {
 
     private int opponentX;
     private int opponentY;
+    private int playerX;
+    private int playerY;
 
     private int playerID;
     private int otherPlayer;
+    
 
     private int turnsMade;
     private int maxTurns;
@@ -54,7 +57,7 @@ public class GameFrame {
     private boolean canIncrement;
     private boolean canConnect;
 
-
+    private BlobChecker blobChecker;
 
     public GameFrame() {
         f = new JFrame();
@@ -66,6 +69,7 @@ public class GameFrame {
         turn = " ";
         playerSpeed = 5;
         playerBlobType = " ";
+        
         opponentBlobType = " ";
         canIncrement = false;
 
@@ -82,6 +86,8 @@ public class GameFrame {
 
         player = gc.getPlayer();
         opponent = gc.getOpponent();
+        playerX = player.getX();
+        playerY = player.getY();
         opponentX = opponent.getX();
         opponentY = opponent.getY();
         walls = gc.getWalls();
@@ -96,6 +102,10 @@ public class GameFrame {
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.pack();
         f.setVisible(true);
+
+        blobChecker = new BlobChecker();
+        Thread blobThread = new Thread(blobChecker);
+        blobThread.start();
     }
 
     public void connectToServer() {
@@ -137,7 +147,6 @@ public class GameFrame {
                     opponentX = dataIn.readInt();
                     opponentY = dataIn.readInt();
                     opponentDirection = dataIn.readUTF();
-                    System.out.println(opponentDirection);
                     opponentEatsBlob = dataIn.readBoolean();
                     opponentVomitBlob = dataIn.readBoolean();
                 }
@@ -161,19 +170,24 @@ public class GameFrame {
             try {
                 while (true) {
                     dataOut.writeUTF(playerBlobType);
-                    dataOut.writeInt(player.getX());
-                    dataOut.writeInt(player.getY());
+                    dataOut.writeInt(playerX);
+                    dataOut.writeInt(playerY);
+                    
                     dataOut.writeUTF(direction);
                     dataOut.writeBoolean(hasEatenBlob);
                     dataOut.writeBoolean(hasVomitBlob);
-                    hasVomitBlob = false;
-                    hasEatenBlob = false;
+                    
+
                     dataOut.flush();
+                    
                     try {
-                        Thread.sleep(5);
+                        Thread.sleep(10);
                     } catch (InterruptedException ex) {
                         System.out.println("InterruptedException at WTS run()");
                     }
+
+                    hasEatenBlob = false;
+                    hasVomitBlob = false;
                 }
             } catch (IOException ex) {
                 System.out.println("IOException at WTS run()");
@@ -270,8 +284,10 @@ public class GameFrame {
                 hasEatenBlob = true;
             }
 
-            if (opponentEatsBlob){
-                opponent.eatBlob(obj);
+            if (opponent.checkBlobCollision(obj)){
+                if (opponentEatsBlob){
+                    opponent.eatBlob(obj);
+                }
             }
         }
         
@@ -286,8 +302,15 @@ public class GameFrame {
         } else if (clientTime < 10) {
             turn = "fightRound";
         } else if (clientTime < 15) {
-            turn = "decidingRound";
+            turn = "decidingTurn";
         }
+    }
+
+    private void updateCoordinates(){
+        playerX = player.getX();
+        playerY = player.getY();
+        opponentX = opponent.getX();
+        opponentY = opponent.getY();
     }
 
     private void setUpTurnChanges() {
@@ -308,8 +331,6 @@ public class GameFrame {
                 player.setSpeed(0);
                 opponent.setSpeed(0);
                 whoWonRound();
-                System.out.println("You got..." + player.getPoints() + " points");
-                System.out.println("They got..." + opponent.getPoints() + " points");
                 break;
             default:
                 break;
@@ -319,16 +340,15 @@ public class GameFrame {
     private void whoWonRound() {
         if (player.checkHasBlob()){
             if (player.getBlob().doesItWinAgainst(opponentBlobType)){
-                System.out.println("You win!!!");
                 if (canIncrement) {
                     player.incrementPoints();
                     canIncrement = false;
                 }
             } else {
-                System.out.println("Nope. Try Again.");
+    
             }
         } else {
-            System.out.println("You don't even have a blob!!!");
+            
         }
         
     }
@@ -380,18 +400,26 @@ public class GameFrame {
 
                 checkPlayerDirection();
                 checkOpponentDirection();
+
+                checkCollisions();
+
+                updateCoordinates();
+                checkBlobBehavior();
+
                 turnManager();
                 setUpTurnChanges();
-                checkBlobBehavior();
-                checkCollisions();
-            
-                System.out.println(clientTime);
             }
         }
 
         ActionListener timeListener = new TimeListener();
         Timer timer = new Timer(5, timeListener);
         timer.start();
+    }
+
+    private class BlobChecker implements Runnable {
+        public void run(){
+           
+        }
     }
 
     public int getPlayerID(){

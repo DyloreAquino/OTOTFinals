@@ -292,9 +292,20 @@ public class Player implements Drawable{
         return points;
     }
     
-    public void setX(int x) { this.x = x; }
-    public int getX() { return this.x; }
-    public void setY(int y) { this.y = y; }
-    public int getY() { return this.y; }
+    public void setX(int xval) { 
+        this.x = xval; 
+    }
+
+    public int getX() { 
+        return this.x; 
+    }
+
+    public void setY(int yval) { 
+        this.y = yval; 
+    }
+
+    public int getY() { 
+        return this.y; 
+    }
 
 }
