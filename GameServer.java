@@ -107,10 +107,10 @@ public class GameServer {
         public void run() {
             try {
                 while (true) {
-                    if (serverTime < 15) { // what if we turn this into 24? since the threads are kind of having a hard time checking if 26 is alrdy out of the limit
+                    if (serverTime < 18) { // what if we turn this into 24? since the threads are kind of having a hard time checking if 26 is alrdy out of the limit
                         serverTime++;
                     } else {
-                        serverTime = 1;
+                        serverTime = 4;
                     }
                     try {
                         Thread.sleep(1000);

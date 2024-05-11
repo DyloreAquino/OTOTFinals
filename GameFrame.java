@@ -312,9 +312,11 @@ public class GameFrame {
     private void turnManager() {
         if (clientTime == 0){
             turn = "waitingMenu";
-        } else if (clientTime < 10) {
+        } else if (clientTime < 4){
+            turn = "countDownMenu";
+        } else if (clientTime < 13) {
             turn = "fightRound";
-        } else if (clientTime < 15) {
+        } else if (clientTime < 18) {
             turn = "decidingTurn";
         }
     }
@@ -329,13 +331,17 @@ public class GameFrame {
                 opponent.setSpeed(0);
                 canIncrement = true;
                 break;
+            case "countDownMenu":
+                waitingScreen.setVisible();
+                player.setSpeed(0);
+                opponent.setSpeed(0);
+                break;
             case "fightRound":
                 waitingScreen.setInvisible();
                 player.setSpeed(playerSpeed);
                 opponent.setSpeed(playerSpeed);
                 break;
             case "decidingTurn":
-                waitingScreen.setVisible();
                 player.setSpeed(0);
                 opponent.setSpeed(0);
                 whoWonRound();

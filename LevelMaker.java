@@ -38,7 +38,7 @@ public class LevelMaker {
          * 4 for Blobs
          * 5 for Specials
          */
-        int wallLevel1[] = 
+        int level1[] = 
         {
             4, 0, 0, 0, 0, 0, 0, 1, 1, 4, 0, 0, 0, 0, 0, 4,
             1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
@@ -54,7 +54,15 @@ public class LevelMaker {
 
         int columnCounter = 1;
         int rowCounter = 1;
-        for (int i: wallLevel1) {
+
+        int levelMap[] = {};
+
+        if (level == 1){
+            levelMap = level1;
+        }
+
+
+        for (int i: levelMap) {
             // checking columns
             if (columnCounter > 16){
                 columnCounter = 1;
@@ -89,6 +97,7 @@ public class LevelMaker {
             }
             columnCounter++;
         }
+        
         drawables.add(player);
         drawables.add(opponent);
 
