@@ -53,12 +53,18 @@ public class GameFrame {
     private String playerBlobType;
     private String opponentBlobType;
     
-
     private boolean canIncrement;
     private boolean canConnect;
 
     private BlobChecker blobChecker;
     private UpdateCoordinates updateCoordinates;
+
+    private boolean hasPlayerWon;
+    private boolean stopServerTimer;
+
+    private int playerPoints;
+    private int opponentPoints;
+    
 
     public GameFrame() {
         f = new JFrame();
@@ -77,6 +83,11 @@ public class GameFrame {
         clientTime = 0;
         canConnect = false;
 
+        hasPlayerWon = false;
+        stopServerTimer = false;
+
+        playerPoints = 0;
+        opponentPoints = 0;
     }
 
     public void setUpGUI() {
@@ -98,6 +109,7 @@ public class GameFrame {
         opponentEatsBlob = false;
         hasVomitBlob = false;
         opponentVomitBlob = false;
+        playerPoints = player.getPoints();
 
         f.setTitle("Rock Paper Scissors. You are Player #" + playerID);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -154,9 +166,10 @@ public class GameFrame {
                     opponentDirection = dataIn.readUTF();
                     opponentEatsBlob = dataIn.readBoolean();
                     opponentVomitBlob = dataIn.readBoolean();
+                    opponentPoints = dataIn.readInt();
                 }
             } catch (IOException ex) {
-                System.out.println("IOException from RFC run()");
+                System.out.println("IOException from RFS run()");
             }
         }
 
@@ -180,8 +193,8 @@ public class GameFrame {
                     dataOut.writeUTF(direction);
                     dataOut.writeBoolean(hasEatenBlob);
                     dataOut.writeBoolean(hasVomitBlob);
-                    
-
+                    dataOut.writeInt(playerPoints);
+                    dataOut.writeBoolean(stopServerTimer);
                     dataOut.flush();
                     try {
                         Thread.sleep(10);
@@ -318,6 +331,8 @@ public class GameFrame {
             turn = "fightRound";
         } else if (clientTime < 18) {
             turn = "decidingTurn";
+        } else if (clientTime == 20){
+            turn = "finishMenu";
         }
     }
 
@@ -329,7 +344,6 @@ public class GameFrame {
                 waitingScreen.setVisible();
                 player.setSpeed(0);
                 opponent.setSpeed(0);
-                canIncrement = true;
                 break;
             case "countDownMenu":
                 waitingScreen.setVisible();
@@ -340,12 +354,16 @@ public class GameFrame {
                 waitingScreen.setInvisible();
                 player.setSpeed(playerSpeed);
                 opponent.setSpeed(playerSpeed);
+                canIncrement = true;
                 break;
             case "decidingTurn":
                 player.setSpeed(0);
                 opponent.setSpeed(0);
                 whoWonRound();
                 break;
+            case "finishMenu":
+                player.setSpeed(15);
+                opponent.setSpeed(15);
             default:
                 break;
         }
@@ -358,13 +376,14 @@ public class GameFrame {
                     player.incrementPoints();
                     canIncrement = false;
                 }
-            } else {
-    
             }
-        } else {
-            
         }
-        
+        if (playerPoints >= 3){
+            hasPlayerWon = true;
+            stopServerTimer = true;
+        }
+        System.out.println(playerPoints + ": player points");
+        System.out.println(opponentPoints + ": opponents points");
     }
 
     private void checkPlayerDirection(){
@@ -439,6 +458,8 @@ public class GameFrame {
 
                 turnManager();
                 setUpTurnChanges();
+
+                
             }
         }
 
@@ -482,6 +503,8 @@ public class GameFrame {
                     playerY = player.getY();
                     opponent.setX(opponentX);
                     opponent.setY(opponentY);
+
+                    playerPoints = player.getPoints();
                     try {
                         Thread.sleep(10);
                     } catch (InterruptedException ex) {

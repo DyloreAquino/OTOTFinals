@@ -37,7 +37,6 @@ public class Player implements Drawable{
     private Image playerImgSprite;
 
     private int points;
-    private boolean hasPlayerWon;
 
     private Audio eatingSFX;
     private Audio vomitSFX;
@@ -71,8 +70,6 @@ public class Player implements Drawable{
         }
 
         hasBlob = false;
-
-        hasPlayerWon = false;
 
         player1Down = new ImageIcon("p1 down.png");
         player1Up = new ImageIcon("p1 up.png");
@@ -351,10 +348,6 @@ public class Player implements Drawable{
 
     public Blob getBlob() {
         return eatenBlob;
-    }
-
-    public void hasWon(){
-        hasPlayerWon = true;
     }
 
     public void incrementPoints() {

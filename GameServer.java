@@ -33,6 +33,10 @@ public class GameServer {
     private boolean p2EatBlob;
     private boolean p1VomitBlob;
     private boolean p2VomitBlob;
+    private int p1Points;
+    private int p2Points;
+
+    private boolean stopServerTimer;
 
     public GameServer() {
         numPlayers = 0;
@@ -48,6 +52,9 @@ public class GameServer {
         p2EatBlob = false;
         p1VomitBlob = false;
         p2VomitBlob = false;
+        p1Points = 0;
+        p2Points = 0;
+        stopServerTimer = false;
         try {
             ss = new ServerSocket(44444);
         } catch (IOException ex) {
@@ -106,7 +113,7 @@ public class GameServer {
 
         public void run() {
             try {
-                while (true) {
+                while (stopServerTimer == false) {
                     if (serverTime < 18) { // what if we turn this into 24? since the threads are kind of having a hard time checking if 26 is alrdy out of the limit
                         serverTime++;
                     } else {
@@ -118,6 +125,7 @@ public class GameServer {
                         System.out.println("InterruptedException in run() while loop in ServerTimerThread");
                     }
                 }
+                serverTime = 20;
             } catch (Exception e) {
                 System.out.println("Exception in run() ServerTimerThread");
             }
@@ -145,6 +153,7 @@ public class GameServer {
                         p1Direction = dataIn.readUTF();
                         p1EatBlob = dataIn.readBoolean();
                         p1VomitBlob = dataIn.readBoolean();
+                        p1Points = dataIn.readInt();
                     } else if (playerID == 2){
                         p2BlobType = dataIn.readUTF();
                         p2X = dataIn.readInt();
@@ -152,7 +161,9 @@ public class GameServer {
                         p2Direction = dataIn.readUTF();
                         p2EatBlob = dataIn.readBoolean();
                         p2VomitBlob = dataIn.readBoolean();
+                        p2Points = dataIn.readInt();
                     }
+                    stopServerTimer = dataIn.readBoolean();
                 }
             } catch (IOException ex) {
                 System.out.println("IOException at WTS run()");
@@ -181,6 +192,7 @@ public class GameServer {
                         dataOut.writeUTF(p2Direction);
                         dataOut.writeBoolean(p2EatBlob);
                         dataOut.writeBoolean(p2VomitBlob);
+                        dataOut.writeInt(p2Points);
                     } else if (playerID == 2) {
                         dataOut.writeUTF(p1BlobType);
                         dataOut.writeInt(p1X);
@@ -188,6 +200,7 @@ public class GameServer {
                         dataOut.writeUTF(p1Direction);
                         dataOut.writeBoolean(p1EatBlob);
                         dataOut.writeBoolean(p1VomitBlob);
+                        dataOut.writeInt(p1Points);
                     }
                     
                     dataOut.flush();
