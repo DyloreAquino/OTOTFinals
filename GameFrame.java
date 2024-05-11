@@ -58,6 +58,7 @@ public class GameFrame {
     private boolean canConnect;
 
     private BlobChecker blobChecker;
+    private UpdateCoordinates updateCoordinates;
 
     public GameFrame() {
         f = new JFrame();
@@ -106,6 +107,10 @@ public class GameFrame {
         blobChecker = new BlobChecker();
         Thread blobThread = new Thread(blobChecker);
         blobThread.start();
+
+        updateCoordinates = new UpdateCoordinates();
+        Thread updateCoordsThread = new Thread(updateCoordinates);
+        updateCoordsThread.start();
     }
 
     public void connectToServer() {
@@ -144,6 +149,8 @@ public class GameFrame {
                 while (true) {
                     clientTime = dataIn.readInt();
                     opponentBlobType = dataIn.readUTF();
+                    opponentX = dataIn.readInt();
+                    opponentY = dataIn.readInt();
                     opponentDirection = dataIn.readUTF();
                     opponentEatsBlob = dataIn.readBoolean();
                     opponentVomitBlob = dataIn.readBoolean();
@@ -168,6 +175,8 @@ public class GameFrame {
             try {
                 while (true) {
                     dataOut.writeUTF(playerBlobType);
+                    dataOut.writeInt(playerX);
+                    dataOut.writeInt(playerY);
                     dataOut.writeUTF(direction);
                     dataOut.writeBoolean(hasEatenBlob);
                     dataOut.writeBoolean(hasVomitBlob);
@@ -310,12 +319,7 @@ public class GameFrame {
         }
     }
 
-    private void updateCoordinates(){
-        playerX = player.getX();
-        playerY = player.getY();
-        opponentX = opponent.getX();
-        opponentY = opponent.getY();
-    }
+
 
     private void setUpTurnChanges() {
         switch (turn) {
@@ -425,7 +429,6 @@ public class GameFrame {
 
                 checkCollisions();
 
-                updateCoordinates();
                 checkBlobBehavior();
 
                 turnManager();
@@ -457,6 +460,26 @@ public class GameFrame {
                             System.out.println("InterruptedException in run() while loop in ServerTimerThread");
                         }
                         hasVomitBlob = false;
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("Exception in BlobChecker");
+            }
+        }
+    }
+
+    private class UpdateCoordinates implements Runnable {
+        public void run(){
+            try {
+                while (true) {
+                    playerX = player.getX();
+                    playerY = player.getY();
+                    opponent.setX(opponentX);
+                    opponent.setY(opponentY);
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException ex) {
+                        System.out.println("InterruptedException in run() while loop in ServerTimerThread");
                     }
                 }
             } catch (Exception e) {

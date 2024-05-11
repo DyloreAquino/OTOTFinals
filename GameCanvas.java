@@ -33,7 +33,7 @@ public class GameCanvas extends JComponent {
         blobs = new ArrayList<Blob>();
 
         lvlMaker.setUpFloor(drawables);
-        setUpWalls();
+        lvlMaker.setUpLevel(1, drawables, walls);
         setUpPlayer(playerID);
         setUpBlobs();
         setUpWaitingScreen(); 
@@ -42,11 +42,11 @@ public class GameCanvas extends JComponent {
 
     public void setUpPlayer(int playerID) {
         if (playerID == 1){
-            player = new Player(1, 1, 2, 40, 1);
-            opponent = new Player(16, 1, 3, 40, 2);
+            player = new Player(1, 1, 3, 1);
+            opponent = new Player(16, 1, 3, 2);
         } else {
-            player = new Player(16, 1, 3, 40, 2);
-            opponent = new Player(1, 1, 2, 40, 1);
+            player = new Player(16, 1, 3, 2);
+            opponent = new Player(1, 1, 3, 1);
         }
         drawables.add(player);
         drawables.add(opponent);

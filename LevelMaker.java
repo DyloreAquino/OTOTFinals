@@ -6,6 +6,7 @@ public class LevelMaker {
     private int phase; 
 
     private Floor floor;
+    private Wall wall;
 
     public LevelMaker(int phase){
         this.phase = phase;
@@ -19,4 +20,40 @@ public class LevelMaker {
             }
         }
     }
+
+    public void setUpLevel(int level, ArrayList<Drawable> drawables, ArrayList<Wall> walls){
+        setUpWalls(level, drawables, walls);
+    }
+
+    private void setUpWalls(int level, ArrayList<Drawable> drawables, ArrayList<Wall> walls){
+        int wallLevel1[] = 
+        {
+            0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0,
+            1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
+            0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0,
+            1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1,
+            0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0,
+            1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1,
+            1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1,
+            0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0,
+            1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
+            0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0
+        };
+
+        int columnCounter = 1;
+        int rowCounter = 1;
+        for (int i: wallLevel1) {
+            if (columnCounter > 16){
+                columnCounter = 1;
+                rowCounter++;
+            }
+            if (i == 1){
+                wall = new Wall(columnCounter, rowCounter);
+                drawables.add(wall);
+                walls.add(wall);
+            }
+            columnCounter++;
+        }
+    }
+
 }

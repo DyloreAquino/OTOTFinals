@@ -38,7 +38,7 @@ public class Player implements Drawable{
     //This can require parameters for column and row for easy spawning
     //Every time we reset a round, the player gets reset to that coordinate.
     
-    public Player(int column, int row, int speed, int size, int playerNumber) {
+    public Player(int column, int row, int speed, int playerNumber) {
         this.column = column;
         this.row = row;
 
@@ -48,8 +48,8 @@ public class Player implements Drawable{
         setRowofPlayer(row);
 
         this.speed = speed;
-        this.size = size;
 
+        size = 35;
         setSpeed(speed);
     
         direction = " ";
