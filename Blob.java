@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.geom.*;
+import javax.swing.*;
 
 public class Blob implements Drawable{
 
@@ -9,8 +10,8 @@ public class Blob implements Drawable{
 
     private int SIZE = 30;
 
-    private Ellipse2D.Double blobSprite;
-    private Color blobColor;
+    private ImageIcon blobSprite;
+    private Image blobImgSprite;
     
     public Blob(int column, int row, String type){
         this.column = column;
@@ -23,10 +24,9 @@ public class Blob implements Drawable{
     }
 
     public void draw(Graphics2D g2d){
-        blobColor = Color.GREEN;
-        blobSprite = new Ellipse2D.Double(x, y, SIZE, SIZE);
-        g2d.setColor(blobColor);
-        g2d.fill(blobSprite);
+        blobSprite = new ImageIcon("green blob.png");
+        blobImgSprite = blobSprite.getImage();
+        g2d.drawImage(blobImgSprite, x, y, SIZE, SIZE, null);
     }
 
     public boolean doesItWinAgainst(String blobType){

@@ -26,6 +26,14 @@ public class Player implements Drawable{
     private ImageIcon player1UpBlobbed;
     private ImageIcon player1LeftBlobbed;
     private ImageIcon player1RightBlobbed;
+    private ImageIcon player2Down;
+    private ImageIcon player2Up;
+    private ImageIcon player2Left;
+    private ImageIcon player2Right;
+    private ImageIcon player2DownBlobbed;
+    private ImageIcon player2UpBlobbed;
+    private ImageIcon player2LeftBlobbed;
+    private ImageIcon player2RightBlobbed;
     private Image playerImgSprite;
 
     private int points;
@@ -38,7 +46,7 @@ public class Player implements Drawable{
     //This can require parameters for column and row for easy spawning
     //Every time we reset a round, the player gets reset to that coordinate.
     
-    public Player(int column, int row, int speed, int playerNumber) {
+    public Player(int column, int row, int playerNumber) {
         this.column = column;
         this.row = row;
 
@@ -47,9 +55,9 @@ public class Player implements Drawable{
         setColumnofPlayer(column);
         setRowofPlayer(row);
 
-        this.speed = speed;
+        speed = 3;
 
-        size = 35;
+        size = 30;
         setSpeed(speed);
     
         direction = " ";
@@ -76,7 +84,21 @@ public class Player implements Drawable{
         player1LeftBlobbed = new ImageIcon("player 1 blobed-left.png");
         player1RightBlobbed = new ImageIcon("player 1 blobed-right.png");
 
-        updateImage(player1Down);
+        player2Down = new ImageIcon("p2 down.png");
+        player2Up = new ImageIcon("p2 up.png");
+        player2Left = new ImageIcon("p2 left.png");
+        player2Right = new ImageIcon("p2 right.png");
+
+        player2DownBlobbed = new ImageIcon("player 2 blobed-down.png");
+        player2UpBlobbed = new ImageIcon("player 2 blobed-up.png");
+        player2LeftBlobbed = new ImageIcon("player 2 blobed-left.png");
+        player2RightBlobbed = new ImageIcon("player 2 blobed-right.png");
+
+        if (playerNumber == 1){
+            updateImage(player1Down);
+        } else if (playerNumber == 2){
+            updateImage(player2Down);
+        }
 
         eatingSFX = new Audio();
         vomitSFX = new Audio();
@@ -91,33 +113,65 @@ public class Player implements Drawable{
         switch (dir) {
             case "L":
                 if (checkHasBlob()){
-                    updateImage(player1LeftBlobbed);
+                    if (playerNumber == 1){
+                        updateImage(player1LeftBlobbed);
+                    } else if (playerNumber == 2){
+                        updateImage(player2LeftBlobbed);
+                    }
                 } else{
-                    updateImage(player1Left);
+                    if (playerNumber == 1){
+                        updateImage(player1Left);
+                    } else if (playerNumber == 2){
+                        updateImage(player2Left);
+                    }
                 }
                 break;
             
             case "R":
                 if (checkHasBlob()){
-                    updateImage(player1RightBlobbed);
+                    if (playerNumber == 1){
+                        updateImage(player1RightBlobbed);
+                    } else if (playerNumber == 2){
+                        updateImage(player2RightBlobbed);
+                    }
                 } else{
-                    updateImage(player1Right);
+                    if (playerNumber == 1){
+                        updateImage(player1Right);
+                    } else if (playerNumber == 2){
+                        updateImage(player2Right);
+                    }
                 }
                 break;
 
             case "D":
                 if (checkHasBlob()){
-                    updateImage(player1DownBlobbed);
+                    if (playerNumber == 1){
+                        updateImage(player1DownBlobbed);
+                    } else if (playerNumber == 2){
+                        updateImage(player2DownBlobbed);
+                    }
                 } else{
-                    updateImage(player1Down);
+                    if (playerNumber == 1){
+                        updateImage(player1Down);
+                    } else if (playerNumber == 2){
+                        updateImage(player2Down);
+                    }
                 }
                 break;
             
             case "U":
                 if (checkHasBlob()){
-                    updateImage(player1UpBlobbed);
+                    if (playerNumber == 1){
+                        updateImage(player1UpBlobbed);
+                    } else if (playerNumber == 2){
+                        updateImage(player2UpBlobbed);
+                    }
                 } else{
-                    updateImage(player1Up);
+                    if (playerNumber == 1){
+                        updateImage(player1Up);
+                    } else if (playerNumber == 2){
+                        updateImage(player2Up);
+                    }
                 }
                 break;
 
@@ -180,9 +234,17 @@ public class Player implements Drawable{
         if ((x + size > 1000 || x < 200) || (y + size > 550 || y < 50) ){ 
             switchDirection();
             if (checkHasBlob()){
-                updateImage(player1DownBlobbed);
+                if (playerNumber == 1){
+                    updateImage(player1DownBlobbed);
+                } else if (playerNumber == 2){
+                    updateImage(player2DownBlobbed);
+                }
             } else{
-                updateImage(player1Down);
+                if (playerNumber == 1){
+                    updateImage(player1Down);
+                } else if (playerNumber == 2){
+                    updateImage(player2Down);
+                }
             }
             return true;
         }
@@ -194,9 +256,17 @@ public class Player implements Drawable{
         && (wall.getY() < y + size && wall.getY() + wall.getSize() > y)){
             switchDirection();
             if (checkHasBlob()){
-                updateImage(player1DownBlobbed);
+                if (playerNumber == 1){
+                    updateImage(player1DownBlobbed);
+                } else if (playerNumber == 2){
+                    updateImage(player2DownBlobbed);
+                }
             } else{
-                updateImage(player1Down);
+                if (playerNumber == 1){
+                    updateImage(player1Down);
+                } else if (playerNumber == 2){
+                    updateImage(player2Down);
+                }
             }
             return true;
         }

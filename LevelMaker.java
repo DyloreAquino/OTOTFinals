@@ -7,6 +7,9 @@ public class LevelMaker {
 
     private Floor floor;
     private Wall wall;
+    private Blob blob;
+    private Player player;
+    private Player opponent;
 
     public LevelMaker(int phase){
         this.phase = phase;
@@ -21,39 +24,84 @@ public class LevelMaker {
         }
     }
 
-    public void setUpLevel(int level, ArrayList<Drawable> drawables, ArrayList<Wall> walls){
-        setUpWalls(level, drawables, walls);
-    }
-
-    private void setUpWalls(int level, ArrayList<Drawable> drawables, ArrayList<Wall> walls){
+    public void setUpLevel( int level, 
+                            int playerID,
+                            ArrayList<Drawable> drawables, 
+                            ArrayList<Wall> walls, 
+                            ArrayList<Blob> blobs){
+        /**
+         * Level Making!!!
+         * 0 for nothing
+         * 1 for Walls
+         * 2 for Player 1
+         * 3 for Player 2
+         * 4 for Blobs
+         * 5 for Specials
+         */
         int wallLevel1[] = 
         {
-            0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0,
+            4, 0, 0, 0, 0, 0, 0, 1, 1, 4, 0, 0, 0, 0, 0, 4,
             1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
             0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0,
             1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1,
-            0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0,
-            1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1,
+            2, 0, 1, 0, 0, 1, 1, 4, 0, 1, 1, 0, 0, 1, 0, 3,
+            1, 0, 0, 4, 0, 1, 1, 0, 4, 1, 1, 0, 4, 0, 0, 1,
             1, 1, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1,
             0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0,
             1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
-            0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0
+            4, 0, 0, 0, 0, 0, 4, 1, 1, 0, 0, 0, 0, 0, 0, 4
         };
 
         int columnCounter = 1;
         int rowCounter = 1;
         for (int i: wallLevel1) {
+            // checking columns
             if (columnCounter > 16){
                 columnCounter = 1;
                 rowCounter++;
             }
+            // spawning walls
             if (i == 1){
                 wall = new Wall(columnCounter, rowCounter);
                 drawables.add(wall);
                 walls.add(wall);
+            } else
+            // spawning players
+            if (i == 2){
+                if (playerID == 1){
+                    player = new Player(columnCounter, rowCounter, 1);
+                } else {
+                    opponent = new Player(columnCounter, rowCounter, 1);
+                }
+            } else
+            // spawning opponents
+            if (i == 3){
+                if (playerID == 1){
+                    opponent = new Player(columnCounter, rowCounter, 2);
+                } else {
+                    player = new Player(columnCounter, rowCounter, 2);
+                }
+            } else
+            // spawning blobs
+            if (i == 4){
+                blob = new Blob(columnCounter, rowCounter, "rock");
+                blobs.add(blob);
             }
             columnCounter++;
         }
+        drawables.add(player);
+        drawables.add(opponent);
+
+        for (Blob blob: blobs){
+            drawables.add(blob);
+        }
     }
 
+    public Player getPlayer(){
+        return player;
+    }
+
+    public Player getOpponent(){
+        return opponent;
+    }
 }

@@ -33,45 +33,14 @@ public class GameCanvas extends JComponent {
         blobs = new ArrayList<Blob>();
 
         lvlMaker.setUpFloor(drawables);
-        lvlMaker.setUpLevel(1, drawables, walls);
-        setUpPlayer(playerID);
-        setUpBlobs();
-        setUpWaitingScreen(); 
-
-    }
-
-    public void setUpPlayer(int playerID) {
-        if (playerID == 1){
-            player = new Player(1, 1, 3, 1);
-            opponent = new Player(16, 1, 3, 2);
-        } else {
-            player = new Player(16, 1, 3, 2);
-            opponent = new Player(1, 1, 3, 1);
-        }
-        drawables.add(player);
-        drawables.add(opponent);
-
-    }
-
-    private void setUpWalls(){
-        wall1 = new Wall(2, 1);
-        wall2 = new Wall(3, 1);
-        wall3 = new Wall(3, 2);
-        wall4 = new Wall(4, 3);
-        walls.add(wall1);
-        walls.add(wall2);
-        walls.add(wall3);
-        walls.add(wall4);
-        drawables.add(wall1);
-        drawables.add(wall2);
-        drawables.add(wall3);
-        drawables.add(wall4);
-    }
-
-    private void setUpBlobs(){
-        blob1 = new Blob(7, 5, "rock");
-        blobs.add(blob1);
-        drawables.add(blob1);
+        lvlMaker.setUpLevel(1,
+                            playerID,
+                            drawables, 
+                            walls,
+                            blobs);
+        player = lvlMaker.getPlayer();
+        opponent = lvlMaker.getOpponent();
+        setUpWaitingScreen();
     }
 
     private void setUpWaitingScreen() {
