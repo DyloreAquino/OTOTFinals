@@ -80,9 +80,6 @@ public class Player implements Drawable{
 
         eatingSFX = new Audio();
         vomitSFX = new Audio();
-
-        
-        
     }
 
     public void updateImage(ImageIcon img){

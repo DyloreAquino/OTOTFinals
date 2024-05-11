@@ -17,6 +17,8 @@ public class GameCanvas extends JComponent {
     private ArrayList<Drawable> drawables;
     private ArrayList<Wall> walls;
     private ArrayList<Blob> blobs;
+
+    private LevelMaker lvlMaker;
     
     public GameCanvas(int width, int height, int playerID){
         // When initializing the coordinates for a player, take note:
@@ -24,11 +26,13 @@ public class GameCanvas extends JComponent {
         this.width = width;
         this.height = height;
 
+        lvlMaker = new LevelMaker(1);
+
+        drawables = new ArrayList<Drawable>();
         walls = new ArrayList<Wall>();
         blobs = new ArrayList<Blob>();
 
-        drawables = new ArrayList<Drawable>();
-
+        lvlMaker.setUpFloor(drawables);
         setUpWalls();
         setUpPlayer(playerID);
         setUpBlobs();

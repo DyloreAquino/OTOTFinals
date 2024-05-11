@@ -444,7 +444,7 @@ public class GameFrame {
                 while (true) {
                     if (hasEatenBlob) {
                         try {
-                            Thread.sleep(200);
+                            Thread.sleep(100);
                         } catch (InterruptedException ex) {
                             System.out.println("InterruptedException in run() while loop in ServerTimerThread");
                         }
@@ -452,7 +452,7 @@ public class GameFrame {
                     }
                     if (hasVomitBlob) {
                         try {
-                            Thread.sleep(200);
+                            Thread.sleep(100);
                         } catch (InterruptedException ex) {
                             System.out.println("InterruptedException in run() while loop in ServerTimerThread");
                         }

@@ -2,17 +2,17 @@ import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.*;
 
-public class Wall implements Drawable{
+public class Floor implements Drawable{
     
     private final int SIZE = 50;
 
     private int x, y;
     private int column, row;
     // There are 16 columns, 10 rows
-    private ImageIcon wallSprite;
-    private Image wallImgSprite;
+    private ImageIcon floorSprite;
+    private Image floorImgSprite;
 
-    public Wall(int column, int row) {
+    public Floor(int column, int row) {
         this.column = column;
         this.row = row;
 
@@ -21,9 +21,9 @@ public class Wall implements Drawable{
     }
 
     public void draw(Graphics2D g2d){
-        wallSprite = new ImageIcon("wall.png");
-        wallImgSprite = wallSprite.getImage();
-        g2d.drawImage(wallImgSprite, x, y, SIZE, SIZE, null);
+        floorSprite = new ImageIcon("floor.png");
+        floorImgSprite = floorSprite.getImage();
+        g2d.drawImage(floorImgSprite, x, y, SIZE, SIZE, null);
     }
 
     public int getX(){
