@@ -2,22 +2,23 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.geom.*;
 
-public class WaitingScreen extends Screen{
-
+public class GetReady extends Screen {
+    
     private int x, y;
 
-    private ImageIcon waitingImg;
+    private ImageIcon gettingReady;
 
-    public WaitingScreen(int x, int y){
+    public GetReady(int x, int y){
         this.x = x;
         this.y = y;
 
-        waitingImg = new ImageIcon("waiting screen.png");
+        gettingReady = new ImageIcon("get ready.png");
     }
     
     @Override
     public void draw(Graphics2D g2d) {
-        super.updateImage(waitingImg);
+        super.updateImage(gettingReady);
         super.draw(g2d);
     }
+
 }
