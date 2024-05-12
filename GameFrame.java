@@ -122,8 +122,6 @@ public class GameFrame {
         resetButton.addActionListener( new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae){
-                player.setPoints(0);
-                opponent.setPoints(0);
                 stopServerTimer = false;
             }
         });
@@ -406,7 +404,8 @@ public class GameFrame {
                 player.setSpeed(15);
                 opponent.setSpeed(15);
                 resetButton.setBounds(1050, 250, 100, 50);
-                
+                player.setPoints(0);
+                opponent.setPoints(0);
             default:
                 break;
         }
