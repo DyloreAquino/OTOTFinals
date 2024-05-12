@@ -144,6 +144,7 @@ public class GameFrame {
         gc.clearLevel();
         gc.setUpLevel(level);
         player = gc.getPlayer();
+        player.setPoints(playerPoints);
         opponent = gc.getOpponent();
         playerX = player.getX();
         playerY = player.getY();
@@ -151,6 +152,7 @@ public class GameFrame {
         opponentY = opponent.getY();
         walls = gc.getWalls();
         blobs = gc.getBlobs();
+        
     }
 
     public void connectToServer() {
