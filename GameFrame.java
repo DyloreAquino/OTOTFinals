@@ -378,6 +378,8 @@ public class GameFrame {
                 if (canSpawn){
                     spawnLevel(1);
                     canSpawn = false;
+                    gc.setUpWaitingScreen();
+                    waitingScreen = gc.getWaitingScreen();
                 }
                 waitingScreen.setVisible();
                 player.setSpeed(0);
