@@ -55,6 +55,7 @@ public class GameFrame {
     
     private boolean canIncrement;
     private boolean canConnect;
+    private boolean canSpawn;
 
     private BlobChecker blobChecker;
     private UpdateCoordinates updateCoordinates;
@@ -64,6 +65,8 @@ public class GameFrame {
 
     private int playerPoints;
     private int opponentPoints;
+
+    private JButton resetButton;
     
 
     public GameFrame() {
@@ -82,12 +85,15 @@ public class GameFrame {
 
         clientTime = 0;
         canConnect = false;
+        canSpawn = true;
 
         hasPlayerWon = false;
         stopServerTimer = false;
 
         playerPoints = 0;
         opponentPoints = 0;
+
+        
     }
 
     public void setUpGUI() {
@@ -96,14 +102,10 @@ public class GameFrame {
         gc.setPreferredSize(new Dimension(1200, 600));
         cp.add(gc, BorderLayout.CENTER);
 
-        player = gc.getPlayer();
-        opponent = gc.getOpponent();
-        playerX = player.getX();
-        playerY = player.getY();
-        opponentX = opponent.getX();
-        opponentY = opponent.getY();
-        walls = gc.getWalls();
-        blobs = gc.getBlobs();
+        spawnLevel(1);
+
+        gc.setUpWaitingScreen();
+
         waitingScreen = gc.getWaitingScreen();
         hasEatenBlob = false;
         opponentEatsBlob = false;
@@ -116,6 +118,19 @@ public class GameFrame {
         f.pack();
         f.setVisible(true);
 
+        resetButton = new JButton("New Game?");
+        resetButton.addActionListener( new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae){
+                player.setPoints(0);
+                opponent.setPoints(0);
+                stopServerTimer = false;
+            }
+        });
+        f.add(resetButton);
+        resetButton.setVisible(true);
+        resetButton.setBounds(-9999, -9999, 200, 100);
+
         blobChecker = new BlobChecker();
         Thread blobThread = new Thread(blobChecker);
         blobThread.start();
@@ -123,6 +138,19 @@ public class GameFrame {
         updateCoordinates = new UpdateCoordinates();
         Thread updateCoordsThread = new Thread(updateCoordinates);
         updateCoordsThread.start();
+    }
+
+    private void spawnLevel(int level){
+        gc.clearLevel();
+        gc.setUpLevel(level);
+        player = gc.getPlayer();
+        opponent = gc.getOpponent();
+        playerX = player.getX();
+        playerY = player.getY();
+        opponentX = opponent.getX();
+        opponentY = opponent.getY();
+        walls = gc.getWalls();
+        blobs = gc.getBlobs();
     }
 
     public void connectToServer() {
@@ -344,26 +372,37 @@ public class GameFrame {
                 waitingScreen.setVisible();
                 player.setSpeed(0);
                 opponent.setSpeed(0);
+                stopServerTimer = false;
                 break;
             case "countDownMenu":
+                if (canSpawn){
+                    spawnLevel(1);
+                    canSpawn = false;
+                }
                 waitingScreen.setVisible();
                 player.setSpeed(0);
                 opponent.setSpeed(0);
+                stopServerTimer = false;
+                resetButton.setBounds(-9999, -9999, 0, 0);
                 break;
             case "fightRound":
                 waitingScreen.setInvisible();
                 player.setSpeed(playerSpeed);
                 opponent.setSpeed(playerSpeed);
                 canIncrement = true;
+                resetButton.setBounds(-9999, -9999, 0, 0);
                 break;
             case "decidingTurn":
                 player.setSpeed(0);
                 opponent.setSpeed(0);
                 whoWonRound();
+                canSpawn = true;
                 break;
             case "finishMenu":
                 player.setSpeed(15);
                 opponent.setSpeed(15);
+                resetButton.setBounds(1050, 250, 100, 50);
+                
             default:
                 break;
         }
@@ -378,7 +417,7 @@ public class GameFrame {
                 }
             }
         }
-        if (playerPoints >= 3){
+        if (playerPoints >= 3 || opponentPoints >= 3){
             hasPlayerWon = true;
             stopServerTimer = true;
         }
@@ -459,6 +498,7 @@ public class GameFrame {
                 turnManager();
                 setUpTurnChanges();
 
+                playerPoints = player.getPoints();
                 
             }
         }
@@ -503,8 +543,6 @@ public class GameFrame {
                     playerY = player.getY();
                     opponent.setX(opponentX);
                     opponent.setY(opponentY);
-
-                    playerPoints = player.getPoints();
                     try {
                         Thread.sleep(10);
                     } catch (InterruptedException ex) {

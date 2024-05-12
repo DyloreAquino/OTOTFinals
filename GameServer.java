@@ -1,5 +1,7 @@
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.plaf.TreeUI;
+
 import java.net.*;
 import java.io.*;
 public class GameServer {
@@ -36,7 +38,8 @@ public class GameServer {
     private int p1Points;
     private int p2Points;
 
-    private boolean stopServerTimer;
+    private boolean stopServerTimerp1;
+    private boolean stopServerTimerp2;
 
     public GameServer() {
         numPlayers = 0;
@@ -54,7 +57,8 @@ public class GameServer {
         p2VomitBlob = false;
         p1Points = 0;
         p2Points = 0;
-        stopServerTimer = false;
+        stopServerTimerp1 = false;
+        stopServerTimerp2 = false;
         try {
             ss = new ServerSocket(44444);
         } catch (IOException ex) {
@@ -113,19 +117,40 @@ public class GameServer {
 
         public void run() {
             try {
-                while (stopServerTimer == false) {
-                    if (serverTime < 18) { // what if we turn this into 24? since the threads are kind of having a hard time checking if 26 is alrdy out of the limit
-                        serverTime++;
-                    } else {
-                        serverTime = 4;
+                
+                while (true) {
+                    if (stopServerTimerp1 == false && stopServerTimerp2 == false) {
+                        if (serverTime < 18) { // what if we turn this into 24? since the threads are kind of having a hard time checking if 26 is alrdy out of the limit
+                            serverTime++;
+                        } else {
+                            serverTime = 1;
+                        }
+                    } else if (stopServerTimerp1 && stopServerTimerp2) {
+                        serverTime = 20;
                     }
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException ex) {
                         System.out.println("InterruptedException in run() while loop in ServerTimerThread");
                     }
+                    /** 
+                    if (stopServerTimerp1 == false && stopServerTimerp2 == false){
+                        serverTime = 1;
+                        while ( true ){
+                            if (serverTime < 18) { // what if we turn this into 24? since the threads are kind of having a hard time checking if 26 is alrdy out of the limit
+                                serverTime++;
+                            } else {
+                                serverTime = 4;
+                            }
+                            
+                            System.out.println(serverTime);
+                        }
+                    } else if (stopServerTimerp1 == true && stopServerTimerp2 == true){
+                        serverTime = 20;
+                    }
+                    **/
+                    System.out.println(serverTime);
                 }
-                serverTime = 20;
             } catch (Exception e) {
                 System.out.println("Exception in run() ServerTimerThread");
             }
@@ -154,6 +179,7 @@ public class GameServer {
                         p1EatBlob = dataIn.readBoolean();
                         p1VomitBlob = dataIn.readBoolean();
                         p1Points = dataIn.readInt();
+                        stopServerTimerp1 = dataIn.readBoolean();
                     } else if (playerID == 2){
                         p2BlobType = dataIn.readUTF();
                         p2X = dataIn.readInt();
@@ -162,8 +188,8 @@ public class GameServer {
                         p2EatBlob = dataIn.readBoolean();
                         p2VomitBlob = dataIn.readBoolean();
                         p2Points = dataIn.readInt();
+                        stopServerTimerp2 = dataIn.readBoolean();
                     }
-                    stopServerTimer = dataIn.readBoolean();
                 }
             } catch (IOException ex) {
                 System.out.println("IOException at WTS run()");

@@ -9,6 +9,8 @@ public class GameCanvas extends JComponent {
     private Player player;
     private Player opponent;
 
+    private int playerID;
+
     private Wall wall1, wall2, wall3, wall4;
     private Blob blob1;
 
@@ -32,18 +34,25 @@ public class GameCanvas extends JComponent {
         walls = new ArrayList<Wall>();
         blobs = new ArrayList<Blob>();
 
+        this.playerID = playerID;
+    }
+
+    public void setUpLevel(int level){
         lvlMaker.setUpFloor(drawables);
-        lvlMaker.setUpLevel(1,
+        lvlMaker.setUpLevel(level,
                             playerID,
                             drawables, 
                             walls,
                             blobs);
         player = lvlMaker.getPlayer();
         opponent = lvlMaker.getOpponent();
-        setUpWaitingScreen();
     }
 
-    private void setUpWaitingScreen() {
+    public void clearLevel(){
+        drawables.clear();
+    }
+
+    public void setUpWaitingScreen() {
         waitingScreen = new WaitingScreen(-9999, -9999);
         drawables.add(waitingScreen);
     }

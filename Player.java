@@ -357,7 +357,11 @@ public class Player implements Drawable{
     public int getPoints() {
         return points;
     }
-    
+
+    public void setPoints(int pointsVal) {
+        points = pointsVal;
+    }
+
     public void setX(int xval) { 
         this.x = xval; 
     }
