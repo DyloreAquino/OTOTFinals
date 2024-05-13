@@ -39,7 +39,6 @@ public class LevelMaker {
          * 2 for Player 1
          * 3 for Player 2
          * 4 for Blobs
-         * 5 for Specials
          */
         int level1[] = 
         {
@@ -109,7 +108,7 @@ public class LevelMaker {
                     blobType = "rock";
                 } else if (randomNum <= 80) {
                     blobType = "paper";
-                } else if (randomNum <= 100) {
+                } else if (randomNum < 100) {
                     blobType = "scissors";
                 }
 

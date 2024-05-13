@@ -119,7 +119,7 @@ public class GameServer {
             try {
                 
                 while (true) {
-                    if (stopServerTimerp1 == false && stopServerTimerp2 == false) {
+                    if (stopServerTimerp1 == false || stopServerTimerp2 == false) {
                         if (serverTime < 18) { // what if we turn this into 24? since the threads are kind of having a hard time checking if 26 is alrdy out of the limit
                             serverTime++;
                         } else {

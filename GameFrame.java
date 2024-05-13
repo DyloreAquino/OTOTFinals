@@ -393,7 +393,7 @@ public class GameFrame {
                 player.setSpeed(0);
                 opponent.setSpeed(0);
                 resetButton.setBounds(-9999, -9999, 0, 0);
-                
+                stopServerTimer = false;
                 break;
             case "fightRound":
                 gc.removeScreens();
