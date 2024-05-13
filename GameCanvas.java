@@ -15,10 +15,14 @@ public class GameCanvas extends JComponent {
     private Blob blob1;
 
     private WaitingScreen waitingScreen;
+    private WaitingForOtherPlayerScreen waitingForOtherPlayerScreen;
+    private GetReadyScreen getReadyScreen;
+    private WinLoseScreen winLoseScreen;
 
     private ArrayList<Drawable> drawables;
     private ArrayList<Wall> walls;
     private ArrayList<Blob> blobs;
+    private ArrayList<Screen> screens;
 
     private LevelMaker lvlMaker;
     
@@ -33,6 +37,17 @@ public class GameCanvas extends JComponent {
         drawables = new ArrayList<Drawable>();
         walls = new ArrayList<Wall>();
         blobs = new ArrayList<Blob>();
+        screens = new ArrayList<Screen>();
+
+        waitingForOtherPlayerScreen = new WaitingForOtherPlayerScreen(-9999, -9999);
+        waitingScreen = new WaitingScreen(-9999, -9999);
+        winLoseScreen = new WinLoseScreen(-9999, -9999);
+        getReadyScreen = new GetReadyScreen(-9999, -9999);
+
+        screens.add(waitingForOtherPlayerScreen);
+        screens.add(waitingScreen);
+        screens.add(winLoseScreen);
+        screens.add(getReadyScreen);
 
         this.playerID = playerID;
     }
@@ -46,15 +61,23 @@ public class GameCanvas extends JComponent {
                             blobs);
         player = lvlMaker.getPlayer();
         opponent = lvlMaker.getOpponent();
+        setUpScreens();
     }
 
     public void clearLevel(){
         drawables.clear();
     }
 
-    public void setUpWaitingScreen() {
-        waitingScreen = new WaitingScreen(-9999, -9999);
-        drawables.add(waitingScreen);
+    public void setUpScreens() {
+        for (Screen screen: screens){
+            drawables.add(screen);
+        }
+    }
+
+    public void removeScreens(){
+        for (Screen screen: screens){
+            screen.setInvisible();
+        }
     }
 
     @Override
@@ -90,5 +113,17 @@ public class GameCanvas extends JComponent {
 
     public WaitingScreen getWaitingScreen() {
         return waitingScreen;
+    }
+
+    public WaitingForOtherPlayerScreen getWaitingForOtherPlayerScreen(){
+        return waitingForOtherPlayerScreen;
+    }
+
+    public WinLoseScreen getWinLoseScreen(){
+        return winLoseScreen;
+    }
+
+    public GetReadyScreen getReadyScreen(){
+        return getReadyScreen;
     }
 }

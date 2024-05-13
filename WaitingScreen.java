@@ -13,11 +13,12 @@ public class WaitingScreen extends Screen{
         this.y = y;
 
         waitingImg = new ImageIcon("waiting screen.png");
+        super.updateImage(waitingImg);
     }
     
     @Override
     public void draw(Graphics2D g2d) {
-        super.updateImage(waitingImg);
+        
         super.draw(g2d);
     }
 }

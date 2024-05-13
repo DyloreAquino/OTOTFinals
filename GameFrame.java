@@ -15,7 +15,11 @@ public class GameFrame {
     private Player opponent;
     private ArrayList<Wall> walls;
     private ArrayList<Blob> blobs;
+
     private WaitingScreen waitingScreen;
+    private WaitingForOtherPlayerScreen waitingForOtherPlayerScreen;
+    private WinLoseScreen winLoseScreen;
+    private GetReadyScreen getReadyScreen;
 
     private String direction;
     private String opponentDirection;
@@ -104,9 +108,11 @@ public class GameFrame {
 
         spawnLevel(1);
 
-        gc.setUpWaitingScreen();
-
         waitingScreen = gc.getWaitingScreen();
+        waitingForOtherPlayerScreen = gc.getWaitingForOtherPlayerScreen();
+        winLoseScreen = gc.getWinLoseScreen();
+        getReadyScreen = gc.getReadyScreen();
+
         hasEatenBlob = false;
         opponentEatsBlob = false;
         hasVomitBlob = false;
@@ -125,9 +131,11 @@ public class GameFrame {
                 stopServerTimer = false;
             }
         });
-        f.add(resetButton);
         resetButton.setVisible(true);
-        resetButton.setBounds(-9999, -9999, 200, 100);
+        resetButton.setBounds(-9999, -9999, 0, 0);
+        
+        f.add(resetButton);
+        
 
         blobChecker = new BlobChecker();
         Thread blobThread = new Thread(blobChecker);
@@ -150,7 +158,6 @@ public class GameFrame {
         opponentY = opponent.getY();
         walls = gc.getWalls();
         blobs = gc.getBlobs();
-        
     }
 
     public void connectToServer() {
@@ -369,43 +376,46 @@ public class GameFrame {
     private void setUpTurnChanges() {
         switch (turn) {
             case "waitingMenu":
-                waitingScreen.setVisible();
+                gc.removeScreens();
+                waitingForOtherPlayerScreen.setVisible();
                 player.setSpeed(0);
                 opponent.setSpeed(0);
-                stopServerTimer = false;
+                resetButton.setBounds(-9999, -9999, 0, 0);
                 break;
             case "countDownMenu":
                 if (canSpawn){
                     spawnLevel(1);
                     canSpawn = false;
-                    gc.setUpWaitingScreen();
-                    waitingScreen = gc.getWaitingScreen();
                 }
-                waitingScreen.setVisible();
+                gc.removeScreens();
+                getReadyScreen.setVisible();
                 player.setSpeed(0);
                 opponent.setSpeed(0);
-                stopServerTimer = false;
                 resetButton.setBounds(-9999, -9999, 0, 0);
                 break;
             case "fightRound":
-                waitingScreen.setInvisible();
+                gc.removeScreens();
                 player.setSpeed(playerSpeed);
                 opponent.setSpeed(playerSpeed);
                 canIncrement = true;
                 resetButton.setBounds(-9999, -9999, 0, 0);
                 break;
             case "decidingTurn":
+                gc.removeScreens();
+                winLoseScreen.changeState(playerBlobType, opponentBlobType);
+                winLoseScreen.setVisible();
                 player.setSpeed(0);
                 opponent.setSpeed(0);
                 whoWonRound();
                 canSpawn = true;
                 break;
             case "finishMenu":
-                player.setSpeed(15);
-                opponent.setSpeed(15);
+                gc.removeScreens();
+                waitingScreen.setVisible();
+                player.setSpeed(0);
+                opponent.setSpeed(0);
                 resetButton.setBounds(1050, 250, 100, 50);
                 player.setPoints(0);
-                opponent.setPoints(0);
             default:
                 break;
         }
@@ -421,7 +431,6 @@ public class GameFrame {
             }
         }
         if (playerPoints >= 3 || opponentPoints >= 3){
-            hasPlayerWon = true;
             stopServerTimer = true;
         }
         System.out.println(playerPoints + ": player points");
@@ -502,7 +511,13 @@ public class GameFrame {
                 setUpTurnChanges();
 
                 playerPoints = player.getPoints();
-                
+                playerX = player.getX();
+                playerY = player.getY();
+                opponent.setX(opponentX);
+                opponent.setY(opponentY);
+
+                System.out.println("Player has..." + playerBlobType);
+                System.out.println("Opponent has..." + opponentBlobType);
             }
         }
 
@@ -542,10 +557,7 @@ public class GameFrame {
         public void run(){
             try {
                 while (true) {
-                    playerX = player.getX();
-                    playerY = player.getY();
-                    opponent.setX(opponentX);
-                    opponent.setY(opponentY);
+                    
                     try {
                         Thread.sleep(10);
                     } catch (InterruptedException ex) {

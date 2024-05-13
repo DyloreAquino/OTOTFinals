@@ -125,7 +125,7 @@ public class GameServer {
                         } else {
                             serverTime = 1;
                         }
-                    } else if (stopServerTimerp1 && stopServerTimerp2) {
+                    } else if (stopServerTimerp1 || stopServerTimerp2) {
                         serverTime = 20;
                     }
                     try {
@@ -133,22 +133,6 @@ public class GameServer {
                     } catch (InterruptedException ex) {
                         System.out.println("InterruptedException in run() while loop in ServerTimerThread");
                     }
-                    /** 
-                    if (stopServerTimerp1 == false && stopServerTimerp2 == false){
-                        serverTime = 1;
-                        while ( true ){
-                            if (serverTime < 18) { // what if we turn this into 24? since the threads are kind of having a hard time checking if 26 is alrdy out of the limit
-                                serverTime++;
-                            } else {
-                                serverTime = 4;
-                            }
-                            
-                            System.out.println(serverTime);
-                        }
-                    } else if (stopServerTimerp1 == true && stopServerTimerp2 == true){
-                        serverTime = 20;
-                    }
-                    **/
                     System.out.println(serverTime);
                 }
             } catch (Exception e) {

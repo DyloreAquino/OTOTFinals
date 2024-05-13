@@ -11,8 +11,11 @@ public class LevelMaker {
     private Player player;
     private Player opponent;
 
+    private Random rand;
+
     public LevelMaker(int phase){
         this.phase = phase;
+        rand = new Random();
     }
 
     public void setUpFloor(ArrayList<Drawable> drawables){
@@ -92,8 +95,25 @@ public class LevelMaker {
             } else
             // spawning blobs
             if (i == 4){
-                blob = new Blob(columnCounter, rowCounter, "rock");
-                blobs.add(blob);
+
+                String blobType = " ";
+                int randomNum = rand.nextInt(100);
+
+                System.out.println(randomNum);
+
+                if (randomNum <= 10){
+                    blobType = "stick";
+                } else if (randomNum <= 40) {
+                    blobType = " ";
+                } else if (randomNum <= 60) {
+                    blobType = "rock";
+                } else if (randomNum <= 80) {
+                    blobType = "paper";
+                } else if (randomNum <= 100) {
+                    blobType = "scissors";
+                }
+
+                blobs.add(new Blob(columnCounter, rowCounter, blobType));
             }
             columnCounter++;
         }
