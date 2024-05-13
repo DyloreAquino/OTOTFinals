@@ -113,7 +113,16 @@ public class LevelMaker {
                     blobType = "scissors";
                 }
 
-                blobs.add(new Blob(columnCounter, rowCounter, blobType));
+                int randforSpecial = rand.nextInt(2);
+                boolean booleanforSpecial;
+
+                if (randforSpecial == 1) {
+                    booleanforSpecial = true;
+                } else {
+                    booleanforSpecial = false;
+                }
+
+                blobs.add(new Blob(columnCounter, rowCounter, blobType, booleanforSpecial));
             }
             columnCounter++;
         }

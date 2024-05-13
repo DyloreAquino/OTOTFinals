@@ -12,8 +12,10 @@ public class Blob implements Drawable{
 
     private ImageIcon blobSprite;
     private Image blobImgSprite;
+
+    private boolean isSpecial;
     
-    public Blob(int column, int row, String type){
+    public Blob(int column, int row, String type, boolean isSpecial){
         this.column = column;
         this.row = row;
 
@@ -21,10 +23,16 @@ public class Blob implements Drawable{
         setRow(row);
 
         this.type = type;
+        
+        this.isSpecial = isSpecial;
     }
 
     public void draw(Graphics2D g2d){
-        blobSprite = new ImageIcon("green blob.png");
+        if (isSpecial) {
+            blobSprite = new ImageIcon("yellow blob.png");
+        } else {
+            blobSprite = new ImageIcon("green blob.png");
+        }
         blobImgSprite = blobSprite.getImage();
         g2d.drawImage(blobImgSprite, x, y, SIZE, SIZE, null);
     }
