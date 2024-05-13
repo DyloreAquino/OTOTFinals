@@ -158,6 +158,8 @@ public class GameFrame {
         opponentY = opponent.getY();
         walls = gc.getWalls();
         blobs = gc.getBlobs();
+        player.clearBlob();
+        opponent.clearBlob();
     }
 
     public void connectToServer() {
@@ -339,7 +341,6 @@ public class GameFrame {
 
             if (isCollidingBlob && isEatingBlob){
                 player.eatBlob(obj);
-                playerBlobType = player.getBlob().getType();
                 hasEatenBlob = true;
             }
 
@@ -392,6 +393,7 @@ public class GameFrame {
                 player.setSpeed(0);
                 opponent.setSpeed(0);
                 resetButton.setBounds(-9999, -9999, 0, 0);
+                
                 break;
             case "fightRound":
                 gc.removeScreens();
@@ -402,8 +404,8 @@ public class GameFrame {
                 break;
             case "decidingTurn":
                 gc.removeScreens();
-                winLoseScreen.changeState(playerBlobType, opponentBlobType);
                 winLoseScreen.setVisible();
+                winLoseScreen.changeState(playerBlobType, opponentBlobType);
                 player.setSpeed(0);
                 opponent.setSpeed(0);
                 whoWonRound();
@@ -515,7 +517,12 @@ public class GameFrame {
                 playerY = player.getY();
                 opponent.setX(opponentX);
                 opponent.setY(opponentY);
-
+                if (player.checkHasBlob()){
+                    playerBlobType = player.getBlob().getType();
+                } else {
+                    playerBlobType = " ";
+                }
+                
                 System.out.println("Player has..." + playerBlobType);
                 System.out.println("Opponent has..." + opponentBlobType);
             }

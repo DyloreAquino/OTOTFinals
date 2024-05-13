@@ -350,6 +350,10 @@ public class Player implements Drawable{
         return eatenBlob;
     }
 
+    public void clearBlob() {
+        eatenBlob = null;
+    }
+
     public void incrementPoints() {
         points++;
     }

@@ -12,6 +12,8 @@ public class WinLoseScreen extends Screen{
     public WinLoseScreen(int x, int y){
         this.x = x;
         this.y = y;
+
+        resultFilename = " ";
     }
 
     public void changeState(String playerBlobType, String opponentBlobType){
@@ -27,6 +29,7 @@ public class WinLoseScreen extends Screen{
                     resultFilename = "rock stick lose.png";
                 }
                 break;
+
             case "paper":
                 if (opponentBlobType == "rock") {
                     resultFilename = "paper rock win.png";
@@ -62,15 +65,16 @@ public class WinLoseScreen extends Screen{
                     resultFilename = "stick tie.png";
                 }
                 break;
+                
             default:
                 break;
         }
-        resultDisplay = new ImageIcon(resultFilename);
-        super.updateImage(resultDisplay);
     }
     
     @Override
     public void draw(Graphics2D g2d) {
+        resultDisplay = new ImageIcon(resultFilename);
+        super.updateImage(resultDisplay);
         super.draw(g2d);
     }
 }

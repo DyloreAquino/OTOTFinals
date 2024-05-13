@@ -13,12 +13,12 @@ public class GetReadyScreen extends Screen {
         this.y = y;
 
         gettingReady = new ImageIcon("get ready.png");
-        super.updateImage(gettingReady);
+        
     }
     
     @Override
     public void draw(Graphics2D g2d) {
-        
+        super.updateImage(gettingReady);
         super.draw(g2d);
     }
 

@@ -13,12 +13,12 @@ public class WaitingForOtherPlayerScreen extends Screen{
         this.y = y;
 
         waitingForOther = new ImageIcon("waiting for other player.png");
-        super.updateImage(waitingForOther);
+        
     }
 
     @Override
     public void draw(Graphics2D g2d) {
-        
+        super.updateImage(waitingForOther);
         super.draw(g2d);
     }
 }

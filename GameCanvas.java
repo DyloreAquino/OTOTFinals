@@ -65,6 +65,8 @@ public class GameCanvas extends JComponent {
     }
 
     public void clearLevel(){
+        walls.clear();
+        blobs.clear();
         drawables.clear();
     }
 
