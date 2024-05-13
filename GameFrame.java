@@ -404,8 +404,8 @@ public class GameFrame {
                 break;
             case "decidingTurn":
                 gc.removeScreens();
-                winLoseScreen.setVisible();
                 winLoseScreen.changeState(playerBlobType, opponentBlobType);
+                winLoseScreen.setVisible();
                 player.setSpeed(0);
                 opponent.setSpeed(0);
                 whoWonRound();
