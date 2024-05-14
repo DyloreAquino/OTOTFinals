@@ -67,7 +67,7 @@ public class GameServer {
 
     private Random rand;
 
-    public GameServer() {
+    public GameServer(int port) {
         numPlayers = 0;
         serverTime = 0;
 
@@ -77,7 +77,7 @@ public class GameServer {
 
         rand = new Random();
         try {
-            ss = new ServerSocket(44444);
+            ss = new ServerSocket(port);
         } catch (IOException ex) {
             System.out.println("IOException from GameServer constructor");
         }
@@ -267,7 +267,8 @@ public class GameServer {
     }
 
     public static void main(String[] args) {
-        GameServer gs = new GameServer();
+        int portToSend = Integer.parseInt(args[0]);
+        GameServer gs = new GameServer(portToSend);
         gs.acceptConnections();
     }
 }

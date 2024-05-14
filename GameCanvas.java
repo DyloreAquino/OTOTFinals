@@ -56,6 +56,7 @@ public class GameCanvas extends JComponent {
 
     private LevelMaker lvlMaker;
     
+    
     public GameCanvas(int width, int height, int playerID){
         // When initializing the coordinates for a player, take note:
         // There are 16 columns, 10 rows
@@ -105,6 +106,7 @@ public class GameCanvas extends JComponent {
 
         this.playerID = playerID;
     }
+
 
     public void setUpLevel(int level){
         drawables.add(gameBackground);

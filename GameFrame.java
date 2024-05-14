@@ -200,9 +200,9 @@ public class GameFrame {
         opponent.clearBlob();
     }
 
-    public void connectToServer() {
+    public void connectToServer(String host, int port) {
         try {
-            socket = new Socket("localhost", 44444);
+            socket = new Socket(host, port);
             DataInputStream in = new DataInputStream(socket.getInputStream());
             DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 
