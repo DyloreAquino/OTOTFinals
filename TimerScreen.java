@@ -1,5 +1,4 @@
 /**
-	This is a class made for a more organized playing of audio.
 	
 	@author Jerold Luther P. Aquino (230413)
     @author Hanzo Ricardo M. Castillo (231365)
@@ -22,7 +21,6 @@
 */
 import java.awt.*;
 import javax.swing.*;
-import java.awt.geom.*;
 
 public class TimerScreen extends Screen {
     
@@ -32,6 +30,12 @@ public class TimerScreen extends Screen {
     private String timerFileName;
     private int playerID;
 
+    /**
+     * creates the timer based on the player's client
+     * @param x
+     * @param y
+     * @param playerID
+     */
     public TimerScreen(int x, int y, int playerID){
         this.x = x;
         this.y = y;
@@ -43,6 +47,10 @@ public class TimerScreen extends Screen {
         timerFileName = " ";
     }
 
+    /**
+     * updates the countdown of the timer
+     * @param clientTimer
+     */
     public void changeState(int clientTimer) {
         int timer = clientTimer - 5;
 
@@ -84,6 +92,9 @@ public class TimerScreen extends Screen {
         
     }
 
+    /**
+     * sets the timer visible
+     */
     @Override
     public void setVisible() {
         if (playerID == 1){
@@ -96,6 +107,9 @@ public class TimerScreen extends Screen {
         
     }
     
+    /**
+     * draws the timer
+     */
     @Override
     public void draw(Graphics2D g2d) {
         timerDisplay = new ImageIcon(timerFileName);

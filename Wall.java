@@ -1,5 +1,8 @@
 /**
+<<<<<<< HEAD
 	Wall class creates the characteristics of a wall
+=======
+>>>>>>> 09fa670037b4d23ce9c7c6f206e520812096caaf
 	
 	@author Jerold Luther P. Aquino (230413)
     @author Hanzo Ricardo M. Castillo (231365)
@@ -19,7 +22,6 @@
 **/
 
 import java.awt.*;
-import java.awt.geom.*;
 import javax.swing.*;
 
 public class Wall implements Drawable{

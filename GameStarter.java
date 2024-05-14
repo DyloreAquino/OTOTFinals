@@ -1,5 +1,4 @@
 /**
-	This is a class made for a more organized playing of audio.
 	
 	@author Jerold Luther P. Aquino (230413)
     @author Hanzo Ricardo M. Castillo (231365)
@@ -22,6 +21,11 @@
 */
 
 public class GameStarter {
+
+	/**
+	 * main method for the game client that runs all frame methods
+	 * @param args
+	 */
     public static void main(String[] args) {
 
         String host = args[0];

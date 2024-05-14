@@ -1,5 +1,4 @@
 /**
-	This is a class made for a more organized playing of audio.
 	
 	@author Jerold Luther P. Aquino (230413)
     @author Hanzo Ricardo M. Castillo (231365)
@@ -24,6 +23,7 @@ import javax.swing.plaf.TreeUI;
 import java.util.Random;
 import java.net.*;
 import java.io.*;
+
 
 public class GameServer {
     
@@ -67,7 +67,7 @@ public class GameServer {
 
     private Random rand;
 
-    public GameServer(int port) {
+    public GameServer() {
         numPlayers = 0;
         serverTime = 0;
 
@@ -83,6 +83,7 @@ public class GameServer {
         }
     }
 
+    /** resets all variables */
     private void resetEverything() {
         p1BlobType = " ";
         p2BlobType = " ";
@@ -98,6 +99,7 @@ public class GameServer {
         stopServerTimerp2 = false;
     }
 
+    /** accepts connections from client */
     public void acceptConnections() {
         try {
             System.out.println("Waiting for connections");
@@ -145,8 +147,10 @@ public class GameServer {
         }
     }
 
+    /** thread for server time action */
     private class ServerTimerThread implements Runnable {
 
+        /** method on what the server timer will do */
         public void run() {
             try {
                 while (true) {
@@ -179,16 +183,23 @@ public class GameServer {
         }
     }
 
+    /** class for server read from client */
     private class ReadFromClient implements Runnable {
         private int playerID;
         private DataInputStream dataIn;
 
+        /**
+         * instantiates objects for the client to read
+         * @param pid
+         * @param in
+         */
         public ReadFromClient(int pid, DataInputStream in){
             playerID = pid;
             dataIn = in;
             System.out.println("Read from Client " + playerID + " created.");
         }
 
+        /** executes how the read will do */
         public void run() {
             try {
                 while (true) {
@@ -220,16 +231,22 @@ public class GameServer {
         }
     }
 
+    /** class for writing to client */
     private class WriteToClient implements Runnable {
         private int playerID;
         private DataOutputStream dataOut;
 
+        /**
+         * instantiates objects to write to client
+         * @param pid
+         * @param out
+         */
         public WriteToClient(int pid, DataOutputStream out){
             playerID = pid;
             dataOut = out;
             System.out.println("Write to Client " + playerID + " created.");
         }
-
+        /** executes how the server will write to client */
         public void run() {
             try {
                 while (true) {
@@ -266,6 +283,10 @@ public class GameServer {
         }
     }
 
+    /**
+     * main method for the server to run
+     * @param args
+     */
     public static void main(String[] args) {
         int portToSend = Integer.parseInt(args[0]);
         GameServer gs = new GameServer(portToSend);

@@ -1,5 +1,4 @@
 /**
-	This is a class made for a more organized playing of audio.
 	
 	@author Jerold Luther P. Aquino (230413)
     @author Hanzo Ricardo M. Castillo (231365)
@@ -34,12 +33,18 @@ public class LevelMaker {
     private Player opponent;
 
     private Random rand;
-
+    /**
+     * instantiates level
+     * @param phase
+     */
     public LevelMaker(int phase){
         this.phase = phase;
         rand = new Random();
     }
-
+    /**
+     * set ups the flooring
+     * @param drawables
+     */
     public void setUpFloor(ArrayList<Drawable> drawables){
         for (int row = 1; row <= 10; row++){
             for (int column = 1; column <= 16; column++){
@@ -49,7 +54,14 @@ public class LevelMaker {
             }
         }
     }
-
+    /**
+     * sets up the possible objects that the player can collide
+     * @param level
+     * @param playerID
+     * @param drawables
+     * @param walls
+     * @param blobs
+     */
     public void setUpLevel( int level, 
                             int playerID,
                             ArrayList<Drawable> drawables, 
@@ -166,11 +178,17 @@ public class LevelMaker {
             drawables.add(blob);
         }
     }
-
+    /**
+     * gets player
+     * @return
+     */
     public Player getPlayer(){
         return player;
     }
-
+    /**
+     * gets opponent
+     * @return
+     */
     public Player getOpponent(){
         return opponent;
     }

@@ -1,5 +1,4 @@
 /**
-	This is a class made for a more organized playing of audio.
 	
 	@author Jerold Luther P. Aquino (230413)
     @author Hanzo Ricardo M. Castillo (231365)
@@ -23,7 +22,6 @@
 
 import java.awt.*;
 import javax.swing.*;
-import java.awt.geom.*;
 
 public class BlobIconScreen extends Screen {
     
@@ -32,7 +30,12 @@ public class BlobIconScreen extends Screen {
     private ImageIcon blobDisplay;
     private String blobFileName;
     private boolean isLeft;
-
+    /**
+     * instantiates the blob icon characteristics
+     * @param x
+     * @param y
+     * @param isLeft
+     */
     public BlobIconScreen(int x, int y, boolean isLeft){
         this.x = x;
         this.y = y;
@@ -44,7 +47,11 @@ public class BlobIconScreen extends Screen {
 
         blobFileName = " ";
     }
-
+    /**
+     * changes the icon that will be displayed
+     * @param playerblobType
+     * @param doesItWin
+     */
     public void changeState(String playerblobType, boolean doesItWin) {
 
         if (doesItWin) {
@@ -100,6 +107,9 @@ public class BlobIconScreen extends Screen {
         }
     }
 
+    /**
+     * makes the icon visible
+     */
     @Override
     public void setVisible() {
         if (isLeft){
@@ -110,7 +120,9 @@ public class BlobIconScreen extends Screen {
             y = 300;
         }
     }
-    
+    /**
+     * draws the blob icon
+     */
     @Override
     public void draw(Graphics2D g2d) {
         blobDisplay = new ImageIcon(blobFileName);

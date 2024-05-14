@@ -1,5 +1,4 @@
 /**
-	This is a class made for a more organized playing of audio.
 	
 	@author Jerold Luther P. Aquino (230413)
     @author Hanzo Ricardo M. Castillo (231365)
@@ -21,7 +20,6 @@
 /* Screen class displays the screen boundaries and contains methods to update screen images
 */
 import java.awt.*;
-import java.awt.geom.*;
 import javax.swing.*;
 
 public class Screen implements Drawable {
@@ -33,20 +31,30 @@ public class Screen implements Drawable {
 
     private Image toPrint;
 
+    /**
+     * sets the screen visible
+     */
     public void setVisible(){
         x = 200;
         y = 50;
     }
-
+    /**
+     * sets the screen invisible
+     */
     public void setInvisible() {
         x = -9999;
         y = -9999;
     }
-
+    /**
+     * updates the screen with an image
+     * @param imgIcon
+     */
     protected void updateImage(ImageIcon imgIcon){
         toPrint = imgIcon.getImage();
     }
-
+    /**
+     * draws the screen
+     */
     public void draw(Graphics2D g2d){
         g2d.drawImage(toPrint, x, y, WIDTH, HEIGHT, null);
     }
