@@ -58,6 +58,8 @@ public class Blob implements Drawable{
             case " ":
                 doesWinAgainst = true;
                 break;
+            case "stick":
+                doesWinAgainst = false;
             default:
                 doesWinAgainst = false;
                 break;

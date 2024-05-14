@@ -15,8 +15,8 @@ public class TimerScreen extends Screen {
         this.y = y;
         this.playerID = playerID;
 
-        width = 120;
-        height = 80;
+        width = 100;
+        height = 50;
 
         timerFileName = " ";
     }
@@ -68,7 +68,7 @@ public class TimerScreen extends Screen {
             x = 30;
             y = 100;
         } else if (playerID == 2){
-            x = 1020;
+            x = 1070;
             y = 100;
         }
         

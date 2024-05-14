@@ -21,7 +21,8 @@ public class LevelMaker {
     public void setUpFloor(ArrayList<Drawable> drawables){
         for (int row = 1; row <= 10; row++){
             for (int column = 1; column <= 16; column++){
-                floor = new Floor(column, row);
+                int randomNum = rand.nextInt(4) + 1;
+                floor = new Floor(column, row, randomNum);
                 drawables.add(floor);
             }
         }
@@ -72,7 +73,8 @@ public class LevelMaker {
             }
             // spawning walls
             if (i == 1){
-                wall = new Wall(columnCounter, rowCounter);
+                int randomNum = rand.nextInt(4) + 1;
+                wall = new Wall(columnCounter, rowCounter, randomNum);
                 drawables.add(wall);
                 walls.add(wall);
             } else

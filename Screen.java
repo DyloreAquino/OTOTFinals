@@ -7,13 +7,13 @@ public class Screen implements Drawable {
     private int x, y;
 
     private int WIDTH = 800;
-    private int HEIGHT = 550;
+    private int HEIGHT = 500;
 
     private Image toPrint;
 
     public void setVisible(){
         x = 200;
-        y = 25;
+        y = 50;
     }
 
     public void setInvisible() {

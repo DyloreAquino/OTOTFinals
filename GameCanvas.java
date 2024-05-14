@@ -6,6 +6,8 @@ public class GameCanvas extends JComponent {
 
     private int width, height;
 
+    private GameBackground gameBackground;
+
     private Player player;
     private Player opponent;
 
@@ -22,6 +24,7 @@ public class GameCanvas extends JComponent {
     private TimerScreen timerScreen;
     private BlobIconScreen myBlobIconScreen;
     private BlobIconScreen theirBlobIconScreen;
+    private PointsTextScreen pointsTextScreen;
 
     private ArrayList<Drawable> drawables;
     private ArrayList<Wall> walls;
@@ -39,9 +42,13 @@ public class GameCanvas extends JComponent {
         lvlMaker = new LevelMaker(1);
 
         drawables = new ArrayList<Drawable>();
+
+        gameBackground = new GameBackground();
+
         walls = new ArrayList<Wall>();
         blobs = new ArrayList<Blob>();
         screens = new ArrayList<Screen>();
+
 
         waitingForOtherPlayerScreen = new WaitingForOtherPlayerScreen(-9999, -9999);
         waitingScreen = new WaitingScreen(-9999, -9999);
@@ -50,10 +57,13 @@ public class GameCanvas extends JComponent {
         winLoseGameScreen = new WinLoseGameScreen(-9999, -9999);
         timerScreen = new TimerScreen(-9999, -9999, playerID);
         
+        
         if (playerID == 1) {
+            pointsTextScreen = new PointsTextScreen(-9999, -9999, true);
             myBlobIconScreen = new BlobIconScreen(-9999, -9999, true);
             theirBlobIconScreen = new BlobIconScreen(-9999, -9999, false);
         } else if (playerID == 2) {
+            pointsTextScreen = new PointsTextScreen(-9999, -9999, false);
             myBlobIconScreen = new BlobIconScreen(-9999, -9999, false);
             theirBlobIconScreen = new BlobIconScreen(-9999, -9999, true);
         }
@@ -66,11 +76,15 @@ public class GameCanvas extends JComponent {
         screens.add(timerScreen);
         screens.add(myBlobIconScreen);
         screens.add(theirBlobIconScreen);
+        screens.add(pointsTextScreen);
+
+        drawables.add(gameBackground);
 
         this.playerID = playerID;
     }
 
     public void setUpLevel(int level){
+        drawables.add(gameBackground);
         lvlMaker.setUpFloor(drawables);
         lvlMaker.setUpLevel(level,
                             playerID,
@@ -161,5 +175,9 @@ public class GameCanvas extends JComponent {
 
     public BlobIconScreen getTheirBlobIconScreen(){
         return theirBlobIconScreen;
+    }
+
+    public PointsTextScreen getPointsTextScreen() {
+        return pointsTextScreen;
     }
 }

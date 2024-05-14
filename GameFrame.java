@@ -24,6 +24,7 @@ public class GameFrame {
     private TimerScreen timerScreen;
     private BlobIconScreen myBlobIconScreen;
     private BlobIconScreen theirBlobIconScreen;
+    private PointsTextScreen pointsTextScreen;
 
     private String direction;
     private String opponentDirection;
@@ -127,6 +128,7 @@ public class GameFrame {
         timerScreen = gc.getTimerScreen();
         myBlobIconScreen = gc.getMyBlobIconScreen();
         theirBlobIconScreen = gc.getTheirBlobIconScreen();
+        pointsTextScreen = gc.getPointsTextScreen();
 
         playerPoints = player.getPoints();
 
@@ -414,6 +416,9 @@ public class GameFrame {
                 myBlobIconScreen.setVisible();
                 theirBlobIconScreen.setVisible();
 
+                pointsTextScreen.changePoints(playerPoints, opponentPoints);
+                pointsTextScreen.setVisible();
+
                 player.setSpeed(playerSpeed);
                 opponent.setSpeed(playerSpeed);
                 canIncrement = true;
@@ -448,7 +453,7 @@ public class GameFrame {
     private boolean checkBlobWinning(Player me, String opponentBlobType) {
         if (me.checkHasBlob()) {
             return me.getBlob().doesItWinAgainst(opponentBlobType);
-        }
+        } 
         return false;
     }
 
@@ -467,8 +472,7 @@ public class GameFrame {
             }
             stopServerTimer = true;
         }
-        System.out.println(playerPoints + ": player points");
-        System.out.println(opponentPoints + ": opponents points");
+
     }
 
     private void checkPlayerDirection(){
@@ -532,18 +536,6 @@ public class GameFrame {
             @Override
             public void actionPerformed(ActionEvent ae){
 
-                gc.repaint();
-
-                checkPlayerDirection();
-                checkOpponentDirection();
-
-                checkCollisions();
-
-                checkBlobBehavior();
-
-                turnManager();
-                setUpTurnChanges();
-
                 playerPoints = player.getPoints();
                 playerX = player.getX();
                 playerY = player.getY();
@@ -555,10 +547,18 @@ public class GameFrame {
                 } else {
                     playerBlobType = " ";
                 }
-                
-                System.out.println("Player has..." + playerBlobType);
-                System.out.println("Opponent has..." + opponentBlobType);
-                System.out.println(direction);
+
+                checkPlayerDirection();
+                checkOpponentDirection();
+
+                checkCollisions();
+
+                checkBlobBehavior();
+
+                turnManager();
+                setUpTurnChanges();
+
+                gc.repaint();
             }
         }
 
@@ -578,6 +578,7 @@ public class GameFrame {
                             System.out.println("InterruptedException in run() while loop in ServerTimerThread");
                         }
                         hasEatenBlob = false;
+                        
                     }
                     if (hasVomitBlob) {
                         try {

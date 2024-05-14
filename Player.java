@@ -180,7 +180,7 @@ public class Player implements Drawable{
 
     public void draw(Graphics2D g2d) {
         
-        g2d.drawImage(playerImgSprite, x, y-20, size, size + 20, null);
+        g2d.drawImage(playerImgSprite, x-10, y-40, 50, 70, null);
     }
 
     public void moveLeft(){

@@ -43,7 +43,7 @@ public class BlobIconScreen extends Screen {
                     break;
 
                 case "stick":
-                    blobFileName = "the stick.png";
+                    blobFileName = "stick-white.png";
                     break;
 
                 default:
@@ -80,10 +80,10 @@ public class BlobIconScreen extends Screen {
     @Override
     public void setVisible() {
         if (isLeft){
-            x = 25;
+            x = 15;
             y = 300;
         } else {
-            x = 1025;
+            x = 1035;
             y = 300;
         }
     }
