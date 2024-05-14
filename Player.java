@@ -1,5 +1,4 @@
 /**
-	This is a class made for a more organized playing of audio.
 	
 	@author Jerold Luther P. Aquino (230413)
     @author Hanzo Ricardo M. Castillo (231365)
@@ -69,6 +68,13 @@ public class Player implements Drawable{
     //This can require parameters for column and row for easy spawning
     //Every time we reset a round, the player gets reset to that coordinate.
     
+    /**
+     * instantiates position via row and column, speed, player images, animations, server number, and sfx.
+     * 
+     * @param column
+     * @param row
+     * @param playerNumber
+     */
     public Player(int column, int row, int playerNumber) {
         this.column = column;
         this.row = row;
@@ -125,11 +131,19 @@ public class Player implements Drawable{
         vomitSFX = new Audio();
     }
 
+    /**
+     * updates the image
+     * @param img
+     */
     public void updateImage(ImageIcon img){
         // Helped by Alba the GOAT
         playerImgSprite = img.getImage();
     }
 
+    /**
+     * changes the image of the player according to its direction
+     * @param dir
+     */
     public void changeSpriteState( String dir ){
         switch (dir) {
             case "L":
@@ -202,36 +216,58 @@ public class Player implements Drawable{
         }
     }
 
+    /**
+     * draws the player
+     */
     public void draw(Graphics2D g2d) {
         
         g2d.drawImage(playerImgSprite, x-10, y-40, 50, 70, null);
     }
 
+    /**
+     * moves the player to the left
+     */
     public void moveLeft(){
         direction = "L";
         x -= speed;
     }
 
+    /**
+     * moves the player to the right
+     */
     public void moveRight(){
         direction = "R";
         x += speed;
         
     }
 
+    /**
+     * moves the player downwards
+     */
     public void moveDown(){
         direction = "D";
         y += speed; 
     }
 
+    /**
+     * moves the player upwards
+     */
     public void moveUp(){
         direction = "U";
         y -= speed;
     }
     
+    /**
+     * sets the speed of the player
+     * @param speed
+     */
     public void setSpeed( int speed ) {
         this.speed = speed;
     }
 
+    /**
+     * switches the direction of the player
+     */
     private void switchDirection(){
         switch (direction) {
             case "L":
@@ -251,6 +287,10 @@ public class Player implements Drawable{
         }
     }
 
+    /**
+     * checks collision with other elements
+     * @return
+     */
     public boolean checkBorderCollision(){
         if ((x + size > 1000 || x < 200) || (y + size > 550 || y < 50) ){ 
             switchDirection();
@@ -272,6 +312,11 @@ public class Player implements Drawable{
         return false;
     }
 
+    /**
+     * checks if player collided with a wall
+     * @param wall
+     * @return
+     */
     public boolean checkWallCollision(Wall wall){
         if ((wall.getX() < x + size && wall.getX() + wall.getSize() > x)
         && (wall.getY() < y + size && wall.getY() + wall.getSize() > y)){
@@ -294,6 +339,11 @@ public class Player implements Drawable{
         return false;
     }
 
+    /**
+     * checks of player collided with a blob
+     * @param blob
+     * @return
+     */
     public boolean checkBlobCollision(Blob blob){
         if ((blob.getX() < x + size && blob.getX() + blob.getCollisionBorders() > x)
         && (blob.getY() < y + size && blob.getY() + blob.getCollisionBorders() > y)){
@@ -302,6 +352,10 @@ public class Player implements Drawable{
         return false;
     }
 
+    /**
+     * sets the player condition to have a blob
+     * @param blob
+     */
     public void eatBlob(Blob blob){
         eatenBlob = blob;
         hasBlob = true;
@@ -310,6 +364,10 @@ public class Player implements Drawable{
         eatingSFX.play();
     }
 
+    /**
+     * makes the player lose or vomit the blob
+     * @return
+     */
     public Blob vomitBlob(){
         if (eatenBlob != null){
 
@@ -330,14 +388,26 @@ public class Player implements Drawable{
         return null;
     }
 
+    /**
+     * gets the direction
+     * @return
+     */
     public String getDirection(){
         return direction;
     }
     
+    /**
+     * gets the speed
+     * @return
+     */
     public int getSpeed(){
         return speed;
     }
 
+    /**
+     * gets the column of the player
+     * @return
+     */
     public int getColumnofPlayer(){
         int columnofPlayer = 0;
         for (int i = 200; i < 1000; i += 50){
@@ -348,6 +418,10 @@ public class Player implements Drawable{
         return columnofPlayer;
     }
 
+    /**
+     * gets the row of the player
+     * @return
+     */
     public int getRowofPlayer(){
         int rowofPlayer = 0;
         for (int i = 50; i < 550; i += 50){
@@ -358,50 +432,96 @@ public class Player implements Drawable{
         return rowofPlayer;
     }
 
+    /**
+     * sets the column of the player
+     * @param column
+     */
     public void setColumnofPlayer(int column){
         x = 150 + ((column * 50) + 10);
     }
 
+    /**
+     * sets the row of the player
+     * @param row
+     */
     public void setRowofPlayer(int row){
         y = ((row * 50) + 10);
     }
 
+    /**
+     * gets if player has blob
+     * @return
+     */
     public boolean checkHasBlob(){
         return hasBlob;
     }
 
+    /**
+     * gets player's blob
+     * @return
+     */
     public Blob getBlob() {
         return eatenBlob;
     }
 
+    /**
+     * clears the player blob
+     */
     public void clearBlob() {
         eatenBlob = null;
     }
 
+    /**
+     * adds the player's points
+     */
     public void incrementPoints() {
         points++;
     }
 
+    /**
+     * gets the player's points
+     * @return
+     */
     public int getPoints() {
         return points;
     }
 
+    /**
+     * sets the player's points
+     * @param pointsVal
+     */
     public void setPoints(int pointsVal) {
         points = pointsVal;
     }
 
+    /**
+     * sets the player's x-position
+     * @param xval
+     */
     public void setX(int xval) { 
         this.x = xval; 
     }
 
+    /**
+     * gets the player's x-position
+     * @return
+     */
     public int getX() { 
         return this.x; 
     }
 
+    /**
+     * sets the player's y-position
+     * @param yval
+     */
     public void setY(int yval) { 
         this.y = yval; 
     }
 
+    /**
+     * sets the player's y-position
+     * @return
+     */
     public int getY() { 
         return this.y; 
     }

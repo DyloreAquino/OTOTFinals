@@ -1,5 +1,4 @@
 /**
-	This is a class made for a more organized playing of audio.
 	
 	@author Jerold Luther P. Aquino (230413)
     @author Hanzo Ricardo M. Castillo (231365)
@@ -22,7 +21,6 @@
 */
 
 import java.awt.*;
-import java.awt.geom.*;
 import javax.swing.*;
 
 public class Wall implements Drawable{

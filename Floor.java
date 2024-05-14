@@ -1,5 +1,4 @@
 /**
-	This is a class made for a more organized playing of audio.
 	
 	@author Jerold Luther P. Aquino (230413)
     @author Hanzo Ricardo M. Castillo (231365)
@@ -22,7 +21,6 @@
 */
 
 import java.awt.*;
-import java.awt.geom.*;
 import javax.swing.*;
 
 public class Floor implements Drawable{
@@ -35,7 +33,12 @@ public class Floor implements Drawable{
     private ImageIcon floorSprite;
     private String floorSpriteFileName;
     private int imageNum;
-
+    /**
+     * instantiates the floor characteristics
+     * @param column
+     * @param row
+     * @param imageNum
+     */
     public Floor(int column, int row, int imageNum) {
         this.column = column;
         this.row = row;
@@ -44,7 +47,9 @@ public class Floor implements Drawable{
         x = 150 + (column * 50);
         y = row * 50;
     }
-
+    /**
+     * changes the filename to draw for variety
+     */
     private void updateImage() {
         switch (imageNum) {
             case 1:
@@ -68,21 +73,32 @@ public class Floor implements Drawable{
         }
     }
 
+    /** draws the floor */
     public void draw(Graphics2D g2d){
         updateImage();
         floorSprite = new ImageIcon(floorSpriteFileName);
         Image floorImgSprite = floorSprite.getImage();
         g2d.drawImage(floorImgSprite, x, y, SIZE, SIZE, null);
     }
-
+    /**
+     * gets the x-position of the floor
+     * @return
+     */
     public int getX(){
         return x;
     }
 
+    /**
+     * gets the y-position of the floor
+     * @return
+     */
     public int getY(){
         return y;
     }
-
+    /**
+     * gets the size of the floor
+     * @return
+     */
     public int getSize(){
         return SIZE;
     }

@@ -1,5 +1,4 @@
 /**
-	This is a class made for a more organized playing of audio.
 	
 	@author Jerold Luther P. Aquino (230413)
     @author Hanzo Ricardo M. Castillo (231365)
@@ -23,7 +22,6 @@
 
 import java.awt.*;
 import javax.swing.*;
-import java.awt.geom.*;
 
 public class GetReadyScreen extends Screen {
     
@@ -31,6 +29,11 @@ public class GetReadyScreen extends Screen {
 
     private ImageIcon gettingReady;
 
+    /**
+     * creates the get ready screen
+     * @param x
+     * @param y
+     */
     public GetReadyScreen(int x, int y){
         this.x = x;
         this.y = y;
@@ -38,7 +41,7 @@ public class GetReadyScreen extends Screen {
         gettingReady = new ImageIcon("get ready.png");
         
     }
-    
+    /**draws the get ready screen */
     @Override
     public void draw(Graphics2D g2d) {
         super.updateImage(gettingReady);

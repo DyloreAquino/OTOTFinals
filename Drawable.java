@@ -1,5 +1,4 @@
 /**
-	This is a class made for a more organized playing of audio.
 	
 	@author Jerold Luther P. Aquino (230413)
     @author Hanzo Ricardo M. Castillo (231365)
@@ -24,5 +23,9 @@
 import java.awt.*;
 
 public interface Drawable {
+	/**
+	 * draw method
+	 * @param g2d
+	 */
     public void draw(Graphics2D g2d);
 }

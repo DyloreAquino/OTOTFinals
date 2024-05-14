@@ -1,5 +1,4 @@
 /**
-	This is a class made for a more organized playing of audio.
 	
 	@author Jerold Luther P. Aquino (230413)
     @author Hanzo Ricardo M. Castillo (231365)
@@ -56,6 +55,12 @@ public class GameCanvas extends JComponent {
 
     private LevelMaker lvlMaker;
     
+    /**
+     * instantiates the draw methods through different types
+     * @param width
+     * @param height
+     * @param playerID
+     */
     public GameCanvas(int width, int height, int playerID){
         // When initializing the coordinates for a player, take note:
         // There are 16 columns, 10 rows
@@ -105,7 +110,10 @@ public class GameCanvas extends JComponent {
 
         this.playerID = playerID;
     }
-
+    /**
+     * picks the level
+     * @param level
+     */
     public void setUpLevel(int level){
         drawables.add(gameBackground);
         lvlMaker.setUpFloor(drawables);
@@ -119,24 +127,36 @@ public class GameCanvas extends JComponent {
         setUpScreens();
     }
 
+    /**
+     * clears the level
+     */
     public void clearLevel(){
         walls.clear();
         blobs.clear();
         drawables.clear();
     }
 
+    /**
+     * picks the screens
+     */
     public void setUpScreens() {
         for (Screen screen: screens){
             drawables.add(screen);
         }
     }
 
+    /**
+     * removes the screens
+     */
     public void removeScreens(){
         for (Screen screen: screens){
             screen.setInvisible();
         }
     }
 
+    /**
+     * draws out all the objects of the game
+     */
     @Override
     protected void paintComponent(Graphics g){
 
@@ -152,54 +172,100 @@ public class GameCanvas extends JComponent {
         }
     }
 
+    /**
+     * gets player
+     * @return
+     */
     public Player getPlayer(){
         return player;
     }
     
+    /**
+     * gets opponent
+     * @return
+     */
     public Player getOpponent(){
         return opponent;
     }
-
+    /**
+     * get walls
+     * @return
+     */
     public ArrayList<Wall> getWalls(){
         return walls;
     }
 
+    /**
+     * get blobs
+     * @return
+     */
     public ArrayList<Blob> getBlobs(){
         return blobs;
     }
-
+    /**
+     * gets waiting screen
+     * @return
+     */
     public WaitingScreen getWaitingScreen() {
         return waitingScreen;
     }
-
+    /**
+     * gets waiting screen
+     * @return
+     */
     public WaitingForOtherPlayerScreen getWaitingForOtherPlayerScreen(){
         return waitingForOtherPlayerScreen;
     }
-
+    /**gets win lose screen for the round
+     * @return
+     */
     public WinLoseScreen getWinLoseScreen(){
         return winLoseScreen;
     }
 
+    /**
+     * gets get ready screen
+     * @return
+     */
     public GetReadyScreen getReadyScreen(){
         return getReadyScreen;
     }
 
+    /**
+     * gets win lose screen for the whole game
+     * @return
+     */
     public WinLoseGameScreen getWinLoseGameScreen(){
         return winLoseGameScreen;
     }
-
+    /**
+     * gets timer screen
+     * @return
+     */
     public TimerScreen getTimerScreen(){
         return timerScreen;
     }
 
+    /**
+     * gets blob icon screen
+     * @return
+     */
     public BlobIconScreen getMyBlobIconScreen(){
         return myBlobIconScreen;
     }
 
+    /**
+     * gets opponent blob icon screen
+     * @return
+     */
     public BlobIconScreen getTheirBlobIconScreen(){
         return theirBlobIconScreen;
     }
 
+    /**
+     * gets point state
+     * @return
+     */
     public PointsTextScreen getPointsTextScreen() {
         return pointsTextScreen;
     }

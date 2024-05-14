@@ -1,5 +1,4 @@
 /**
-	This is a class made for a more organized playing of audio.
 	
 	@author Jerold Luther P. Aquino (230413)
     @author Hanzo Ricardo M. Castillo (231365)
@@ -23,7 +22,6 @@
 
 import java.awt.*;
 import javax.swing.*;
-import java.awt.geom.*;
 
 public class WaitingScreen extends Screen{
 
@@ -31,6 +29,11 @@ public class WaitingScreen extends Screen{
 
     private ImageIcon waitingImg;
 
+    /**
+     * instantiates the waiting screen characteristics
+     * @param x
+     * @param y
+     */
     public WaitingScreen(int x, int y){
         this.x = x;
         this.y = y;
@@ -38,7 +41,7 @@ public class WaitingScreen extends Screen{
         waitingImg = new ImageIcon("waiting screen.png");
         
     }
-    
+    /** draws the waiting screen */
     @Override
     public void draw(Graphics2D g2d) {
         super.updateImage(waitingImg);

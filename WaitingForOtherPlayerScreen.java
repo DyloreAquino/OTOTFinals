@@ -1,5 +1,4 @@
 /**
-	This is a class made for a more organized playing of audio.
 	
 	@author Jerold Luther P. Aquino (230413)
     @author Hanzo Ricardo M. Castillo (231365)
@@ -23,7 +22,6 @@
 
 import java.awt.*;
 import javax.swing.*;
-import java.awt.geom.*;
 
 public class WaitingForOtherPlayerScreen extends Screen{
     
@@ -31,6 +29,11 @@ public class WaitingForOtherPlayerScreen extends Screen{
 
     private ImageIcon waitingForOther;
 
+    /**
+     * creates the waiting for other player screen
+     * @param x
+     * @param y
+     */
     public WaitingForOtherPlayerScreen(int x, int y){
         this.x = x;
         this.y = y;
@@ -38,7 +41,9 @@ public class WaitingForOtherPlayerScreen extends Screen{
         waitingForOther = new ImageIcon("waiting for other player.png");
         
     }
-
+    /**
+     * draws the waiting for other player screen
+     */
     @Override
     public void draw(Graphics2D g2d) {
         super.updateImage(waitingForOther);

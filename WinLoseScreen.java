@@ -1,5 +1,4 @@
 /**
-	This is a class made for a more organized playing of audio.
 	
 	@author Jerold Luther P. Aquino (230413)
     @author Hanzo Ricardo M. Castillo (231365)
@@ -23,7 +22,6 @@
 
 import java.awt.*;
 import javax.swing.*;
-import java.awt.geom.*;
 
 public class WinLoseScreen extends Screen{
     
@@ -32,13 +30,22 @@ public class WinLoseScreen extends Screen{
     private ImageIcon resultDisplay;
     private String resultFilename;
 
+    /**
+     * instantiates the win lose screen characteristics for the round
+     * @param x
+     * @param y
+     */
     public WinLoseScreen(int x, int y){
         this.x = x;
         this.y = y;
 
         resultFilename = " ";
     }
-
+    /**
+     * sets the screen based on the result of the round
+     * @param playerBlobType
+     * @param opponentBlobType
+     */
     public void changeState(String playerBlobType, String opponentBlobType){
         switch (playerBlobType) {
             case "rock":
@@ -114,7 +121,9 @@ public class WinLoseScreen extends Screen{
         }
         
     }
-    
+    /**
+     * draws the win lose screen for the round
+     */
     @Override
     public void draw(Graphics2D g2d) {
         resultDisplay = new ImageIcon(resultFilename);
