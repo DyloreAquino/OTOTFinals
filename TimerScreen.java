@@ -18,6 +18,8 @@
 	of my program.
 **/
 
+/* TimerScreen class contains the timer respective to each player
+*/
 import java.awt.*;
 import javax.swing.*;
 import java.awt.geom.*;

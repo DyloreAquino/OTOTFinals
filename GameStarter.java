@@ -18,6 +18,9 @@
 	of my program.
 **/
 
+/* GameStarter class instantiates and runs the client to the main method.
+*/
+
 public class GameStarter {
     public static void main(String[] args) {
         

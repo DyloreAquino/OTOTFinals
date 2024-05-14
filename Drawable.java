@@ -18,6 +18,9 @@
 	of my program.
 **/
 
+/* Drawable interface contains the g2d method for all objects to be drawn.
+*/
+
 import java.awt.*;
 
 public interface Drawable {

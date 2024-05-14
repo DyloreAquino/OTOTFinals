@@ -18,6 +18,9 @@
 	of my program.
 **/
 
+/* WaitingScreen class displays the screen to wait
+*/
+
 import java.awt.*;
 import javax.swing.*;
 import java.awt.geom.*;

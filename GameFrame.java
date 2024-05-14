@@ -18,6 +18,9 @@
 	of my program.
 **/
 
+/* GameFrame class takes care of all the game logic, and draws out the animations
+*/
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;

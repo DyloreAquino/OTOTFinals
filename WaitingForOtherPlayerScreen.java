@@ -18,6 +18,9 @@
 	of my program.
 **/
 
+/* WaitingForOtherPlayerScreen class displays the screen for waiting a player
+*/
+
 import java.awt.*;
 import javax.swing.*;
 import java.awt.geom.*;

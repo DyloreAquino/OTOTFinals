@@ -18,6 +18,9 @@
 	of my program.
 **/
 
+/* Wall class creates the characteristics of a wall
+*/
+
 import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.*;

@@ -18,6 +18,9 @@
 	of my program.
 **/
 
+/* Floor class creates and displayes the characteristics of a floor.
+*/
+
 import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.*;

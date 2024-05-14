@@ -18,6 +18,8 @@
 	of my program.
 **/
 
+/* LevelMaker class makes the level of each round with integer arrays as their formula
+*/
 import java.util.*;
 
 public class LevelMaker {

@@ -18,6 +18,9 @@
 	of my program.
 **/
 
+/* GameBackground class creates the game background
+*/
+
 import java.awt.*;
 import javax.swing.*;
 

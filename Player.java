@@ -18,6 +18,10 @@
 	of my program.
 **/
 
+/* Player class contains the characteristics, image animations, and uses 
+    draw methods that involves movement and player updates.
+*/
+
 import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.*;

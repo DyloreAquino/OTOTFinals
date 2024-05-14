@@ -18,6 +18,8 @@
 	of my program.
 **/
 
+/* Screen class displays the screen boundaries and contains methods to update screen images
+*/
 import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.*;

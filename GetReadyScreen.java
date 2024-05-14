@@ -18,6 +18,9 @@
 	of my program.
 **/
 
+/* GetReadyScreen class displays the screen for players to get ready.
+*/
+
 import java.awt.*;
 import javax.swing.*;
 import java.awt.geom.*;

@@ -18,6 +18,9 @@
 	of my program.
 **/
 
+/* BlobIconScreen class displays the corresponding icon for a certain blob type.
+*/
+
 import java.awt.*;
 import javax.swing.*;
 import java.awt.geom.*;

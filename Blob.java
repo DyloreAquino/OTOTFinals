@@ -18,6 +18,9 @@
 	of my program.
 **/
 
+/* Blob class contains the characteristics and methods of a blob.
+*/
+
 import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.*;

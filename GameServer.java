@@ -18,6 +18,9 @@
 	of my program.
 **/
 
+/* GameServer class connects the two 
+instances of GameStarter client and act as a point of object send and receive.
+*/
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.plaf.TreeUI;

@@ -18,6 +18,9 @@
 	of my program.
 **/
 
+/* WinLoseGameScreen class displays the screen of winning or losing for the whole
+*/
+
 import java.awt.*;
 import javax.swing.*;
 import java.awt.geom.*;

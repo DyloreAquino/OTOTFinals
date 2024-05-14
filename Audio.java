@@ -18,6 +18,9 @@
 	of my program.
 **/
 
+/* Audio class contains the characteristics and methods of all the audios used.
+*/
+
 import java.io.File;
 import java.io.IOException;
 import javax.sound.sampled.*;

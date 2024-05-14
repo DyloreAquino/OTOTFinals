@@ -18,6 +18,9 @@
 	of my program.
 **/
 
+/* GameCanvas class draws out all the drawable objects
+*/
+
 import java.awt.*;
 import javax.swing.*;
 import java.util.*;
