@@ -1,5 +1,5 @@
 /**
-	This is a class made for a more organized playing of audio.
+	GameFrame class takes care of all the game logic, and draws out the animations
 	
 	@author Jerold Luther P. Aquino (230413)
     @author Hanzo Ricardo M. Castillo (231365)
@@ -18,8 +18,6 @@
 	of my program.
 **/
 
-/* GameFrame class takes care of all the game logic, and draws out the animations
-*/
 
 import java.awt.*;
 import java.awt.event.*;
@@ -109,6 +107,9 @@ public class GameFrame {
     private Random rand;
     private int levelNum;
 
+    /**
+     * Constructor for GameFrame
+     */
     public GameFrame() {
         f = new JFrame();
         cp = (JPanel) f.getContentPane();
@@ -119,6 +120,10 @@ public class GameFrame {
         
     }
     
+    /**
+     * Resets all the variables
+     * Useful for resetting Game
+     */
     private void resetEverything(){
         direction = " ";
         opponentDirection = " ";
@@ -154,6 +159,9 @@ public class GameFrame {
         canPlayGameAudio = false;
     }
 
+    /**
+     * Setting up Frame and Game Canvas
+     */
     public void setUpGUI() {
         gc = new GameCanvas(1200, 600, playerID);
 
@@ -184,6 +192,10 @@ public class GameFrame {
         blobThread.start();
     }
 
+    /**
+     * Spawns a level
+     * @param level which level to do
+     */
     private void spawnLevel(int level){
         gc.clearLevel();
         gc.setUpLevel(level);
@@ -200,6 +212,11 @@ public class GameFrame {
         opponent.clearBlob();
     }
 
+    /**
+     * Connects to the server
+     * @param host
+     * @param port
+     */
     public void connectToServer(String host, int port) {
         try {
             socket = new Socket(host, port);
@@ -222,6 +239,9 @@ public class GameFrame {
         }
     }
 
+    /**
+     * Reads all information from the server
+     */
     private class ReadFromServer implements Runnable {
 
         private DataInputStream dataIn;
@@ -251,6 +271,9 @@ public class GameFrame {
 
     }
 
+    /**
+     * Writes all information from the server
+     */
     private class WriteToServer implements Runnable {
 
         private DataOutputStream dataOut;
@@ -287,6 +310,10 @@ public class GameFrame {
 
     }
     
+    /**
+     * Adds Key Bindings to the Game Frame
+     * Useful for keyboard actions
+     */
     public void addKeyBindings() {
         ActionMap am = cp.getActionMap();
         InputMap im = cp.getInputMap();
@@ -348,6 +375,9 @@ public class GameFrame {
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, true), "notEatBlob");
     }
 
+    /**
+     * Checked every frame, checks the collision of the players with walls and borders
+     */
     private void checkCollisions(){
 
         if (player.checkBorderCollision()) {
@@ -370,6 +400,10 @@ public class GameFrame {
         
     }
 
+    /**
+     * Checked every frame, checks the collision of the Blobs with player and opponent
+     * Eats when both isCollidingBlob and isEatingBlob is true
+     */
     private void checkBlobBehavior(){
         for (Blob obj: blobs){
             if (player.checkBlobCollision(obj)){
@@ -397,6 +431,9 @@ public class GameFrame {
         }
     }
 
+    /**
+     * Sets a String to a certain thing when Time is at a certain amount
+     */
     private void turnManager() {
         if (clientTime == 0) {
             turn = "waitingMenu";
@@ -416,7 +453,9 @@ public class GameFrame {
     }
 
 
-
+    /**
+     * Sets up all the required logic when the Time is at a certain amount
+     */
     private void setUpTurnChanges() {
         switch (turn) {
             case "waitingMenu":
@@ -514,6 +553,12 @@ public class GameFrame {
         }
     }
 
+    /**
+     * Helper method for checking if a blob is winning
+     * @param me a Player
+     * @param blobType the Blob type to check if the player is winning against it
+     * @return true if the player wins against the Blob
+     */
     private boolean checkBlobWinning(Player me, String blobType) {
         boolean itWins = false;
         if (me.checkHasBlob()) {
@@ -522,6 +567,12 @@ public class GameFrame {
         return itWins;
     }
 
+    /**
+     * Helper method to check who wins the round
+     * Plays the SFX
+     * Increments points
+     * Stops the Server Timer
+     */
     private void whoWonRound() {
         if (player.checkHasBlob()){
             if (player.getBlob().doesItWinAgainst(opponentBlobType)){
@@ -557,6 +608,9 @@ public class GameFrame {
 
     }
 
+    /**
+     * Checked every frame, checks which direction the player is going and moves them
+     */
     private void checkPlayerDirection(){
         switch (direction) {
             case "L":
@@ -584,6 +638,9 @@ public class GameFrame {
         player.changeSpriteState(direction);
     }
 
+    /**
+     * Checked every frame, checks which direction the opponent is going and moves them
+     */
     private void checkOpponentDirection(){
         switch (opponentDirection) {
             case "L":
@@ -612,6 +669,11 @@ public class GameFrame {
         opponent.changeSpriteState(opponentDirection);
     }
 
+    /**
+     * The main Game Loop or Game Timer
+     * All methods to be checked and run every frame is located here
+     * All variables to be updated are located here as well
+     */
     public void setUpTimeListen() {
         class TimeListener implements ActionListener {
 
@@ -655,6 +717,10 @@ public class GameFrame {
         timer.start();
     }
 
+    /**
+     * Helper class, a runnable, which basically waits for a few seconds before turning booleans into false
+     * This gives enough time for the server to recognize the change 
+     */
     private class BlobChecker implements Runnable {
         public void run(){
             try {
@@ -683,6 +749,10 @@ public class GameFrame {
         }
     }
 
+    /**
+     * Gets the player ID
+     * @return the player ID
+     */
     public int getPlayerID(){
         return playerID;
     }

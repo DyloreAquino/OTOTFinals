@@ -1,5 +1,5 @@
 /**
-	This is a class made for a more organized playing of audio.
+	Wall class creates the characteristics of a wall
 	
 	@author Jerold Luther P. Aquino (230413)
     @author Hanzo Ricardo M. Castillo (231365)
@@ -18,9 +18,6 @@
 	of my program.
 **/
 
-/* Wall class creates the characteristics of a wall
-*/
-
 import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.*;
@@ -36,6 +33,12 @@ public class Wall implements Drawable{
     private ImageIcon wallSprite;
     private int imageNum;
 
+    /**
+     * Constructor for a wall
+     * @param column
+     * @param row
+     * @param imageNum which Image to send
+     */
     public Wall(int column, int row, int imageNum) {
         this.column = column;
         this.row = row;
@@ -46,6 +49,10 @@ public class Wall implements Drawable{
         this.imageNum = imageNum;
     }
 
+    /**
+     * Updates the image based on the imageNum
+     * There are four main images to choose from
+     */
     private void updateImage() {
         switch (imageNum) {
             case 1:
@@ -69,6 +76,9 @@ public class Wall implements Drawable{
         }
     }
 
+    /**
+     * Draws the wall
+     */
     public void draw(Graphics2D g2d){
         updateImage();
         wallSprite = new ImageIcon(wallSpriteFileName);
@@ -76,14 +86,26 @@ public class Wall implements Drawable{
         g2d.drawImage(wallImgSprite, x, y, SIZE, SIZE, null);
     }
 
+    /**
+     * Gets the x
+     * @return x value
+     */
     public int getX(){
         return x;
     }
 
+    /**
+     * Gets the y
+     * @return y value
+     */
     public int getY(){
         return y;
     }
 
+    /**
+     * Gets the size
+     * @return size value
+     */
     public int getSize(){
         return SIZE;
     }

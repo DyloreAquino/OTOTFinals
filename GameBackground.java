@@ -1,5 +1,5 @@
 /**
-	This is a class made for a more organized playing of audio.
+	GameBackground class creates the game background
 	
 	@author Jerold Luther P. Aquino (230413)
     @author Hanzo Ricardo M. Castillo (231365)
@@ -18,8 +18,6 @@
 	of my program.
 **/
 
-/* GameBackground class creates the game background
-*/
 
 import java.awt.*;
 import javax.swing.*;
@@ -29,6 +27,9 @@ public class GameBackground implements Drawable{
     private ImageIcon gameBackground;
     private Image toPrint;
 
+	/**
+	 * Draws the background
+	 */
     public void draw(Graphics2D g2d){
         gameBackground = new ImageIcon("game background.png");
         toPrint = gameBackground.getImage();
