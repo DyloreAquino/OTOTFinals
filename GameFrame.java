@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 import java.net.*;
 import java.io.*;
+import java.util.Random;
 
 public class GameFrame {
     private JFrame f;
@@ -67,7 +68,6 @@ public class GameFrame {
     private boolean canSpawn;
 
     private BlobChecker blobChecker;
-    private UpdateCoordinates updateCoordinates;
 
     private boolean hasPlayerWon;
     private boolean stopServerTimer;
@@ -84,12 +84,17 @@ public class GameFrame {
     private Audio gameResultSFX;
     private boolean canPlayGameAudio;
 
+    private Random rand;
+    private int levelNum;
+
     public GameFrame() {
         f = new JFrame();
         cp = (JPanel) f.getContentPane();
         cp.setFocusable(true);
-
+        levelNum = 1;
         resetEverything();
+        rand = new Random();
+        
     }
     
     private void resetEverything(){
@@ -133,7 +138,7 @@ public class GameFrame {
         gc.setPreferredSize(new Dimension(1200, 600));
         cp.add(gc, BorderLayout.CENTER);
 
-        spawnLevel(1);
+        spawnLevel(levelNum);
 
         waitingScreen = gc.getWaitingScreen();
         waitingForOtherPlayerScreen = gc.getWaitingForOtherPlayerScreen();
@@ -155,10 +160,6 @@ public class GameFrame {
         blobChecker = new BlobChecker();
         Thread blobThread = new Thread(blobChecker);
         blobThread.start();
-
-        updateCoordinates = new UpdateCoordinates();
-        Thread updateCoordsThread = new Thread(updateCoordinates);
-        updateCoordsThread.start();
     }
 
     private void spawnLevel(int level){
@@ -219,6 +220,7 @@ public class GameFrame {
                     opponentEatsBlob = dataIn.readBoolean();
                     opponentVomitBlob = dataIn.readBoolean();
                     opponentPoints = dataIn.readInt();
+                    levelNum = dataIn.readInt();
                 }
             } catch (IOException ex) {
                 System.out.println("IOException from RFS run()");
@@ -413,7 +415,8 @@ public class GameFrame {
 
                 stopServerTimer = false;
                 if (canSpawn){
-                    spawnLevel(1);
+                    
+                    spawnLevel(levelNum);
                     canSpawn = false;
                 }
                 gc.removeScreens();
@@ -650,23 +653,6 @@ public class GameFrame {
                             System.out.println("InterruptedException in run() while loop in ServerTimerThread");
                         }
                         hasVomitBlob = false;
-                    }
-                }
-            } catch (Exception e) {
-                System.out.println("Exception in BlobChecker");
-            }
-        }
-    }
-
-    private class UpdateCoordinates implements Runnable {
-        public void run(){
-            try {
-                while (true) {
-                    
-                    try {
-                        Thread.sleep(10);
-                    } catch (InterruptedException ex) {
-                        System.out.println("InterruptedException in run() while loop in ServerTimerThread");
                     }
                 }
             } catch (Exception e) {
