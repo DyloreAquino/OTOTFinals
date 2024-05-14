@@ -78,6 +78,10 @@ public class GameFrame {
         cp = (JPanel) f.getContentPane();
         cp.setFocusable(true);
 
+        resetEverything();
+    }
+    
+    private void resetEverything(){
         direction = " ";
         opponentDirection = " ";
         turn = " ";
@@ -92,12 +96,15 @@ public class GameFrame {
         canSpawn = true;
 
         hasPlayerWon = false;
-        stopServerTimer = false;
 
+        hasEatenBlob = false;
+        opponentEatsBlob = false;
+        hasVomitBlob = false;
+        opponentVomitBlob = false;
+
+        stopServerTimer = false;
         playerPoints = 0;
         opponentPoints = 0;
-
-        
     }
 
     public void setUpGUI() {
@@ -113,30 +120,13 @@ public class GameFrame {
         winLoseScreen = gc.getWinLoseScreen();
         getReadyScreen = gc.getReadyScreen();
 
-        hasEatenBlob = false;
-        opponentEatsBlob = false;
-        hasVomitBlob = false;
-        opponentVomitBlob = false;
         playerPoints = player.getPoints();
 
         f.setTitle("Rock Paper Scissors. You are Player #" + playerID);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.pack();
         f.setVisible(true);
-
-        resetButton = new JButton("New Game?");
-        resetButton.addActionListener( new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae){
-                stopServerTimer = false;
-            }
-        });
-        resetButton.setVisible(true);
-        resetButton.setBounds(-9999, -9999, 0, 0);
         
-        f.add(resetButton);
-        
-
         blobChecker = new BlobChecker();
         Thread blobThread = new Thread(blobChecker);
         blobThread.start();
@@ -359,16 +349,20 @@ public class GameFrame {
     }
 
     private void turnManager() {
-        if (clientTime == 0){
+        if (clientTime == 0) {
             turn = "waitingMenu";
-        } else if (clientTime < 4){
+        } else if (clientTime < 3) {
+            turn = "gameStartingMenu";
+        } else if (clientTime < 6) {
             turn = "countDownMenu";
-        } else if (clientTime < 13) {
+        } else if (clientTime < 16) {
             turn = "fightRound";
-        } else if (clientTime < 18) {
+        } else if (clientTime < 19) {
             turn = "decidingTurn";
-        } else if (clientTime == 20){
+        } else if (clientTime < 22) {
             turn = "finishMenu";
+        } else if (clientTime > 22) {
+            turn = "restart";
         }
     }
 
@@ -381,9 +375,15 @@ public class GameFrame {
                 waitingForOtherPlayerScreen.setVisible();
                 player.setSpeed(0);
                 opponent.setSpeed(0);
-                resetButton.setBounds(-9999, -9999, 0, 0);
+                break;
+            case "gameStartingMenu":
+                gc.removeScreens();
+                waitingScreen.setVisible();
+                player.setSpeed(0);
+                opponent.setSpeed(0);
                 break;
             case "countDownMenu":
+                stopServerTimer = false;
                 if (canSpawn){
                     spawnLevel(1);
                     canSpawn = false;
@@ -392,15 +392,13 @@ public class GameFrame {
                 getReadyScreen.setVisible();
                 player.setSpeed(0);
                 opponent.setSpeed(0);
-                resetButton.setBounds(-9999, -9999, 0, 0);
-                stopServerTimer = false;
                 break;
             case "fightRound":
+                stopServerTimer = false;
                 gc.removeScreens();
                 player.setSpeed(playerSpeed);
                 opponent.setSpeed(playerSpeed);
                 canIncrement = true;
-                resetButton.setBounds(-9999, -9999, 0, 0);
                 break;
             case "decidingTurn":
                 gc.removeScreens();
@@ -416,8 +414,13 @@ public class GameFrame {
                 waitingScreen.setVisible();
                 player.setSpeed(0);
                 opponent.setSpeed(0);
-                resetButton.setBounds(1050, 250, 100, 50);
                 player.setPoints(0);
+                player.vomitBlob();
+                opponent.vomitBlob();
+                break;
+            case "restart":
+                resetEverything(); 
+                break;
             default:
                 break;
         }
@@ -517,6 +520,7 @@ public class GameFrame {
                 playerY = player.getY();
                 opponent.setX(opponentX);
                 opponent.setY(opponentY);
+
                 if (player.checkHasBlob()){
                     playerBlobType = player.getBlob().getType();
                 } else {
@@ -525,6 +529,7 @@ public class GameFrame {
                 
                 System.out.println("Player has..." + playerBlobType);
                 System.out.println("Opponent has..." + opponentBlobType);
+                System.out.println(direction);
             }
         }
 

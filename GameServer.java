@@ -119,14 +119,18 @@ public class GameServer {
             try {
                 
                 while (true) {
-                    if (stopServerTimerp1 == false || stopServerTimerp2 == false) {
-                        if (serverTime < 18) { // what if we turn this into 24? since the threads are kind of having a hard time checking if 26 is alrdy out of the limit
+                    if (stopServerTimerp1 == false && stopServerTimerp2 == false) {
+                        if (serverTime < 18) { 
                             serverTime++;
                         } else {
-                            serverTime = 1;
+                            serverTime = 3;
                         }
-                    } else if (stopServerTimerp1 || stopServerTimerp2) {
-                        serverTime = 20;
+                    } else if (stopServerTimerp1 && stopServerTimerp2) {
+                        if (serverTime < 24) { 
+                            serverTime++;
+                        } else {
+                            serverTime = 3;
+                        }
                     }
                     try {
                         Thread.sleep(1000);
@@ -174,6 +178,8 @@ public class GameServer {
                         p2Points = dataIn.readInt();
                         stopServerTimerp2 = dataIn.readBoolean();
                     }
+                    System.out.println(p1Direction);
+                    System.out.println(p2Direction);
                 }
             } catch (IOException ex) {
                 System.out.println("IOException at WTS run()");
