@@ -55,6 +55,7 @@ public class GameCanvas extends JComponent {
 
     private LevelMaker lvlMaker;
     
+    
     /**
      * instantiates the draw methods through different types
      * @param width
@@ -110,10 +111,7 @@ public class GameCanvas extends JComponent {
 
         this.playerID = playerID;
     }
-    /**
-     * picks the level
-     * @param level
-     */
+
     public void setUpLevel(int level){
         drawables.add(gameBackground);
         lvlMaker.setUpFloor(drawables);
