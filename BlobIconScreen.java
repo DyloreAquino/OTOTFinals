@@ -68,7 +68,7 @@ public class BlobIconScreen extends Screen {
                     break;
 
                 case "stick":
-                    blobFileName = "the stick.png";
+                    blobFileName = "stick-white.png";
                     break;
 
                 default:

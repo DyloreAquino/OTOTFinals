@@ -75,8 +75,9 @@ public class GameFrame {
     private int playerPoints;
     private int opponentPoints;
 
-    private JButton resetButton;
-    
+    private Audio roundResultSFX;
+
+    private boolean canPlayRoundAudio;
 
     public GameFrame() {
         f = new JFrame();
@@ -110,6 +111,10 @@ public class GameFrame {
         stopServerTimer = false;
         playerPoints = 0;
         opponentPoints = 0;
+
+        roundResultSFX = new Audio();
+
+        canPlayRoundAudio = false;
     }
 
     public void setUpGUI() {
@@ -422,6 +427,7 @@ public class GameFrame {
                 player.setSpeed(playerSpeed);
                 opponent.setSpeed(playerSpeed);
                 canIncrement = true;
+                canPlayRoundAudio = true;
                 break;
             case "decidingTurn":
                 gc.removeScreens();
@@ -450,9 +456,9 @@ public class GameFrame {
         }
     }
 
-    private boolean checkBlobWinning(Player me, String opponentBlobType) {
+    private boolean checkBlobWinning(Player me, String blobType) {
         if (me.checkHasBlob()) {
-            return me.getBlob().doesItWinAgainst(opponentBlobType);
+            return me.getBlob().doesItWinAgainst(blobType);
         } 
         return false;
     }
@@ -464,6 +470,23 @@ public class GameFrame {
                     player.incrementPoints();
                     canIncrement = false;
                 }
+                if (canPlayRoundAudio){
+                    roundResultSFX.setFile("congratulations sfx.wav");
+                    roundResultSFX.play();
+                    canPlayRoundAudio = false;
+                }
+            } else {
+                if (canPlayRoundAudio){
+                    roundResultSFX.setFile("try again sfx.wav");
+                    roundResultSFX.play();
+                    canPlayRoundAudio = false;
+                }
+            }
+        } else if (playerBlobType.equals(" ")){
+            if (canPlayRoundAudio){
+                roundResultSFX.setFile("huh.wav");
+                roundResultSFX.play();
+                canPlayRoundAudio = false;
             }
         }
         if ((playerPoints >= 3 || opponentPoints >= 3) && clientTime == 18){
@@ -546,6 +569,12 @@ public class GameFrame {
                     playerBlobType = player.getBlob().getType();
                 } else {
                     playerBlobType = " ";
+                }
+
+                if (opponent.checkHasBlob()){
+                    opponent.getBlob().setType(opponentBlobType);
+                } else {
+                    opponentBlobType = " ";
                 }
 
                 checkPlayerDirection();

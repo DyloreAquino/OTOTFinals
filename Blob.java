@@ -67,6 +67,10 @@ public class Blob implements Drawable{
         return type;
     }
 
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public int getX(){
         return x;
     }
