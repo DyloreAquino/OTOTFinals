@@ -18,9 +18,6 @@
 	of my program.
 **/
 
-/* GameServer class connects the two 
-instances of GameStarter client and act as a point of object send and receive.
-*/
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.plaf.TreeUI;
@@ -64,12 +61,28 @@ public class GameServer {
     private boolean stopServerTimerp1;
     private boolean stopServerTimerp2;
 
+    private int levelNum;
+    private int levelAmt = 2;
+
+    private Random rand;
+
     public GameServer() {
         numPlayers = 0;
-        turnsMade = 0;
-        maxTurns = 9;
         serverTime = 0;
 
+        resetEverything();
+
+        levelNum = 1;
+
+        rand = new Random();
+        try {
+            ss = new ServerSocket(44444);
+        } catch (IOException ex) {
+            System.out.println("IOException from GameServer constructor");
+        }
+    }
+
+    private void resetEverything() {
         p1BlobType = " ";
         p2BlobType = " ";
         p1Direction = " ";
@@ -82,11 +95,6 @@ public class GameServer {
         p2Points = 0;
         stopServerTimerp1 = false;
         stopServerTimerp2 = false;
-        try {
-            ss = new ServerSocket(44444);
-        } catch (IOException ex) {
-            System.out.println("IOException from GameServer constructor");
-        }
     }
 
     public void acceptConnections() {
@@ -140,8 +148,8 @@ public class GameServer {
 
         public void run() {
             try {
-                
                 while (true) {
+                    levelNum = rand.nextInt(levelAmt) + 1;
                     if (stopServerTimerp1 == false && stopServerTimerp2 == false) {
                         if (serverTime < 18) { 
                             serverTime++;
@@ -152,6 +160,7 @@ public class GameServer {
                         if (serverTime < 24) { 
                             serverTime++;
                         } else {
+                            resetEverything();
                             serverTime = 3;
                         }
                     }
@@ -241,7 +250,7 @@ public class GameServer {
                         dataOut.writeBoolean(p1VomitBlob);
                         dataOut.writeInt(p1Points);
                     }
-                    
+                    dataOut.writeInt(levelNum);
                     dataOut.flush();
                     try {
                         Thread.sleep(5);
