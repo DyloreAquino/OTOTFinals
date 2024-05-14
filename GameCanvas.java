@@ -18,6 +18,10 @@ public class GameCanvas extends JComponent {
     private WaitingForOtherPlayerScreen waitingForOtherPlayerScreen;
     private GetReadyScreen getReadyScreen;
     private WinLoseScreen winLoseScreen;
+    private WinLoseGameScreen winLoseGameScreen;
+    private TimerScreen timerScreen;
+    private BlobIconScreen myBlobIconScreen;
+    private BlobIconScreen theirBlobIconScreen;
 
     private ArrayList<Drawable> drawables;
     private ArrayList<Wall> walls;
@@ -43,11 +47,25 @@ public class GameCanvas extends JComponent {
         waitingScreen = new WaitingScreen(-9999, -9999);
         winLoseScreen = new WinLoseScreen(-9999, -9999);
         getReadyScreen = new GetReadyScreen(-9999, -9999);
+        winLoseGameScreen = new WinLoseGameScreen(-9999, -9999);
+        timerScreen = new TimerScreen(-9999, -9999, playerID);
+        
+        if (playerID == 1) {
+            myBlobIconScreen = new BlobIconScreen(-9999, -9999, true);
+            theirBlobIconScreen = new BlobIconScreen(-9999, -9999, false);
+        } else if (playerID == 2) {
+            myBlobIconScreen = new BlobIconScreen(-9999, -9999, false);
+            theirBlobIconScreen = new BlobIconScreen(-9999, -9999, true);
+        }
 
         screens.add(waitingForOtherPlayerScreen);
         screens.add(waitingScreen);
         screens.add(winLoseScreen);
         screens.add(getReadyScreen);
+        screens.add(winLoseGameScreen);
+        screens.add(timerScreen);
+        screens.add(myBlobIconScreen);
+        screens.add(theirBlobIconScreen);
 
         this.playerID = playerID;
     }
@@ -127,5 +145,21 @@ public class GameCanvas extends JComponent {
 
     public GetReadyScreen getReadyScreen(){
         return getReadyScreen;
+    }
+
+    public WinLoseGameScreen getWinLoseGameScreen(){
+        return winLoseGameScreen;
+    }
+
+    public TimerScreen getTimerScreen(){
+        return timerScreen;
+    }
+
+    public BlobIconScreen getMyBlobIconScreen(){
+        return myBlobIconScreen;
+    }
+
+    public BlobIconScreen getTheirBlobIconScreen(){
+        return theirBlobIconScreen;
     }
 }

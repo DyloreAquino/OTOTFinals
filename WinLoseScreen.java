@@ -27,6 +27,8 @@ public class WinLoseScreen extends Screen{
                     resultFilename = "rock scissors win.png";
                 } else if (opponentBlobType.equals("stick")) {
                     resultFilename = "rock stick lose.png";
+                } else if (opponentBlobType.equals(" ")) {
+                    resultFilename = "rock nothing win.png";
                 }
                 break;
 
@@ -39,6 +41,8 @@ public class WinLoseScreen extends Screen{
                     resultFilename = "paper scissors lose.png";
                 } else if (opponentBlobType.equals("stick")) {
                     resultFilename = "paper stick lose.png";
+                } else if (opponentBlobType.equals(" ")) {
+                    resultFilename = "paper nothing win.png";
                 }
                 break;
             
@@ -51,6 +55,8 @@ public class WinLoseScreen extends Screen{
                     resultFilename = "scissors tie.png";
                 } else if (opponentBlobType.equals("stick")) {
                     resultFilename = "scissors stick lose.png";
+                } else if (opponentBlobType.equals(" ")) {
+                    resultFilename = "scissors nothing win.png";
                 }
                 break;
 
@@ -60,12 +66,26 @@ public class WinLoseScreen extends Screen{
                 } else if (opponentBlobType.equals("paper")) {
                     resultFilename = "stick paper win.png";
                 } else if (opponentBlobType.equals("scissors")) {
-                    resultFilename = "stick scissors.png";
+                    resultFilename = "stick scissors win.png";
                 } else if (opponentBlobType.equals("stick")) {
                     resultFilename = "stick tie.png";
+                } else if (opponentBlobType.equals(" ")) {
+                    resultFilename = "stick nothing win.png";
                 }
                 break;
-
+            
+            case " ":
+                if (opponentBlobType.equals("rock")) {
+                    resultFilename = "rock nothing lose.png";
+                } else if (opponentBlobType.equals("paper")) {
+                    resultFilename = "paper nothing lose.png";
+                } else if (opponentBlobType.equals("scissors")) {
+                    resultFilename = "scissors nothing lose.png";
+                } else if (opponentBlobType.equals("stick")) {
+                    resultFilename = "stick nothing lose.png";
+                } else if (opponentBlobType.equals(" ")) {
+                    resultFilename = "nothing tie.png";
+                }
             default:
                 break;
         }

@@ -20,6 +20,10 @@ public class GameFrame {
     private WaitingForOtherPlayerScreen waitingForOtherPlayerScreen;
     private WinLoseScreen winLoseScreen;
     private GetReadyScreen getReadyScreen;
+    private WinLoseGameScreen winLoseGameScreen;
+    private TimerScreen timerScreen;
+    private BlobIconScreen myBlobIconScreen;
+    private BlobIconScreen theirBlobIconScreen;
 
     private String direction;
     private String opponentDirection;
@@ -119,6 +123,10 @@ public class GameFrame {
         waitingForOtherPlayerScreen = gc.getWaitingForOtherPlayerScreen();
         winLoseScreen = gc.getWinLoseScreen();
         getReadyScreen = gc.getReadyScreen();
+        winLoseGameScreen = gc.getWinLoseGameScreen();
+        timerScreen = gc.getTimerScreen();
+        myBlobIconScreen = gc.getMyBlobIconScreen();
+        theirBlobIconScreen = gc.getTheirBlobIconScreen();
 
         playerPoints = player.getPoints();
 
@@ -291,10 +299,10 @@ public class GameFrame {
         am.put("eatBlob", eatBlob);
         am.put("notEatBlob", notEatBlob);
 
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, false), "mLeft");
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, false), "mRight");
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, false), "mDown");
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, false), "mUp");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0, false), "mLeft");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0, false), "mRight");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0, false), "mDown");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0, false), "mUp");
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, false), "eatBlob");
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0, true), "notEatBlob");
     }
@@ -396,6 +404,16 @@ public class GameFrame {
             case "fightRound":
                 stopServerTimer = false;
                 gc.removeScreens();
+
+                timerScreen.changeState(clientTime);
+                timerScreen.setVisible();
+
+                myBlobIconScreen.changeState(playerBlobType, checkBlobWinning(player, opponentBlobType));
+                theirBlobIconScreen.changeState(opponentBlobType, checkBlobWinning(opponent, playerBlobType));
+
+                myBlobIconScreen.setVisible();
+                theirBlobIconScreen.setVisible();
+
                 player.setSpeed(playerSpeed);
                 opponent.setSpeed(playerSpeed);
                 canIncrement = true;
@@ -411,7 +429,8 @@ public class GameFrame {
                 break;
             case "finishMenu":
                 gc.removeScreens();
-                waitingScreen.setVisible();
+                winLoseGameScreen.changeState(hasPlayerWon);
+                winLoseGameScreen.setVisible();
                 player.setSpeed(0);
                 opponent.setSpeed(0);
                 player.setPoints(0);
@@ -426,6 +445,13 @@ public class GameFrame {
         }
     }
 
+    private boolean checkBlobWinning(Player me, String opponentBlobType) {
+        if (me.checkHasBlob()) {
+            return me.getBlob().doesItWinAgainst(opponentBlobType);
+        }
+        return false;
+    }
+
     private void whoWonRound() {
         if (player.checkHasBlob()){
             if (player.getBlob().doesItWinAgainst(opponentBlobType)){
@@ -435,7 +461,10 @@ public class GameFrame {
                 }
             }
         }
-        if (playerPoints >= 3 || opponentPoints >= 3){
+        if ((playerPoints >= 3 || opponentPoints >= 3) && clientTime == 18){
+            if (playerPoints >= 3) {
+                hasPlayerWon = true;
+            }
             stopServerTimer = true;
         }
         System.out.println(playerPoints + ": player points");
