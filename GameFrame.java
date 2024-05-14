@@ -76,8 +76,13 @@ public class GameFrame {
     private int opponentPoints;
 
     private Audio roundResultSFX;
-
     private boolean canPlayRoundAudio;
+
+    private Audio getReadySFX;
+    private boolean canPlayReadyAudio;
+
+    private Audio gameResultSFX;
+    private boolean canPlayGameAudio;
 
     public GameFrame() {
         f = new JFrame();
@@ -113,8 +118,13 @@ public class GameFrame {
         opponentPoints = 0;
 
         roundResultSFX = new Audio();
-
         canPlayRoundAudio = false;
+
+        getReadySFX = new Audio();
+        canPlayReadyAudio = false;
+
+        gameResultSFX = new Audio();
+        canPlayGameAudio = false;
     }
 
     public void setUpGUI() {
@@ -396,8 +406,11 @@ public class GameFrame {
                 waitingScreen.setVisible();
                 player.setSpeed(0);
                 opponent.setSpeed(0);
+                canPlayGameAudio = true;
+                canPlayReadyAudio = true;
                 break;
             case "countDownMenu":
+
                 stopServerTimer = false;
                 if (canSpawn){
                     spawnLevel(1);
@@ -407,6 +420,13 @@ public class GameFrame {
                 getReadyScreen.setVisible();
                 player.setSpeed(0);
                 opponent.setSpeed(0);
+
+                if (canPlayReadyAudio){
+                    getReadySFX.setFile("rock paper scissors shoot.wav");
+                    getReadySFX.play();
+                    canPlayReadyAudio = false;
+                }
+                
                 break;
             case "fightRound":
                 stopServerTimer = false;
@@ -428,6 +448,7 @@ public class GameFrame {
                 opponent.setSpeed(playerSpeed);
                 canIncrement = true;
                 canPlayRoundAudio = true;
+                canPlayReadyAudio = true;
                 break;
             case "decidingTurn":
                 gc.removeScreens();
@@ -437,6 +458,7 @@ public class GameFrame {
                 opponent.setSpeed(0);
                 whoWonRound();
                 canSpawn = true;
+                pointsTextScreen.changePoints(playerPoints, opponentPoints);
                 break;
             case "finishMenu":
                 gc.removeScreens();
@@ -447,6 +469,17 @@ public class GameFrame {
                 player.setPoints(0);
                 player.vomitBlob();
                 opponent.vomitBlob();
+
+                if (canPlayGameAudio) {
+                    if (hasPlayerWon){
+                        gameResultSFX.setFile("win sfx.wav");
+                    } else {
+                        gameResultSFX.setFile("lose sfx.wav");
+                    }
+                    gameResultSFX.play();
+                    canPlayGameAudio = false;
+                }
+
                 break;
             case "restart":
                 resetEverything(); 
@@ -457,10 +490,11 @@ public class GameFrame {
     }
 
     private boolean checkBlobWinning(Player me, String blobType) {
+        boolean itWins = false;
         if (me.checkHasBlob()) {
-            return me.getBlob().doesItWinAgainst(blobType);
+            itWins = me.getBlob().doesItWinAgainst(blobType);
         } 
-        return false;
+        return itWins;
     }
 
     private void whoWonRound() {

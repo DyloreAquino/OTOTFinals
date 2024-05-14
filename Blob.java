@@ -37,26 +37,31 @@ public class Blob implements Drawable{
         boolean doesWinAgainst = false;
         switch (blobType) {
             case "rock":
-                if (this.type == "paper"){
+                if (this.type.equals("paper") ||
+                    this.type.equals("stick")){
                     doesWinAgainst = true;
-                }
+                } 
                 break;
+
             case "paper":
-                if (this.type == "scissors"){
+                if (this.type.equals("scissors") ||
+                    this.type.equals("stick")){
                     doesWinAgainst = true;
                 }
                 break;
+
             case "scissors":
-                if (this.type == "rock"){
+                if (this.type.equals("rock") ||
+                    this.type.equals("stick")){
                     doesWinAgainst = true;
                 }
                 break;
+
             case " ":
                 doesWinAgainst = true;
                 break;
+
             case "stick":
-                doesWinAgainst = false;
-            default:
                 doesWinAgainst = false;
                 break;
         }
