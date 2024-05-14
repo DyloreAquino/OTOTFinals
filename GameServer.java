@@ -1,4 +1,5 @@
 /**
+	This is a class made for a more organized playing of audio.
 	
 	@author Jerold Luther P. Aquino (230413)
     @author Hanzo Ricardo M. Castillo (231365)
@@ -23,7 +24,6 @@ import javax.swing.plaf.TreeUI;
 import java.util.Random;
 import java.net.*;
 import java.io.*;
-
 
 public class GameServer {
     
@@ -67,7 +67,7 @@ public class GameServer {
 
     private Random rand;
 
-    public GameServer() {
+    public GameServer(int port) {
         numPlayers = 0;
         serverTime = 0;
 
@@ -83,7 +83,6 @@ public class GameServer {
         }
     }
 
-    /** resets all variables */
     private void resetEverything() {
         p1BlobType = " ";
         p2BlobType = " ";
