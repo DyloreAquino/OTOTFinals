@@ -153,11 +153,12 @@ public class GameServer {
         public void run() {
             try {
                 while (true) {
-                    levelNum = rand.nextInt(levelAmt) + 1;
+                    
                     if (stopServerTimerp1 == false && stopServerTimerp2 == false) {
                         if (serverTime < 18) { 
                             serverTime++;
                         } else {
+                            levelNum = rand.nextInt(levelAmt) + 1;
                             serverTime = 3;
                         }
                     } else if (stopServerTimerp1 && stopServerTimerp2) {

@@ -716,7 +716,7 @@ public class GameFrame {
         }
 
         ActionListener timeListener = new TimeListener();
-        Timer timer = new Timer(5, timeListener);
+        Timer timer = new Timer(1000/60, timeListener);
         timer.start();
     }
 
@@ -729,21 +729,15 @@ public class GameFrame {
             try {
                 while (true) {
                     if (hasEatenBlob) {
-                        try {
-                            Thread.sleep(100);
-                        } catch (InterruptedException ex) {
-                            System.out.println("InterruptedException in run() while loop in ServerTimerThread");
-                        }
                         hasEatenBlob = false;
-                        
                     }
-                    if (hasVomitBlob) {
-                        try {
-                            Thread.sleep(100);
-                        } catch (InterruptedException ex) {
-                            System.out.println("InterruptedException in run() while loop in ServerTimerThread");
-                        }
+                    else if (hasVomitBlob) {
                         hasVomitBlob = false;
+                    }
+                    try {
+                        Thread.sleep(300);
+                    } catch (InterruptedException ex) {
+                        System.out.println("InterruptedException in run() while loop in ServerTimerThread");
                     }
                 }
             } catch (Exception e) {
